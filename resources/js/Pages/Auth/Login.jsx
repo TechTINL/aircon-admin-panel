@@ -21,6 +21,7 @@ export default function Login({ status, canResetPassword }) {
     return () => {
       reset('password');
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const submit = e => {
