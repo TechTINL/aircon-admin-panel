@@ -11,6 +11,12 @@ module.exports = {
         react: {
             version: 'detect',
         },
+        'import/resolver': {
+            alias: {
+                map: [['@', './resources/js']],
+                extensions: ['.js', '.jsx']
+            }
+        }
     },
     env: {
         browser: true,
@@ -18,6 +24,7 @@ module.exports = {
         node: true,
     },
     extends: [
+        'airbnb',
         'eslint:recommended',
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
