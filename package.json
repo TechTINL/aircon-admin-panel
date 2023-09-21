@@ -34,5 +34,9 @@
     },
     "dependencies": {
         "react-phone-input-2": "^2.15.1"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+        "*.{css,scss,md}": ["prettier --write"]
     }
 }

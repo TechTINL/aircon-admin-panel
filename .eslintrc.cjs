@@ -23,6 +23,9 @@ module.exports = {
         'plugin:react-hooks/recommended',
         'plugin:prettier/recommended',
     ],
+    globals: {
+        route: 'readonly',
+    },
     plugins: ['prettier'],
     rules: {
         'react/jsx-first-prop-new-line': [2, 'multiline'],
