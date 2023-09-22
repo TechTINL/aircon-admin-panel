@@ -10,7 +10,7 @@ import PasswordInput from '@/Components/Shared/PasswordInput';
 import PhoneNumberInput from '@/Components/Shared/PhoneNumberInput';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status }) {
   const { data, setData, post, processing, errors, reset } = useForm({
     email: '',
     password: '',
@@ -42,7 +42,7 @@ export default function Login({ status, canResetPassword }) {
         <div className="mb-4 text-sm text-gray-600">
           <img src={LoginCoverImage} alt="hero" />
         </div>
-        <form onSubmit={submit}>
+        <form onSubmit={submit} className="px-4">
           <div className="flex justify-center">
             <Link href="/">
               <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
@@ -74,7 +74,6 @@ export default function Login({ status, canResetPassword }) {
             <PasswordInput
               id="password"
               type="password"
-              name="password"
               value={data.password}
               className="mt-1 block w-full"
               autoComplete="current-password"
@@ -97,16 +96,10 @@ export default function Login({ status, canResetPassword }) {
           </div>
 
           <div className="flex items-center justify-end mt-4">
-            {canResetPassword && (
-              <Link
-                href={route('password.request')}
-                className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Forgot your password?
-              </Link>
-            )}
-
-            <PrimaryButton className="ml-4" disabled={processing}>
+            <PrimaryButton
+              className="w-full flex justify-center"
+              disabled={processing}
+            >
               Log in
             </PrimaryButton>
           </div>
