@@ -12,7 +12,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Login({ status }) {
   const { data, setData, post, processing, errors, reset } = useForm({
-    email: '',
+    phone: '',
     password: '',
     remember: false,
   });
@@ -26,7 +26,6 @@ export default function Login({ status }) {
 
   const submit = e => {
     e.preventDefault();
-
     post(route('login'));
   };
 
@@ -50,7 +49,7 @@ export default function Login({ status }) {
           </div>
           <div>
             <InputLabel
-              htmlFor="email"
+              htmlFor="phone"
               value="Mobile Number"
               className="text-zinc-800 text-base font-bold my-1"
             />
@@ -58,14 +57,11 @@ export default function Login({ status }) {
             <PhoneNumberInput
               id="phone"
               name="phone"
-              value={data.email}
               className="mt-1 block w-full"
-              autoComplete="username"
-              isFocused
-              onChange={e => setData('email', e.target.value)}
+              onChange={value => setData('phone', value)}
             />
 
-            <InputError message={errors.email} className="mt-2" />
+            <InputError message={errors.phone} className="mt-2" />
           </div>
 
           <div className="mt-4">
@@ -97,7 +93,7 @@ export default function Login({ status }) {
 
           <div className="flex items-center justify-end mt-4">
             <PrimaryButton
-              className="w-full flex justify-center"
+              className="w-full flex justify-center bg-primary p-4"
               disabled={processing}
             >
               Log in
