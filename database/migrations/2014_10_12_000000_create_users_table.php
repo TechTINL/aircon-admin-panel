@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone', 15)->unique();
             $table->string('password');
+            $table->string('otp')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
