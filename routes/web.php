@@ -24,6 +24,13 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+Route::get('/otp', function () {
+    return Inertia::render('Auth/Otp');
+});
+
+Route::get('/confirm-password', function () {
+    return Inertia::render('Auth/ConfirmPassword');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

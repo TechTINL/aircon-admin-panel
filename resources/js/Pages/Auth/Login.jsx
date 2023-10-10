@@ -5,10 +5,10 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import LoginCoverImage from '@/Components/Shared/assets/images/login-cover.png';
 import PasswordInput from '@/Components/Shared/PasswordInput';
 import PhoneNumberInput from '@/Components/Shared/PhoneNumberInput';
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import Card from '@/Components/Shared/Auth/Card';
 
 export default function Login({ status }) {
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -37,14 +37,11 @@ export default function Login({ status }) {
         <div className="mb-4 font-medium text-sm text-green-600">{status}</div>
       )}
 
-      <div className="grid grid-cols-2 gap-2">
-        <div className="mb-4 text-sm text-gray-600">
-          <img src={LoginCoverImage} alt="hero" />
-        </div>
-        <form onSubmit={submit} className="px-4">
+      <Card>
+        <form onSubmit={submit} className="px-4 md:mt-10 lg:mt-15">
           <div className="flex justify-center">
             <Link href="/">
-              <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+              <ApplicationLogo className="w-40 h-40 fill-current text-gray-500" />
             </Link>
           </div>
           <div>
@@ -79,7 +76,7 @@ export default function Login({ status }) {
             <InputError message={errors.password} className="mt-2" />
           </div>
 
-          <div className="block mt-4">
+          <div className="flex mt-4 justify-between">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="flex items-center">
               <Checkbox
@@ -89,6 +86,13 @@ export default function Login({ status }) {
               />
               <span className="ml-2 text-sm text-gray-600">Remember me</span>
             </label>
+            <Link
+              href="/forgot-password"
+              className="underline text-teal-500 hover:text-teal-900 text-sm font-semibold "
+              to="/forgot-password"
+            >
+              Forgot your password?
+            </Link>
           </div>
 
           <div className="flex items-center justify-end mt-4">
@@ -100,7 +104,7 @@ export default function Login({ status }) {
             </PrimaryButton>
           </div>
         </form>
-      </div>
+      </Card>
     </GuestLayout>
   );
 }

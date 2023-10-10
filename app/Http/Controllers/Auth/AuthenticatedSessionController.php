@@ -50,4 +50,9 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    public function otp(): Response
+    {
+        return Inertia::render('Auth/Otp');
+    }
 }
