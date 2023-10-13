@@ -1,4 +1,4 @@
-import { Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { DashboardIcon } from '@/Components/Shared/assets/Icons';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import SidebarContext from '@/Context/SidebarContext';
@@ -10,9 +10,9 @@ function Sidebar({ children }) {
   const { isSidebarCollapsed } = useContext(SidebarContext);
 
   const isDashboardActive = url.includes('/dashboard');
-  const isJobTableActive = url.includes('/job-table');
+  const isServiceTimelineActive = url.includes('/services-time-line');
   const isServiceReportActive = url.includes('/service-report');
-  const isDataActive = url.includes('/data');
+  const isClientActive = url.includes('/clients');
   const isTemplateActive = url.includes('/template');
 
   return (
@@ -35,8 +35,8 @@ function Sidebar({ children }) {
         />
         <NavItem
           text="Job Table"
-          isActive={isJobTableActive}
-          url="/job-table"
+          isActive={isServiceTimelineActive}
+          url="/services-time-line"
           icon={<DashboardIcon className="lg:mx-4 md:mx-1" />}
         />
         <NavItem
@@ -46,9 +46,9 @@ function Sidebar({ children }) {
           icon={<DashboardIcon className="lg:mx-4 md:mx-1" />}
         />
         <NavItem
-          text="Data"
-          isActive={isDataActive}
-          url="/job-table"
+          text="Clients"
+          isActive={isClientActive}
+          url="/clients"
           icon={<DashboardIcon className="lg:mx-4 md:mx-1" />}
         />
         <NavItem

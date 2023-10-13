@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
-import Checkbox from '@/Components/Checkbox';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -77,15 +76,15 @@ export default function Login({ status }) {
           </div>
 
           <div className="flex mt-4 justify-between">
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="flex items-center">
-              <Checkbox
-                name="remember"
-                checked={data.remember}
-                onChange={e => setData('remember', e.target.checked)}
-              />
-              <span className="ml-2 text-sm text-gray-600">Remember me</span>
-            </label>
+            {/* /!* eslint-disable-next-line jsx-a11y/label-has-associated-control *!/ */}
+            {/* <label className="flex items-center"> */}
+            {/*  <Checkbox */}
+            {/*    name="remember" */}
+            {/*    checked={data.remember} */}
+            {/*    onChange={e => setData('remember', e.target.checked)} */}
+            {/*  /> */}
+            {/*  <span className="ml-2 text-sm text-gray-600">Remember me</span> */}
+            {/* </label> */}
             <Link
               href="/forgot-password"
               className="underline text-teal-500 hover:text-teal-900 text-sm font-semibold "
