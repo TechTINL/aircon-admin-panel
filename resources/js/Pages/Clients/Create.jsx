@@ -19,12 +19,18 @@ function Create({ auth }) {
     billing_address: '',
     contact_name: '',
     email: '',
-    phone: '',
+    contact_number: '',
   });
 
   const submit = e => {
     e.preventDefault();
-    console.log(data);
+    post(route('clients.store'), {
+      preserveScroll: true,
+      onSuccess: () => reset(),
+      onError: err => {
+        console.log(err);
+      },
+    });
   };
 
   return (
@@ -72,7 +78,7 @@ function Create({ auth }) {
                     placeholder="Clinic Type"
                   />
 
-                  <InputError message={errors.phone} className="mt-2" />
+                  <InputError message={errors.type} className="mt-2" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4 mt-6">
@@ -84,7 +90,7 @@ function Create({ auth }) {
                     onChange={value => setData('address', value)}
                   />
 
-                  <InputError message={errors.phone} className="mt-2" />
+                  <InputError message={errors.address} className="mt-2" />
                 </div>
                 <div>
                   <TextArea
@@ -108,7 +114,10 @@ function Create({ auth }) {
                     />
                   </div>
 
-                  <InputError message={errors.phone} className="mt-2" />
+                  <InputError
+                    message={errors.billing_address}
+                    className="mt-2"
+                  />
                 </div>
               </div>
               <div>
@@ -138,9 +147,12 @@ function Create({ auth }) {
                     id="poc_phone"
                     name="poc_phone"
                     className="mt-1 block w-full bg-gray-50"
-                    onChange={value => setData('phone', value)}
+                    onChange={value => setData('contact_number', value)}
                   />
-                  <InputError message={errors.phone} className="mt-2" />
+                  <InputError
+                    message={errors.contact_number}
+                    className="mt-2"
+                  />
                 </div>
                 <div>
                   <InputLabel

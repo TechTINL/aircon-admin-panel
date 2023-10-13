@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateClientAction;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 
 class ClientController extends Controller
@@ -30,9 +32,13 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClientRequest $request)
+    public function store(StoreClientRequest $request, CreateClientAction $action): RedirectResponse
     {
-        //
+        // Create Client Action
+        $action->execute($request);
+
+        // Redirect to Clients List
+        return redirect()->route('clients.index');
     }
 
     /**
