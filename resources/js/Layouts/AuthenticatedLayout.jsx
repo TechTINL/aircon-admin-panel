@@ -10,9 +10,9 @@ export default function Authenticated({ user, children }) {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen bg-gray-100">
+      <div className="flex min-h-screen">
         <Sidebar />
-        <div className="flex-grow">
+        <div className="flex flex-auto flex-col flex-grow">
           <nav className="bg-white border-b border-gray-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
@@ -97,9 +97,8 @@ export default function Authenticated({ user, children }) {
               </div>
             </div>
             <div
-              className={`${
-                showingNavigationDropdown ? 'block' : 'hidden'
-              } sm:hidden`}
+              className={`${showingNavigationDropdown ? 'block' : 'hidden'
+                } sm:hidden`}
             >
               <div className="pt-2 pb-3 space-y-1">
                 <ResponsiveNavLink
@@ -133,7 +132,7 @@ export default function Authenticated({ user, children }) {
               </div>
             </div>
           </nav>
-          <main>{children}</main>
+          <main className='flex flex-auto overscroll-auto bg-gray-100'>{children}</main>
         </div>
       </div>
     </SidebarProvider>

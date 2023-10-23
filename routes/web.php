@@ -42,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/services-time-line', function () {
         return Inertia::render('Services/Timeline');
     });
+    Route::get('/services-report-detail', function () {
+        return Inertia::render('Services/ServiceDetails');
+    });
 });
 
 require __DIR__.'/auth.php';
