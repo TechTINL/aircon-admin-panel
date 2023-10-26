@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone', 15)->unique();
             $table->string('email')->unique();
+            $table->boolean('is_primary')->default(false);
             $table->timestamps();
 
             // Foreign key

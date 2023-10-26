@@ -38,7 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('clients', ClientController::class);
+    Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
+    Route::get('clients/{client}/profile', [ClientController::class, 'profile']);
     Route::get('/services-time-line', function () {
         return Inertia::render('Services/Timeline');
     });

@@ -14,6 +14,7 @@ class Contact extends Model
         'name',
         'phone',
         'email',
+        'is_primary',
         'client_id',
     ];
 

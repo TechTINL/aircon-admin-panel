@@ -16,7 +16,7 @@ export default function Select({
 
   useEffect(() => {
     if (selected) {
-      setSelectedItem(data.find(item => item.id === parseInt(selected, 10)));
+      setSelectedItem(data.find(item => item.value === selected.value));
     }
   }, [data]);
 
@@ -34,9 +34,11 @@ export default function Select({
       value={selectedItem.value}
       onChange={e => handleOnChange(e.target.value)}
     >
-      <option disabled value="">
-        {placeholder}
-      </option>
+      {placeholder && (
+        <option disabled value="">
+          {placeholder}
+        </option>
+      )}
       {data.map(item => (
         <option key={item.value} value={item.value}>
           {item.label}

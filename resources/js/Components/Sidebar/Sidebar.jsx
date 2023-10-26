@@ -17,7 +17,7 @@ function Sidebar({ children }) {
 
   return (
     <div
-      className={`z-50 flex h-screen ${
+      className={`z-50 flex h-auto ${
         isSidebarCollapsed ? 'w-[7%]' : 'w-1/6'
       } flex-col border-r bg-white pt-4 shadow-xl shadow-right`}
     >

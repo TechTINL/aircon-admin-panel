@@ -3,21 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateClientAction;
+use App\Actions\GetClientsAction;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
+use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(GetClientsAction $action): Response
     {
         return Inertia::render('Clients/List', [
-            'clients' => [],
+            'clients' => ClientResource::collection($action->execute()),
         ]);
     }
 
@@ -42,34 +45,14 @@ class ClientController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display Client Profile
      */
-    public function show(Client $client)
+    public function profile(Client $client): Response
     {
-        //
+        return Inertia::render('Clients/Profile', [
+            'client' => new ClientResource($client),
+            'contacts' => $client->contacts,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Client $client)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateClientRequest $request, Client $client)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Client $client)
-    {
-        //
-    }
 }

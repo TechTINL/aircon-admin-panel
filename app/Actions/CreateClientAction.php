@@ -25,6 +25,7 @@ class CreateClientAction
             'name' => $request->contact_name,
             'phone' => $request->contact_number,
             'email' => $request->email,
+            'is_primary' => true,
         ];
     }
 
