@@ -13,13 +13,11 @@ import DeleteGeneralNotesModal from '../../Components/Clients/Modals/DeleteGener
 import SampleProfileImg from '../../assets/images/sample-profile.png'
 import { BiInfoCircle } from 'react-icons/bi';
 import { HiChevronUpDown } from 'react-icons/hi2';
-import { clientsData } from '../../assets/constants';
 import TextInput from '../../Components/TextInput';
 import CreateSubClientModal from '../../Components/Clients/Modals/CreateSubClientModal';
+import { GeneralNotes, POCData, clientsData } from '../../Helpers/constants';
 
-import { GeneralNotes, POCData } from '../../../Helpers/constants';
-
-function Profile({ auth }) {
+const ClientDetails = ({ auth }) => {
     const [openNewPOCModal, setOpenNewPOCModal] = useState(false);
     const [openNewGeneralNotesModal, setOpenNewGeneralNotesModal] = useState(false);
     const [openDeletePOCModal, setOpenDeletePOCModal] = useState(false);
@@ -42,6 +40,20 @@ function Profile({ auth }) {
             setShowSubClients(null);
         } else {
             setShowSubClients(index);
+        }
+    }
+
+    const handleOnDelete = (name, data) => {
+        dataPocToDelete(data);
+        switch (name) {
+            case 'poc': {
+                setOpenDeletePOCModal(true);
+                break;
+            }
+            case 'general-notes': {
+                setOpenDeleteGeneralNoteModal(true);
+                break;
+            }
         }
     }
 
@@ -477,7 +489,7 @@ function Profile({ auth }) {
                 </div>
             </div>
         </AuthenticatedLayout>
-    );
+    )
 }
 
-export default Profile;
+export default ClientDetails;

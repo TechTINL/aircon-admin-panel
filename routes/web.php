@@ -39,6 +39,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
     Route::get('clients/{client}/profile', [ClientController::class, 'profile']);
+
+    Route::get('/client-details', function () {
+        return Inertia::render('Clients/ClientDetails');
+    });
+    
     Route::get('/services-time-line', function () {
         return Inertia::render('Services/Timeline');
     });
