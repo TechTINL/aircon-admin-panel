@@ -97,8 +97,9 @@ export default function Authenticated({ user, children }) {
               </div>
             </div>
             <div
-              className={`${showingNavigationDropdown ? 'block' : 'hidden'
-                } sm:hidden`}
+              className={`${
+                showingNavigationDropdown ? 'block' : 'hidden'
+              } sm:hidden`}
             >
               <div className="pt-2 pb-3 space-y-1">
                 <ResponsiveNavLink
@@ -132,7 +133,9 @@ export default function Authenticated({ user, children }) {
               </div>
             </div>
           </nav>
-          <main className='flex flex-auto overscroll-auto bg-gray-100'>{children}</main>
+          <main className="flex flex-auto overscroll-auto bg-gray-100">
+            {children}
+          </main>
         </div>
       </div>
     </SidebarProvider>

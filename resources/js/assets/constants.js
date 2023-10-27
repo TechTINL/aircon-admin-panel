@@ -1,3 +1,1 @@
-export const TIMES = [
-    '8:00 AM',
-]
+export const TIMES = ['8:00 AM'];

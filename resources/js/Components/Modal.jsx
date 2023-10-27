@@ -6,7 +6,7 @@ export default function Modal({
   show = false,
   maxWidth = '2xl',
   closeable = true,
-  onClose = () => { },
+  onClose = () => {},
 }) {
   const close = () => {
     if (closeable) {
@@ -21,7 +21,7 @@ export default function Modal({
     xl: 'sm:max-w-xl',
     '2xl': 'sm:max-w-2xl',
     '3xl': 'lg:max-w-3xl',
-    '4xl': 'lg:max-w-4xl'
+    '4xl': 'lg:max-w-4xl',
   }[maxWidth];
 
   return (
