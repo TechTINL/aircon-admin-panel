@@ -45,6 +45,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/services-report-detail', function () {
         return Inertia::render('Services/ServiceDetails');
     });
+    Route::get('/service-report', function () {
+        return Inertia::render('Services/ServiceReport');
+    });
 });
 
 require __DIR__.'/auth.php';
