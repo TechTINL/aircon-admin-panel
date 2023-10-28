@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,10 +18,11 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(GetClientsAction $action): Response
+    public function index(Request $request, GetClientsAction $action): Response
     {
         return Inertia::render('Clients/List', [
-            'clients' => ClientResource::collection($action->execute()),
+            'clients' => ClientResource::collection($action->execute($request->input('search'))),
+            'search' => $request->input('search'),
         ]);
     }
 
