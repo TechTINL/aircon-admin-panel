@@ -16,14 +16,18 @@ class ClientResource extends JsonResource
     public function toArray(Request $request): array
     {
         return[
-            'id' => $this->id,
-            'name' => $this->name,
-            'type' => $this->type,
+            'clientId' => [
+                'id' => $this->id,
+                'name' => $this->name,
+            ],
+            'contactPerson' => [
+                'name' => $this->firstContact->name ?? '',
+                'type' => $this->type,
+            ],
+            'contact' => $this->firstContact->phone ?? '',
             'address' => $this->address,
-            'billing_address' => $this->billing_address,
-            'contact_name' => $this->firstContact->name,
-            'contact_email' => $this->firstContact->email,
-            'contact_phone' => $this->firstContact->phone,
+            'subClients' => [],
+            'billingAddress' => $this->billing_address,
         ];
     }
 }
