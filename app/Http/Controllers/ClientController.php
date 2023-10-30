@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateClientAction;
+use App\Actions\GetClientDetailAction;
 use App\Actions\GetClientsAction;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
@@ -51,9 +52,9 @@ class ClientController extends Controller
      */
     public function profile(Client $client): Response
     {
-        return Inertia::render('Clients/Profile', [
-            'client' => new ClientResource($client),
-            'contacts' => $client->contacts,
+        return Inertia::render('Clients/Detail/Profile', [
+            'client' => $client,
+            'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),
         ]);
     }
 

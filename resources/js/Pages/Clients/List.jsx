@@ -171,7 +171,7 @@ function List({ auth, clients }) {
 
                       <td className="px-4 py-4 my-1">
                         <Link
-                          href="/client-details"
+                          href={route('clients.profile', item.clientId.id)}
                           method="get"
                           as="button"
                           type="button"
