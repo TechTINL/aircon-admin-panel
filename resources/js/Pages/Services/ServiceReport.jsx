@@ -9,7 +9,7 @@ import Dropdown from '@/Components/Dropdown';
 import { FiDownload } from 'react-icons/fi';
 import ExportFilter from '@/Components/Services/ExportFilter';
 import FilterDropdown from '@/Components/Services/FilterDropdown';
-import { statusFilters } from '@/Helpers/constants';
+import { SERVICE_STATUS_FILTERS } from '@/Helpers/constants';
 import { VscFilePdf } from 'react-icons/vsc';
 import { BsSend } from 'react-icons/bs';
 
@@ -23,7 +23,7 @@ const ServiceReport = ({ auth }) => {
             setCheckedStatusFilters(checkedStatusFilters.filter(f => f !== value));
         }
     };
-    
+
     const paginationItems = [1, 2, 3, 4, 5, '...', 10];
 
     const data = [
@@ -180,7 +180,7 @@ const ServiceReport = ({ auth }) => {
                             <FilterDropdown
                                 name={'status'}
                                 label={'Status'}
-                                data={statusFilters}
+                                data={SERVICE_STATUS_FILTERS}
                                 checkedData={checkedStatusFilters}
                                 handleChecked={handleStatusChecked}
                             />
