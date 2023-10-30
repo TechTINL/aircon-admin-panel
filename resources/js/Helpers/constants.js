@@ -9,7 +9,7 @@ export const CLIENT_TYPES = [
   },
 ];
 
-export const statusFilters = [
+export const SERVICE_STATUS_FILTERS = [
   [
     {
       value: 'show_all',
@@ -95,6 +95,21 @@ export const staffFilters = [
     },
   ],
 ];
+
+export const CONTRACT_CLIENT_FILTERS = [
+    {
+        value: 'all',
+        label: 'Show All',
+    },
+    {
+        value: 'client',
+        label: 'Client Only',
+    },
+    {
+        value: 'sub_client',
+        label: 'Sub-Client Only',
+    },
+]
 
 export const clientFilters = [
   [
@@ -454,3 +469,14 @@ export const GeneralNotes = [
         updatedBy: 'Admin Macy'
     },
 ];
+
+
+export const SERVICE_STATUS_LABELS = {
+    'UNASSIGNED': 'Unassigned',
+    'SCHEDULED': 'Scheduled',
+    'ON_HOLD': 'On-Hold',
+    'COMPLETED': 'Completed',
+    'REQUIRE_FOLLOW_UP': 'Requires Follow-up',
+    'FOLLOW_UP_COMPLETED': 'Follow-up Completed'
+};
+

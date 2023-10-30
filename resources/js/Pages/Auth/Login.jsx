@@ -11,9 +11,9 @@ import Card from '@/Components/Shared/Auth/Card';
 
 export default function Login({ status }) {
   const { data, setData, post, processing, errors, reset } = useForm({
-    phone: '',
-    password: '',
-    remember: false,
+    phone: '+95 978 780 045 5',
+    password: 'password',
+    remember: true,
   });
 
   useEffect(() => {
@@ -54,6 +54,7 @@ export default function Login({ status }) {
               id="phone"
               name="phone"
               className="mt-1 block w-full"
+              value={data.phone}
               onChange={value => setData('phone', value)}
             />
 
