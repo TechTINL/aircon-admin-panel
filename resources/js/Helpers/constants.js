@@ -57,7 +57,7 @@ export const SERVICE_STATUS_FILTERS = [
   ],
 ];
 
-export const staffFilters = [
+export const SERVICE_STAFF_FILTERS = [
   [
     {
       value: 'show_all',
@@ -111,7 +111,7 @@ export const CONTRACT_CLIENT_FILTERS = [
     },
 ]
 
-export const clientFilters = [
+export const CLIENTS_FILTERS = [
   [
       {
       value: 'all_clients',
@@ -480,3 +480,82 @@ export const SERVICE_STATUS_LABELS = {
     'FOLLOW_UP_COMPLETED': 'Follow-up Completed'
 };
 
+export const EMPLOYEE_STATUS_FILTERS = [
+    [
+        {
+            label: 'Status',
+            value: 'status'
+        }
+    ],
+    [
+        {
+            label: 'Available',
+            value: 'available'
+        }
+    ],
+    [
+        {
+            label: 'On Leave',
+            value: 'on_leave'
+        }
+    ],
+]
+
+export const EMPLOYEE_JOB_POSITION_FILTERS = [
+    [
+        {
+            value: 'all',
+            label: 'Show All Employee'
+        },
+    ],
+    [
+        {
+            value: 'admin',
+            label: 'Admin'
+        },
+    ],
+    [
+        {
+            value: 'super_admin',
+            label: 'Super Admin'
+        },
+    ],
+    [
+        {
+            value: 'team_leader',
+            label: 'Team Leader'
+        },
+    ],
+    [
+        {
+            value: 'sub_contractor',
+            label: 'Sub-Contractor'
+        },
+    ],
+    [
+        {
+            value: 'technician',
+            label: 'Technician'
+        },
+    ],
+    [
+        {
+            value: 'part_time_technician',
+            label: 'Part-Time Technician'
+        },
+    ]
+]
+
+export const JOB_POSTION = {
+    'team_leader': 'Team Leader',
+    'admin': 'Admin',
+    'super_admin': 'Super Admin',
+    'sub_contractor': 'Sub-Contractor',
+    'technician': 'Technician',
+    'part_time_technician': 'Part-Time Technician'
+}
+
+export const JOB_STATUS = {
+    'available': 'Available',
+    'on_leave': 'On Leave'
+}

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -52,6 +53,21 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/service-report', function () {
         return Inertia::render('Services/ServiceReport');
+    });
+
+    Route::get('contract', function () {
+        return Inertia::render('Contract/List');
+    });
+
+    Route::post('contract', function () {
+        return Inertia::render('Contract/Create');
+    });
+
+    Route::get('employee', function () {
+        return Inertia::render('Employee/List');
+    });
+    Route::get('admin', function () {
+        return Inertia::render('Admin/List');
     });
 });
 
