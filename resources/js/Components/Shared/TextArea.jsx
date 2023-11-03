@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 
-function TextArea({ id, label, placeholder, onChange }) {
+function TextArea({ id, label, placeholder, onChange, showLabel = true }) {
   return (
     <div>
       <label
         htmlFor={id}
-        className="block mb-2 text-sm font-medium text-gray-900"
+        className={`block text-sm font-medium text-gray-700 ${
+          showLabel ? '' : 'sr-only'
+        }`}
       >
         {label}
       </label>

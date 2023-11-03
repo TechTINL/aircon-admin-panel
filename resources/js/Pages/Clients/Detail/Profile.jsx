@@ -19,17 +19,15 @@ import { HiChevronUpDown } from 'react-icons/hi2';
 import NewClientPOCModal from '@/Components/Clients/Modals/NewClientPOCModal';
 import NewGeneralNotesModal from '@/Components/Clients/Modals/NewGeneralNotesModal';
 import DeletePOCModal from '@/Components/Clients/Modals/DeletePOCModal';
-import DeleteGeneralNotesModal from '@/Components/Clients/Modals/DeleteGeneralNotesModal';
 import SampleProfileImg from '@/assets/images/sample-profile.png';
 import TextInput from '@/Components/TextInput';
 import CreateSubClientModal from '@/Components/Clients/Modals/CreateSubClientModal';
-import { GeneralNotes, POCData, clientsData } from '@/Helpers/constants';
+import { POCData, clientsData } from '@/Helpers/constants';
 import Mailto from '@/Components/Shared/Mailto';
+import GeneralNotes from '@/Components/Clients/GeneralNotes';
 
 function Profile({ auth, client, contacts }) {
   const [openNewPOCModal, setOpenNewPOCModal] = useState(false);
-  const [openNewGeneralNotesModal, setOpenNewGeneralNotesModal] =
-    useState(false);
   const [openDeletePOCModal, setOpenDeletePOCModal] = useState(false);
   const [openDeleteGeneralNoteModal, setOpenDeleteGeneralNoteModal] =
     useState(false);
@@ -76,19 +74,10 @@ function Profile({ auth, client, contacts }) {
         openModal={openNewPOCModal}
         setOpenModal={setOpenNewPOCModal}
       />
-      <NewGeneralNotesModal
-        openModal={openNewGeneralNotesModal}
-        setOpenModal={setOpenNewGeneralNotesModal}
-      />
       <DeletePOCModal
         data={dataToDelete}
         openModal={openDeletePOCModal}
         setOpenModal={setOpenDeletePOCModal}
-      />
-      <DeleteGeneralNotesModal
-        data={dataToDelete}
-        openModal={openDeleteGeneralNoteModal}
-        setOpenModal={setOpenDeleteGeneralNoteModal}
       />
       <CreateSubClientModal
         openModal={openCreateSubClientModal}
@@ -194,36 +183,10 @@ function Profile({ auth, client, contacts }) {
             <div className="flex-1 flex-col py-8 bg-white rounded-lg">
               <div className="flex justify-between px-6">
                 <span className="text-xl font-bold">General Notes</span>
-                <button
-                  onClick={() => setOpenNewGeneralNotesModal(true)}
-                  className="text-xl font-bold text-[#00B4AD]"
-                >
-                  + Add New
-                </button>
+                <NewGeneralNotesModal clientId={client.id} />
               </div>
               <div className="flex flex-col max-h-[30vh] overflow-y-auto mt-4 gap-4 px-6">
-                {GeneralNotes.map((note, i) => (
-                  <div key={i} className="flex flex-col gap-2">
-                    <div className="flex justify-between items-center">
-                      <div className="flex gap-4 items-center text-secondary font-extrabold">
-                        <PiNotepadBold size={18} />
-                        <span>General Notes</span>
-                      </div>
-                      <button
-                        onClick={() => handleOnDelete('general-notes', note)}
-                      >
-                        <RiDeleteBin5Line size={20} color="red" />
-                      </button>
-                    </div>
-                    <div className="text-black text-[15px]">{note.notes}</div>
-                    <div className="text-[#303030] text-[12px]">
-                      Updated on {note.dateTime} by{' '}
-                      <span className="text-primary font-bold">
-                        {note.updatedBy}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                <GeneralNotes />
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
     Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
+	Route::resource('general-notes', GeneralNoteController::class);
 
     Route::get('/client-details', function () {
         return Inertia::render('Clients/ClientDetails');
