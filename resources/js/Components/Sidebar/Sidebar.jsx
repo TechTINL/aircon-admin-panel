@@ -4,6 +4,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import SidebarContext from '@/Context/SidebarContext';
 import NavItem from '@/Components/Sidebar/NavItem';
 import { useContext } from 'react';
+import { PiBriefcase, PiBriefcaseLight, PiFolder, PiFolderThin, PiUsersFourLight, PiWrenchLight } from 'react-icons/pi';
+import { BiFolder, BiWrench } from 'react-icons/bi';
+import { FiTrendingUp } from 'react-icons/fi';
 
 function Sidebar({ children }) {
   const { url } = usePage();
@@ -17,9 +20,8 @@ function Sidebar({ children }) {
 
   return (
     <div
-      className={`z-50 flex h-auto ${
-        isSidebarCollapsed ? 'w-[7%]' : 'w-1/6'
-      } flex-col border-r bg-white pt-4 shadow-xl shadow-right`}
+      className={`z-50 flex h-auto ${isSidebarCollapsed ? 'w-[7%]' : 'w-1/6'
+        } flex-col border-r bg-white pt-4 shadow-xl shadow-right`}
     >
       {!isSidebarCollapsed && (
         <div className="flex justify-center">
@@ -34,28 +36,56 @@ function Sidebar({ children }) {
           icon={<DashboardIcon className="lg:mx-4 md:mx-1" />}
         />
         <NavItem
-          text="Job Table"
+          text="Task Table"
           isActive={isServiceTimelineActive}
           url="/services-time-line"
-          icon={<DashboardIcon className="lg:mx-4 md:mx-1" />}
+          icon={<PiBriefcaseLight size={22} className="lg:mx-4 md:mx-1" />}
         />
         <NavItem
           text="Service Report"
           isActive={isServiceReportActive}
           url="/service-report"
-          icon={<DashboardIcon className="lg:mx-4 md:mx-1" />}
+          icon={<PiWrenchLight size={22} className="lg:mx-4 md:mx-1" />}
         />
-        <NavItem
-          text="Clients"
-          isActive={isClientActive}
-          url="/clients"
-          icon={<DashboardIcon className="lg:mx-4 md:mx-1" />}
-        />
+        <div className='flex'>
+          <PiFolder size={22} className="text-gray-600 lg:mx-4 md:mx-1" />
+          <div className='flex flex-col'>
+            <span>Data</span>
+            <NavItem
+              text="Client"
+              isActive={isClientActive}
+              url="/clients"
+            />
+            <NavItem
+              text="Contract"
+              isActive={url.includes('/contract')}
+              url="/contract"
+            />
+            <NavItem
+              text="Employee"
+              isActive={url.includes('/employee')}
+              url="/employee"
+            />
+            <NavItem
+              text="Admin"
+              isActive={url.includes('/admin')}
+              url="/admin"
+            />
+          </div>
+        </div>
+
         <NavItem
           text="Template"
-          isActive={isTemplateActive}
-          url="/job-table"
-          icon={<DashboardIcon className="lg:mx-4 md:mx-1" />}
+          isActive={url.includes('/template')}
+          url="/template"
+          icon={<PiUsersFourLight size={22} className="lg:mx-4 md:mx-1" />}
+        />
+
+        <NavItem
+          text="Manage GST"
+          isActive={url.includes('/manage-gst')}
+          url="/manage-gst"
+          icon={<FiTrendingUp size={22} className="lg:mx-4 md:mx-1" />}
         />
       </div>
       {children}

@@ -162,7 +162,7 @@ const ServiceReport = ({ auth }) => {
             <Head title="Job Table" />
             <div className="flex flex-auto flex-col m-6 max-w-full">
                 <div className="text-zinc-800 text-3xl font-bold leading-10">
-                    Job Table
+                    Service Report
                 </div>
 
                 <div className='flex flex-col flex-auto mt-6'>

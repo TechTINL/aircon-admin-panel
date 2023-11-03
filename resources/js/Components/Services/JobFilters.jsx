@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { FiDownload } from 'react-icons/fi';
-import Dropdown from '../Dropdown';
-import { staffFilters, statusFilters } from '../../Helpers/constants';
-import './styles.css';
-import ExportFilter from './ExportFilter';
+import { SERVICE_STAFF_FILTERS, SERVICE_STATUS_FILTERS } from '../../Helpers/constants';
 import FilterDropdown from './FilterDropdown';
+import ExportData from './ExportData';
 
 const JobFilters = () => {
   const [checkedStatusFilters, setCheckedStatusFilters] = useState([]);
@@ -27,7 +24,7 @@ const JobFilters = () => {
       <FilterDropdown
         name={'status'}
         label={'Status'}
-        data={statusFilters}
+        data={SERVICE_STATUS_FILTERS}
         checkedData={checkedStatusFilters}
         handleChecked={handleChecked}
       />
@@ -36,30 +33,13 @@ const JobFilters = () => {
       <FilterDropdown
         name={'staff'}
         label={'Staff'}
-        data={staffFilters}
+        data={SERVICE_STAFF_FILTERS}
         checkedData={checkedStaffFilters}
         handleChecked={handleChecked}
       />
       {/* Staff Dropdown */}
 
-      {/* Export Dropdown */}
-      <Dropdown>
-        <Dropdown.Trigger>
-          <span className="inline-flex rounded-md">
-            <button
-              type="button"
-              className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-primary focus:outline-none transition ease-in-out duration-150"
-            >
-              <FiDownload size={20} fontWeight={800} />
-              <span className="px-2 font-bold">Export Data</span>
-            </button>
-          </span>
-        </Dropdown.Trigger>
-        <Dropdown.Content width="50">
-          <ExportFilter />
-        </Dropdown.Content>
-      </Dropdown>
-      {/* Export Dropdown */}
+      <ExportData />
     </div>
   );
 };

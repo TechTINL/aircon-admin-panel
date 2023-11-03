@@ -205,7 +205,6 @@ const Contract = () => {
                             }
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
