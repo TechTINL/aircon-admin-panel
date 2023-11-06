@@ -6,17 +6,35 @@ import {
 } from 'react-icons/ai';
 import { BsTelephone } from 'react-icons/bs';
 import { RiDeleteBin5Line } from 'react-icons/ri';
+import { router } from '@inertiajs/react';
 import Modal from '../../Modal';
 
 function DeletePOCModal({ data }) {
   const [openModal, setOpenModal] = useState(false);
+
+  const handleDelete = () => {
+    console.log('Delete');
+    router.delete(route('contacts.destroy', data.id), {
+      preserveScroll: true,
+      onSuccess: () => {
+        setOpenModal(false);
+      },
+      onError: err => {
+        console.log(err);
+      },
+    });
+  };
   return (
     <>
       <button>
         <AiOutlineEdit size={20} />
       </button>
       <button>
-        <RiDeleteBin5Line size={20} color="red" />
+        <RiDeleteBin5Line
+          size={20}
+          color="red"
+          onClick={() => setOpenModal(true)}
+        />
       </button>
       <Modal
         show={openModal}
@@ -50,7 +68,7 @@ function DeletePOCModal({ data }) {
 
           <div className="my-4">Are you sure you want to delete this POC?</div>
           <button
-            onClick={() => setOpenModal(false)}
+            onClick={handleDelete}
             className="self-center mt-6 font-extrabold w-[70%] py-2 text-white justify-center items-center bg-red-600 rounded-xl flex flex-row"
           >
             Delete POC

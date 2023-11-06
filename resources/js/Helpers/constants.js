@@ -1,11 +1,27 @@
 export const CLIENT_TYPES = [
   {
-    value: 'RESIDENTIAL',
-    label: 'Residential',
+    value: 'Condo / Apartment',
+    label: 'Condo / Apartment',
   },
   {
-    value: 'COMMERCIAL',
-    label: 'Commercial',
+    value: 'HDB',
+    label: 'HDB',
+  },
+  {
+    value: 'Landed',
+    label: 'Landed',
+  },
+  {
+    value: 'Commercial (Office / Shop / Mgmt)',
+    label: 'Commercial (Office / Shop / Mgmt)',
+  },
+  {
+    value: 'Industrial (Factory / Warehouse)',
+    label: 'Industrial (Factory / Warehouse)',
+  },
+  {
+    value: 'Dormitory',
+    label: 'Dormitory',
   },
 ];
 

@@ -52,6 +52,7 @@ class ClientController extends Controller
     {
         return Inertia::render('Clients/Detail/Profile', [
             'client' => $client,
+            'addresses' => [],
             'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),
 	        'generalNotes' => $client->generalNotes()->orderBy('created_at', 'desc')->get(),
         ]);

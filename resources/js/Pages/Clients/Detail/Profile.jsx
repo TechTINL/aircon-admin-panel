@@ -2,69 +2,35 @@ import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {
   AiOutlineEdit,
-  AiOutlineMail,
   AiFillCloseCircle,
   AiOutlineRightCircle,
 } from 'react-icons/ai';
 import { BiSearch, BiUserCircle, BiInfoCircle } from 'react-icons/bi';
 import { Head, Link } from '@inertiajs/react';
-import {
-  BsArrowRightCircle,
-  BsArrowUpCircle,
-  BsTelephone,
-} from 'react-icons/bs';
-import { RiDeleteBin5Line } from 'react-icons/ri';
-import { PiNotepadBold } from 'react-icons/pi';
+import { BsArrowRightCircle, BsArrowUpCircle } from 'react-icons/bs';
 import { HiChevronUpDown } from 'react-icons/hi2';
-import NewClientPOCModal from '@/Components/Clients/Modals/NewClientPOCModal';
-import NewGeneralNotesModal from '@/Components/Clients/Modals/NewGeneralNotesModal';
 import DeletePOCModal from '@/Components/Clients/Modals/DeletePOCModal';
 import SampleProfileImg from '@/assets/images/sample-profile.png';
 import TextInput from '@/Components/TextInput';
 import CreateSubClientModal from '@/Components/Clients/Modals/CreateSubClientModal';
-import { POCData, clientsData } from '@/Helpers/constants';
+import { clientsData } from '@/Helpers/constants';
 import Mailto from '@/Components/Shared/Mailto';
 import GeneralNotes from '@/Components/Clients/GeneralNotes';
-import Contacts from '@/Components/Clients/POC/Contacts.jsx';
+import Contacts from '@/Components/Clients/POC/Contacts';
+import BillingAddresses from '@/Components/Clients/BillingAddress/BillingAddresses';
 
 function Profile({ auth, client, contacts }) {
-  const [openNewPOCModal, setOpenNewPOCModal] = useState(false);
   const [openDeletePOCModal, setOpenDeletePOCModal] = useState(false);
-  const [openDeleteGeneralNoteModal, setOpenDeleteGeneralNoteModal] =
-    useState(false);
   const [openCreateSubClientModal, setOpenCreateSubClientModal] =
     useState(false);
   const [dataToDelete, dataPocToDelete] = useState(null);
   const [showSubClients, setShowSubClients] = useState(null);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-
-  const handleClientsChecked = (name, value, checked) => {
-    if (checked) {
-      setCheckedClientsFilters([...checkedClientsFilters, value]);
-    } else {
-      setCheckedClientsFilters(checkedClientsFilters.filter(f => f !== value));
-    }
-  };
 
   const handleSubClients = index => {
     if (showSubClients === index) {
       setShowSubClients(null);
     } else {
       setShowSubClients(index);
-    }
-  };
-
-  const handleOnDelete = (name, data) => {
-    dataPocToDelete(data);
-    switch (name) {
-      case 'poc': {
-        setOpenDeletePOCModal(true);
-        break;
-      }
-      case 'general-notes': {
-        setOpenDeleteGeneralNoteModal(true);
-        break;
-      }
     }
   };
 
@@ -137,16 +103,13 @@ function Profile({ auth, client, contacts }) {
               </div>
             </div>
             <div className="flex-1 flex-col py-8 bg-white rounded-lg">
-              <Contacts />
+              <BillingAddresses />
             </div>
             <div className="flex-1 flex-col py-8 bg-white rounded-lg">
-              <div className="flex justify-between px-6">
-                <span className="text-xl font-bold">General Notes</span>
-                <NewGeneralNotesModal clientId={client.id} />
+              <div className="mb-4">
+                <Contacts />
               </div>
-              <div className="flex flex-col max-h-[30vh] overflow-y-auto mt-4 gap-4 px-6">
-                <GeneralNotes />
-              </div>
+              <GeneralNotes />
             </div>
           </div>
 

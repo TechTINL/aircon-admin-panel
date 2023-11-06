@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
     Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
     Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
+    
+    // Delete Contact
+    Route::delete('contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+
 	Route::resource('general-notes', GeneralNoteController::class);
 
     Route::get('/client-details', function () {

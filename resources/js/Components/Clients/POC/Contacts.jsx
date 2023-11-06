@@ -1,7 +1,7 @@
 import { usePage } from '@inertiajs/react';
 import Contact from '@/Components/Clients/POC/Contact';
 import React from 'react';
-import NewClientPOCModal from '@/Components/Clients/Modals/NewClientPOCModal.jsx';
+import NewClientPOCModal from '@/Components/Clients/Modals/NewClientPOCModal';
 
 function Contacts() {
   const { contacts } = usePage().props;
@@ -14,7 +14,7 @@ function Contacts() {
       </div>
       <div className="max-h-[30vh] overflow-y-auto px-6">
         {contacts.map((contact, i) => (
-          <Contact key={i} data={contact} />
+          <Contact key={i} index={i} data={contact} />
         ))}
       </div>
     </>

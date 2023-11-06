@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('type', ['RESIDENTIAL', 'COMMERCIAL']);
+            $table->string('type');
             $table->string('address');
             $table->string('billing_address');
+            $table->string('postal_code')->nullable();
             $table->timestamps();
         });
     }
