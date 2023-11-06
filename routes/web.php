@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,12 +40,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
-    Route::get('clients/{client}/profile', [ClientController::class, 'profile']);
+    Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
+    Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
+    
+    // Delete Contact
+    Route::delete('contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+
+	Route::resource('general-notes', GeneralNoteController::class);
 
     Route::get('/client-details', function () {
         return Inertia::render('Clients/ClientDetails');
     });
-    
+
     Route::get('/services-time-line', function () {
         return Inertia::render('Services/Timeline');
     });
@@ -53,6 +61,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/service-report', function () {
         return Inertia::render('Services/ServiceReport');
     });
+
+    Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
 });
 
 require __DIR__.'/auth.php';

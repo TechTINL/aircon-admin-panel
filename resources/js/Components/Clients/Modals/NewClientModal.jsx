@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useForm } from '@inertiajs/react';
 import ProfileImage from '@/Components/Shared/Clients/ProfileImage';
@@ -15,6 +15,7 @@ import Modal from '../../Modal';
 
 function NewClientModal() {
   const [openModal, setOpenModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
@@ -25,6 +26,23 @@ function NewClientModal() {
     email: '',
     contact_number: '',
   });
+
+  useEffect(() => {
+    if (searchTerm.length > 4) {
+      const url = `${import.meta.env.VITE_APP_URL}/postal-code/${searchTerm}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(({ status, address }) => {
+          if (status === 'success') {
+            setData('address', address);
+          }
+        });
+    }
+  }, [searchTerm]);
+
+  const search = e => {
+    setSearchTerm(e.target.value);
+  };
 
   const submit = e => {
     e.preventDefault();
@@ -38,6 +56,11 @@ function NewClientModal() {
         console.log(err);
       },
     });
+  };
+
+  const handleClosed = () => {
+    setOpenModal(false);
+    reset();
   };
 
   return (
@@ -55,7 +78,7 @@ function NewClientModal() {
         maxWidth="4xl"
       >
         <div className="flex flex-col p-4 w-[100%] max-h-[80vh] overflow-y-auto">
-          <button className="self-end" onClick={() => setOpenModal(false)}>
+          <button className="self-end" onClick={handleClosed}>
             <AiFillCloseCircle className="text-border-gray text-4xl" />
           </button>
           <div className="flex flex-col p-4">
@@ -104,10 +127,29 @@ function NewClientModal() {
                 </div>
                 <div className="grid grid-cols-2 gap-4 mt-6">
                   <div>
+                    <InputLabel
+                      htmlFor="postal_code"
+                      value="Postal Code"
+                      className="text-zinc-800 text-base font-bold my-1"
+                    />
+
+                    <TextInput
+                      id="postal_code"
+                      name="postal_code"
+                      className="mt-1 block w-full bg-gray-50"
+                      onChange={search}
+                    />
+
+                    <InputError message={errors.type} className="mt-2" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 mt-6">
+                  <div>
                     <TextArea
                       id="address"
                       label="Address"
                       placeholder="Your address here ..."
+                      value={data.address}
                       onChange={value => setData('address', value)}
                     />
 
@@ -118,7 +160,12 @@ function NewClientModal() {
                       id="billing_address"
                       label="Billing Address"
                       placeholder="Your address here ..."
+                      value={data.billing_address}
                       onChange={value => setData('billing_address', value)}
+                    />
+                    <InputError
+                      message={errors.billing_address}
+                      className="mt-2"
                     />
                     <div className="flex items-center my-4">
                       <Checkbox
@@ -134,11 +181,6 @@ function NewClientModal() {
                         }}
                       />
                     </div>
-
-                    <InputError
-                      message={errors.billing_address}
-                      className="mt-2"
-                    />
                   </div>
                 </div>
                 <div>

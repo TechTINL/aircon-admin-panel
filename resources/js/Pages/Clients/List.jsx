@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { BiInfoCircle, BiSearch } from 'react-icons/bi';
+import { BiInfoCircle } from 'react-icons/bi';
 import { useState } from 'react';
 import { AiFillCloseCircle, AiOutlineRightCircle } from 'react-icons/ai';
 import { HiChevronUpDown } from 'react-icons/hi2';
@@ -8,8 +8,8 @@ import { clientFilters } from '@/Helpers/constants';
 import Pagination from '@/Components/Shared/Pagination';
 import Divider from '@/Components/Ui/Divider';
 import FilterDropdown from '@/Components/Services/FilterDropdown';
-import TextInput from '@/Components/TextInput';
 import NewClientModal from '@/Components/Clients/Modals/NewClientModal';
+import Searchbar from '@/Components/Ui/Searchbar';
 
 function List({ auth, clients }) {
   const [checkedClientsFilters, setCheckedClientsFilters] = useState([]);
@@ -39,15 +39,8 @@ function List({ auth, clients }) {
           Client List
         </div>
         <div className="flex flex-col flex-auto mt-6">
-          {/* Search & Filters */}
           <div className="flex flex-row justify-between">
-            <div className="flex items-center relative">
-              <TextInput
-                className="w-full h-full pl-8 rounded-xl"
-                placeholder="Search"
-              />
-              <BiSearch className="text-gray-500 absolute text-[20px] left-2" />
-            </div>
+            <Searchbar url="clients.index" />
             <div className="flex gap-4 items-end">
               <FilterDropdown
                 name="clients"
@@ -59,7 +52,6 @@ function List({ auth, clients }) {
               <NewClientModal />
             </div>
           </div>
-          {/* Search & Filters */}
 
           <div className="flex flex-1 mt-6 max-w-[80vw] relative">
             <div className="w-full h-[68vh] overflow-x-auto overflow-y-auto">
@@ -179,7 +171,7 @@ function List({ auth, clients }) {
 
                       <td className="px-4 py-4 my-1">
                         <Link
-                          href="/client-details"
+                          href={route('clients.profile', item.clientId.id)}
                           method="get"
                           as="button"
                           type="button"
