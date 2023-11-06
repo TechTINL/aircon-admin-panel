@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Actions\CreateClientAction;
 use App\Actions\GetClientsAction;
 use App\Http\Requests\StoreClientRequest;
-use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,10 +17,11 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(GetClientsAction $action): Response
+    public function index(Request $request, GetClientsAction $action): Response
     {
         return Inertia::render('Clients/List', [
-            'clients' => ClientResource::collection($action->execute()),
+            'clients' => ClientResource::collection($action->execute($request->input('search'))),
+            'search' => $request->input('search'),
         ]);
     }
 
@@ -49,10 +50,26 @@ class ClientController extends Controller
      */
     public function profile(Client $client): Response
     {
-        return Inertia::render('Clients/Profile', [
-            'client' => new ClientResource($client),
-            'contacts' => $client->contacts,
+        return Inertia::render('Clients/Detail/Profile', [
+            'client' => $client,
+            'addresses' => [],
+            'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),
+	        'generalNotes' => $client->generalNotes()->orderBy('created_at', 'desc')->get(),
         ]);
+    }
+
+    /**
+     * Get Postal Code Address
+     */
+    public function getAddress($code): array
+    {
+        $postalCodeService = app()->make('App\Services\PostalCodeService');
+        $address = $postalCodeService->getAddress($code);
+
+        return [
+            'status' =>  is_string($address) && $address !== '' ? 'success' : 'error',
+            'address' => $address
+        ];
     }
 
 }

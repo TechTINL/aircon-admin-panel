@@ -1,11 +1,27 @@
 export const CLIENT_TYPES = [
   {
-    value: 'RESIDENTIAL',
-    label: 'Residential',
+    value: 'Condo / Apartment',
+    label: 'Condo / Apartment',
   },
   {
-    value: 'COMMERCIAL',
-    label: 'Commercial',
+    value: 'HDB',
+    label: 'HDB',
+  },
+  {
+    value: 'Landed',
+    label: 'Landed',
+  },
+  {
+    value: 'Commercial (Office / Shop / Mgmt)',
+    label: 'Commercial (Office / Shop / Mgmt)',
+  },
+  {
+    value: 'Industrial (Factory / Warehouse)',
+    label: 'Industrial (Factory / Warehouse)',
+  },
+  {
+    value: 'Dormitory',
+    label: 'Dormitory',
   },
 ];
 
@@ -113,361 +129,323 @@ export const CONTRACT_CLIENT_FILTERS = [
 
 export const CLIENTS_FILTERS = [
   [
-      {
+    {
       value: 'all_clients',
       label: 'All Clients',
-    }
+    },
   ],
   [
     {
       value: 'deleted_clients',
       label: 'Deleted Clients',
-    }
-  ]
+    },
+  ],
 ];
 
 export const clientsData = [
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Residential',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Residential'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Commercial',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Commercial'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Residential',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Residential'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Commercial',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Commercial'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Residential',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Residential'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Commercial',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Commercial'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Residential',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Residential'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Commercial',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Commercial'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Residential',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Residential'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
   {
-      clientId: {
-          id: 'ID123456789',
-          name: '1st Aid & Healthcare Learning Centre'
+    clientId: {
+      id: 'ID123456789',
+      name: '1st Aid & Healthcare Learning Centre',
+    },
+    contactPerson: {
+      name: 'Jeffery Hong',
+      type: 'Commercial',
+    },
+    contact: '+65 9193 7120',
+    address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
+    subClients: [
+      {
+        id: '1',
+        name: 'Sub-Clien A',
       },
-      contactPerson: {
-          name: 'Jeffery Hong',
-          type: 'Commercial'
+      {
+        id: '2',
+        name: 'Sub-Clien B',
       },
-      contact: '+65 9193 7120',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      subClients: [
-          {
-              id: '1',
-              name: 'Sub-Clien A'
-          },
-          {
-              id: '2',
-              name: 'Sub-Clien B'
-          },
-          {
-              id: '3',
-              name: 'Sub-Clien C'
-          },
-      ],
-      billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810'
+      {
+        id: '3',
+        name: 'Sub-Clien C',
+      },
+    ],
+    billingAddress: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
   },
 ];
 
 export const POCData = [
-    {
-        name: 'POC 1',
-        personName: 'Albert',
-        phone: '+65 9208 3801',
-        email: 'alberts@casuarina.com.sg'
-    },
-    {
-        name: 'POC 1',
-        personName: 'Albert',
-        phone: '+65 9208 3801',
-        email: 'alberts@casuarina.com.sg'
-    },
-    {
-        name: 'POC 1',
-        personName: 'Albert',
-        phone: '+65 9208 3801',
-        email: 'alberts@casuarina.com.sg'
-    },
-    {
-        name: 'POC 1',
-        personName: 'Albert',
-        phone: '+65 9208 3801',
-        email: 'alberts@casuarina.com.sg'
-    },
-    {
-        name: 'POC 1',
-        personName: 'Albert',
-        phone: '+65 9208 3801',
-        email: 'alberts@casuarina.com.sg'
-    },
-];
-
-export const GeneralNotes = [
-    {
-        notes: 'Client said to reach 11am not 9am or to look out for spoilt parts',
-        dateTime: '3 May 2023, 9:30 AM',
-        updatedBy: 'Admin Macy'
-    },
-    {
-        notes: 'Client said to reach 11am not 9am or to look out for spoilt parts',
-        dateTime: '3 May 2023, 9:30 AM',
-        updatedBy: 'Admin Macy'
-    },
-    {
-        notes: 'Client said to reach 11am not 9am or to look out for spoilt parts',
-        dateTime: '3 May 2023, 9:30 AM',
-        updatedBy: 'Admin Macy'
-    },
-    {
-        notes: 'Client said to reach 11am not 9am or to look out for spoilt parts',
-        dateTime: '3 May 2023, 9:30 AM',
-        updatedBy: 'Admin Macy'
-    },
-    {
-        notes: 'Client said to reach 11am not 9am or to look out for spoilt parts',
-        dateTime: '3 May 2023, 9:30 AM',
-        updatedBy: 'Admin Macy'
-    },
-    {
-        notes: 'Client said to reach 11am not 9am or to look out for spoilt parts',
-        dateTime: '3 May 2023, 9:30 AM',
-        updatedBy: 'Admin Macy'
-    },
-    {
-        notes: 'Client said to reach 11am not 9am or to look out for spoilt parts',
-        dateTime: '3 May 2023, 9:30 AM',
-        updatedBy: 'Admin Macy'
-    },
+  {
+    name: 'POC 1',
+    personName: 'Albert',
+    phone: '+65 9208 3801',
+    email: 'alberts@casuarina.com.sg',
+  },
+  {
+    name: 'POC 1',
+    personName: 'Albert',
+    phone: '+65 9208 3801',
+    email: 'alberts@casuarina.com.sg',
+  },
+  {
+    name: 'POC 1',
+    personName: 'Albert',
+    phone: '+65 9208 3801',
+    email: 'alberts@casuarina.com.sg',
+  },
+  {
+    name: 'POC 1',
+    personName: 'Albert',
+    phone: '+65 9208 3801',
+    email: 'alberts@casuarina.com.sg',
+  },
+  {
+    name: 'POC 1',
+    personName: 'Albert',
+    phone: '+65 9208 3801',
+    email: 'alberts@casuarina.com.sg',
+  },
 ];
 
 

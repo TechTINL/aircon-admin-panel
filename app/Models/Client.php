@@ -23,6 +23,11 @@ class Client extends Model
         return $this->hasMany(Contact::class);
     }
 
+	public function generalNotes(): HasMany
+	{
+		return $this->hasMany(GeneralNote::class);
+	}
+
     // Get Only first contact
     public function firstContact(): HasOne
     {
