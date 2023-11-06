@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { AiOutlineLeftCircle } from 'react-icons/ai';
 import ServiceDetail from '../../Components/Contract/Create/ServiceDetail';
 import ContractDetails from '../../Components/Contract/Create/ContractDetails';
+import Summary from '../../Components/Contract/Create/Summary';
 
 const Create = ({ auth }) => {
 
@@ -22,7 +23,8 @@ const Create = ({ auth }) => {
 
                 <ContractDetails />
                 <ServiceDetail />
-
+                <Summary />
+                <button className='bg-primary text-white rounded-xl py-2 font-bold'>Confirm</button>
             </div>
         </AuthenticatedLayout>
     )

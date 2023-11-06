@@ -5,6 +5,8 @@ import DatePicker from '../../../Common/DatePicker';
 import TimePicker from '../../../Common/TimePicker';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
+import TextInput from '@/Components/TextInput';
+import Task from './Task';
 
 const dropDownTeamType = [
     [
@@ -87,7 +89,6 @@ const technicianCounts = [
 const ServiceRequest = ({
     requestNumber
 }) => {
-    const [name, setName] = useState('');
     const [teamType, setTeamType] = useState(dropDownTeamType[0][0]);
     const [technicianCount, setTechnicianCount] = useState(technicianCounts[0][0]);
     const [srDate, setSRDate] = useState(new Date().toLocaleDateString());
@@ -161,20 +162,12 @@ const ServiceRequest = ({
             </div>
             <div className='w-full h-[1px] bg-border-gray'></div>
 
-            <div className='flex flex-col'>
-                <div className='flex flex-col'>
-                    <div className='flex justify-between'>
-                        <span className='text-primary'>Task 1 Name</span>
-                        <button className='text-primary font-bold'>Select template</button>
-                    </div>
-                    <TextArea
-                        placeholder="Task Name"
-                        value={name}
-                        onChange={value => setName(value)}
-                    />
-                </div>  
-                
-            </div>
+            <Task taskName={'Task 1'} />
+            <Task taskName={'Task 2'} />
+            <button className='border border-secondary text-secondary flex justify-center items-center py-2 rounded-xl gap-4'>
+                <span>Add More Task</span>
+                <MdOutlineAddCircleOutline size={20} />
+            </button>
         </div>
     )
 }

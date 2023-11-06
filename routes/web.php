@@ -69,6 +69,14 @@ Route::middleware('auth')->group(function () {
     Route::get('admin', function () {
         return Inertia::render('Admin/List');
     });
+
+    Route::get('template-task', function () {
+        return Inertia::render('Template/Task/List');
+    });
+
+    Route::get('manage-gst', function () {
+        return Inertia::render('ManageGST');
+    });
 });
 
 require __DIR__.'/auth.php';

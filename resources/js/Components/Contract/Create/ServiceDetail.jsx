@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { DropdownSelect } from '../../Common/DropdownSelect';
 import { getTimes } from '../../../Utils/utils';
 import ServiceRequest from './ServiceRequest';
+import { MdOutlineAddCircleOutline } from 'react-icons/md';
 
 const dropDownServiceRepeats = [
     [
@@ -111,7 +112,13 @@ const ServiceDetail = () => {
             </div>
 
             <span className='font-bold text-[16px]'>Service Request</span>
-            <ServiceRequest />
+            <ServiceRequest requestNumber={1}/>
+            <ServiceRequest requestNumber={2}/>
+
+            <button className='border border-secondary text-secondary flex justify-center items-center py-2 rounded-xl gap-4'>
+                <span>Add New Service Request</span>
+                <MdOutlineAddCircleOutline size={20} />
+            </button>
         </div>
     )
 }
