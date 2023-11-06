@@ -1,10 +1,12 @@
 import React from 'react'
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { AiOutlineLeftCircle } from 'react-icons/ai';
-import TextInput from '@/Components/TextInput';
+import ServiceDetail from '../../Components/Contract/Create/ServiceDetail';
+import ContractDetails from '../../Components/Contract/Create/ContractDetails';
 
 const Create = ({ auth }) => {
+
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Client List" />
@@ -18,21 +20,9 @@ const Create = ({ auth }) => {
                     </div>
                 </div>
 
-                <div className='bg-white rounded-xl p-6 flex flex-col gap-4'>
-                    <span className='font-bold text-[16px]'>Contract Detail</span>
-                    <div className='grid grid-cols-2 gap-4'>
-                        <div>
-                            <span className='font-bold text-[18px]'>Contract Detail</span>
-                            <TextInput
-                                placeholder
-                            />
-                        </div>
-                        <div>
-                            <span className='font-bold text-[18px]'>Contract Detail</span>
+                <ContractDetails />
+                <ServiceDetail />
 
-                        </div>
-                    </div>
-                </div>
             </div>
         </AuthenticatedLayout>
     )
