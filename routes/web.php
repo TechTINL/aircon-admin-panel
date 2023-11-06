@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
     Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
+    Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 	Route::resource('general-notes', GeneralNoteController::class);
 
     Route::get('/client-details', function () {
@@ -55,6 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/service-report', function () {
         return Inertia::render('Services/ServiceReport');
     });
+
+    Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
 });
 
 require __DIR__.'/auth.php';

@@ -1,6 +1,13 @@
 import PropTypes from 'prop-types';
 
-function TextArea({ id, label, placeholder, onChange, showLabel = true }) {
+function TextArea({
+  id,
+  label,
+  placeholder,
+  onChange,
+  showLabel = true,
+  value,
+}) {
   return (
     <div>
       <label
@@ -17,6 +24,7 @@ function TextArea({ id, label, placeholder, onChange, showLabel = true }) {
         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
         placeholder={placeholder}
         onChange={e => onChange(e.target.value)}
+        value={value}
       />
     </div>
   );

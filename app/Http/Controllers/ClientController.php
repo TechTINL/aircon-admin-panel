@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateClientAction;
-use App\Actions\GetClientDetailAction;
 use App\Actions\GetClientsAction;
 use App\Http\Requests\StoreClientRequest;
-use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use Illuminate\Http\RedirectResponse;
@@ -57,6 +55,20 @@ class ClientController extends Controller
             'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),
 	        'generalNotes' => $client->generalNotes()->orderBy('created_at', 'desc')->get(),
         ]);
+    }
+
+    /**
+     * Get Postal Code Address
+     */
+    public function getAddress($code): array
+    {
+        $postalCodeService = app()->make('App\Services\PostalCodeService');
+        $address = $postalCodeService->getAddress($code);
+
+        return [
+            'status' =>  is_string($address) && $address !== '' ? 'success' : 'error',
+            'address' => $address
+        ];
     }
 
 }

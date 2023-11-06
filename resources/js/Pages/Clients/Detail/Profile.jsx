@@ -25,6 +25,7 @@ import CreateSubClientModal from '@/Components/Clients/Modals/CreateSubClientMod
 import { POCData, clientsData } from '@/Helpers/constants';
 import Mailto from '@/Components/Shared/Mailto';
 import GeneralNotes from '@/Components/Clients/GeneralNotes';
+import Contacts from '@/Components/Clients/POC/Contacts.jsx';
 
 function Profile({ auth, client, contacts }) {
   const [openNewPOCModal, setOpenNewPOCModal] = useState(false);
@@ -70,10 +71,6 @@ function Profile({ auth, client, contacts }) {
   return (
     <AuthenticatedLayout user={auth?.user}>
       <Head title="Client List" />
-      <NewClientPOCModal
-        openModal={openNewPOCModal}
-        setOpenModal={setOpenNewPOCModal}
-      />
       <DeletePOCModal
         data={dataToDelete}
         openModal={openDeletePOCModal}
@@ -140,45 +137,7 @@ function Profile({ auth, client, contacts }) {
               </div>
             </div>
             <div className="flex-1 flex-col py-8 bg-white rounded-lg">
-              <div className="flex justify-between px-6">
-                <span className="text-xl font-bold">POC Information</span>
-                <button
-                  onClick={() => setOpenNewPOCModal(true)}
-                  className="text-xl font-bold text-[#00B4AD]"
-                >
-                  + Add New
-                </button>
-              </div>
-              <div className="max-h-[30vh] overflow-y-auto px-6">
-                {POCData.map((poc, i) => (
-                  <div key={i}>
-                    <div className="flex justify-between pt-4">
-                      <span className="text-md font-bold">
-                        {poc.name || 'POC 1'}
-                      </span>
-                      <div className="flex items-center gap-2 text-primary">
-                        <button>
-                          <AiOutlineEdit size={20} />
-                        </button>
-                        <button onClick={() => handleOnDelete('poc', poc)}>
-                          <RiDeleteBin5Line size={20} color="red" />
-                        </button>
-                      </div>
-                    </div>
-                    <span className="text-sm text-[#00B4AD] font-bold py-2">
-                      {poc.personName || 'Albert'}
-                    </span>
-                    <div className="flex items-center gap-2 py-2">
-                      <BsTelephone size={18} />
-                      <span>{poc.phone || '+65 9208 3801'}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <AiOutlineMail size={18} />
-                      <span>{poc.email || 'alberts@casuarina.com.sg'}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <Contacts />
             </div>
             <div className="flex-1 flex-col py-8 bg-white rounded-lg">
               <div className="flex justify-between px-6">
