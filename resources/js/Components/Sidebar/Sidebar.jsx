@@ -74,12 +74,35 @@ function Sidebar({ children }) {
           </div>
         </div>
 
+
         <NavItem
-          text="Template"
-          isActive={url.includes('/template')}
-          url="/template"
-          icon={<PiUsersFourLight size={22} className="lg:mx-4 md:mx-1" />}
-        />
+            text="Template"
+            isActive={url.includes('/template-task')}
+            url="/template-task"
+            icon={<PiUsersFourLight size={22} className="lg:mx-4 md:mx-1" />}
+          />
+        {/* <div className='flex'>
+
+          
+          <NavItem
+            text="Task"
+            isActive={url.includes('/template-task')}
+            url="/template-task"
+            icon={null}
+          />
+          <NavItem
+            text="Service"
+            isActive={url.includes('/template-service')}
+            url="/template-service"
+            icon={null}
+          />
+          <NavItem
+            text="Contract"
+            isActive={url.includes('/template-contract')}
+            url="/template-contract"
+            icon={null}
+          />
+        </div> */}
 
         <NavItem
           text="Manage GST"
