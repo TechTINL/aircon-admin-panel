@@ -12,24 +12,24 @@ import NewClientModal from '@/Components/Clients/Modals/NewClientModal';
 import Searchbar from '@/Components/Ui/Searchbar';
 
 function List({ auth, clients }) {
-    const [checkedClientsFilters, setCheckedClientsFilters] = useState([]);
-    const [showSubClients, setShowSubClients] = useState(null);
+  const [checkedClientsFilters, setCheckedClientsFilters] = useState([]);
+  const [showSubClients, setShowSubClients] = useState(null);
 
-    const handleClientsChecked = (name, value, checked) => {
-        if (checked) {
-            setCheckedClientsFilters([...checkedClientsFilters, value]);
-        } else {
-            setCheckedClientsFilters(checkedClientsFilters.filter(f => f !== value));
-        }
-    };
+  const handleClientsChecked = (name, value, checked) => {
+    if (checked) {
+      setCheckedClientsFilters([...checkedClientsFilters, value]);
+    } else {
+      setCheckedClientsFilters(checkedClientsFilters.filter(f => f !== value));
+    }
+  };
 
-    const handleSubClients = index => {
-        if (showSubClients === index) {
-            setShowSubClients(null);
-        } else {
-            setShowSubClients(index);
-        }
-    };
+  const handleSubClients = index => {
+    if (showSubClients === index) {
+      setShowSubClients(null);
+    } else {
+      setShowSubClients(index);
+    }
+  };
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -45,7 +45,7 @@ function List({ auth, clients }) {
               <FilterDropdown
                 name="clients"
                 label="Clients"
-                data={clientFilters}
+                data={CLIENTS_FILTERS}
                 checkedData={checkedClientsFilters}
                 handleChecked={handleClientsChecked}
               />

@@ -9,7 +9,6 @@ import { BiSearch, BiUserCircle, BiInfoCircle } from 'react-icons/bi';
 import { Head, Link } from '@inertiajs/react';
 import { BsArrowRightCircle, BsArrowUpCircle } from 'react-icons/bs';
 import { HiChevronUpDown } from 'react-icons/hi2';
-import DeletePOCModal from '@/Components/Clients/Modals/DeletePOCModal';
 import SampleProfileImg from '@/assets/images/sample-profile.png';
 import TextInput from '@/Components/TextInput';
 import CreateSubClientModal from '@/Components/Clients/Modals/CreateSubClientModal';
@@ -20,10 +19,8 @@ import Contacts from '@/Components/Clients/POC/Contacts';
 import BillingAddresses from '@/Components/Clients/BillingAddress/BillingAddresses';
 
 function Profile({ auth, client, contacts }) {
-  const [openDeletePOCModal, setOpenDeletePOCModal] = useState(false);
   const [openCreateSubClientModal, setOpenCreateSubClientModal] =
     useState(false);
-  const [dataToDelete, dataPocToDelete] = useState(null);
   const [showSubClients, setShowSubClients] = useState(null);
 
   const handleSubClients = index => {
@@ -37,15 +34,6 @@ function Profile({ auth, client, contacts }) {
   return (
     <AuthenticatedLayout user={auth?.user}>
       <Head title="Client List" />
-      <DeletePOCModal
-        data={dataToDelete}
-        openModal={openDeletePOCModal}
-        setOpenModal={setOpenDeletePOCModal}
-      />
-      <CreateSubClientModal
-        openModal={openCreateSubClientModal}
-        setOpenModal={setOpenCreateSubClientModal}
-      />
       <div className="flex-auto flex flex-col">
         <div className="flexf flex-auto text-black bg-gray-100 overflow-y-auto p-6">
           <div className="flex justify-between">
@@ -488,6 +476,10 @@ function Profile({ auth, client, contacts }) {
           </div>
         </div>
       </div>
+      <CreateSubClientModal
+        openModal={openCreateSubClientModal}
+        setOpenModal={setOpenCreateSubClientModal}
+      />
     </AuthenticatedLayout>
   );
 }

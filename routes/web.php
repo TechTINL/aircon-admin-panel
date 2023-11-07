@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
     Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
     Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
-    
+
     // Delete Contact
     Route::delete('contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Services/ServiceReport');
     });
 
+    Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
     Route::get('contract', function () {
         return Inertia::render('Contract/List');
     });
