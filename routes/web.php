@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GeneralNoteController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
     Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
     Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
-    
+
     // Delete Contact
     Route::delete('contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
@@ -63,6 +64,20 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
+    Route::get('contract', function () {
+        return Inertia::render('Contract/List');
+    });
+
+    Route::post('contract', function () {
+        return Inertia::render('Contract/Create');
+    });
+
+    Route::get('employee', function () {
+        return Inertia::render('Employee/List');
+    });
+    Route::get('admin', function () {
+        return Inertia::render('Admin/List');
+    });
 });
 
 require __DIR__.'/auth.php';

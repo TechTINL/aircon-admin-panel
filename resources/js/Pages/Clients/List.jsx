@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { AiFillCloseCircle, AiOutlineRightCircle } from 'react-icons/ai';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { clientFilters } from '@/Helpers/constants';
+import { CLIENTS_FILTERS } from '@/Helpers/constants';
 import Pagination from '@/Components/Shared/Pagination';
 import Divider from '@/Components/Ui/Divider';
 import FilterDropdown from '@/Components/Services/FilterDropdown';
@@ -45,7 +45,7 @@ function List({ auth, clients }) {
               <FilterDropdown
                 name="clients"
                 label="Clients"
-                data={clientFilters}
+                data={CLIENTS_FILTERS}
                 checkedData={checkedClientsFilters}
                 handleChecked={handleClientsChecked}
               />
