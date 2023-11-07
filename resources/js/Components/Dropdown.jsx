@@ -51,7 +51,7 @@ const Content = ({
     alignmentClasses = 'origin-top-right right-0';
   }
 
-  let widthClasses = 'w-full';
+  let widthClasses = '';
 
   if (width === '48') {
     widthClasses = 'w-48';

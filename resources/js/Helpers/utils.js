@@ -1,6 +1,6 @@
 export const formatTime = date => {
-  let hour = date.getHours();
-  const min = date.getMinutes();
+  let hour = new Date(date)?.getHours();
+  const min = new Date(date)?.getMinutes();
   const ampm = hour >= 12 ? 'PM' : 'AM';
   hour %= 12;
   hour = hour || 12; // the hour '0' should be '12'
@@ -44,37 +44,37 @@ export const formatDateTime = datetimeStr => {
 
 
 export const getServiceStatusStyles = (status) => {
-    switch (status) {
-        case 'UNASSIGNED': return {
-            backgroundColor: '#D9D9D9',
-            color: '#53616C',
+  switch (status) {
+    case 'UNASSIGNED': return {
+      backgroundColor: '#D9D9D9',
+      color: '#53616C',
 
-        };
-        case 'SCHEDULED': return {
-            backgroundColor: '#D4F1F3',
-            color: '#00B4AD',
-        };
-        case 'ON_HOLD': return {
-            backgroundColor: '#D3D7F5',
-            color: '#454FA2',
-        };
-        case 'COMPLETED': return {
-            backgroundColor: '#00B4AD',
-            color: '#FFFFFF',
-        };
-        case 'REQUIRE_FOLLOW_UP': return {
-            backgroundColor: '#DD4949',
-            color: '#FFFFFF',
-        };
-        case 'FOLLOW_UP_COMPLETED': return {
-            backgroundColor: '#6CC294',
-            color: '#FFFFFF',
-        };
-        default: return {
-            backgroundColor: '#D9D9D9',
-            color: '#53616C',
+    };
+    case 'SCHEDULED': return {
+      backgroundColor: '#D4F1F3',
+      color: '#00B4AD',
+    };
+    case 'ON_HOLD': return {
+      backgroundColor: '#D3D7F5',
+      color: '#454FA2',
+    };
+    case 'COMPLETED': return {
+      backgroundColor: '#00B4AD',
+      color: '#FFFFFF',
+    };
+    case 'REQUIRE_FOLLOW_UP': return {
+      backgroundColor: '#DD4949',
+      color: '#FFFFFF',
+    };
+    case 'FOLLOW_UP_COMPLETED': return {
+      backgroundColor: '#6CC294',
+      color: '#FFFFFF',
+    };
+    default: return {
+      backgroundColor: '#D9D9D9',
+      color: '#53616C',
 
-        };
-    }
+    };
+  }
 }
 
