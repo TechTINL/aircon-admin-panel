@@ -11,8 +11,7 @@ import TextArea from '@/Components/Shared/TextArea';
 import Checkbox from '@/Components/Shared/Checkbox';
 import PhoneNumberInput from '@/Components/Shared/PhoneNumberInput';
 import PrimaryButton from '@/Components/PrimaryButton';
-import usePostalCodeSearch from '@/Hooks/useSearchPostalCode.js';
-import useSearchPostalCode from '@/Hooks/useSearchPostalCode.js';
+import useSearchPostalCode from '@/Hooks/useSearchPostalCode';
 import Modal from '../../Modal';
 
 function NewClientModal() {
