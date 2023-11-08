@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import { useForm } from '@inertiajs/react';
 
-function useCreateBillingAddress() {
+function useCreateBillingAddress(clientId) {
   const [openModal, setOpenModal] = useState(false);
   const { data, setData, error, reset, post } = useForm({
     name: '',
     phone: '',
-    email: '',
     address: '',
+    postal_code: '',
     isPrimary: false,
+    client_id: clientId,
   });
 
   const handleSubmit = e => {
     e.preventDefault();
-    post(route('billing-addresses.store'), {
+    post(route('addresses.store'), {
       onSuccess: () => {
         setOpenModal(false);
         reset();

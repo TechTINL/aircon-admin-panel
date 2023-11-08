@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function useSearchPostalCode(onSuccess) {
+function useSearchPostalCode(onError, onSuccess) {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -15,6 +15,8 @@ function useSearchPostalCode(onSuccess) {
 
           if (status === 'success' && active) {
             onSuccess(address);
+          } else {
+            onError('Address not found.');
           }
         } catch (error) {
           console.error('Failed to fetch address:', error);

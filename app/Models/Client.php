@@ -35,4 +35,10 @@ class Client extends Model
             ->where('is_primary', true)
             ->orderBy('created_at', 'asc');
     }
+
+    // Addresses
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
 }

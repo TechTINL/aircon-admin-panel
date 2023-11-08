@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContactController;
@@ -48,6 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
 	Route::resource('general-notes', GeneralNoteController::class);
+
+    // Store Address
+    Route::post('addresses', [AddressController::class, 'store'])->name('addresses.store');
 
     Route::get('/client-details', function () {
         return Inertia::render('Clients/ClientDetails');

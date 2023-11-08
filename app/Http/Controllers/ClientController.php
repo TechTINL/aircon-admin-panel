@@ -52,7 +52,7 @@ class ClientController extends Controller
     {
         return Inertia::render('Clients/Detail/Profile', [
             'client' => $client,
-            'addresses' => [],
+            'addresses' => $client->addresses()->orderBy('created_at', 'desc')->get(),
             'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),
 	        'generalNotes' => $client->generalNotes()->orderBy('created_at', 'desc')->get(),
         ]);
@@ -67,7 +67,7 @@ class ClientController extends Controller
         $address = $postalCodeService->getAddress($code);
 
         return [
-            'status' =>  is_string($address) && $address !== '' ? 'success' : 'error',
+            'status' =>  is_string($address) && $address !== '' ? 'success' : 'not-found',
             'address' => $address
         ];
     }
