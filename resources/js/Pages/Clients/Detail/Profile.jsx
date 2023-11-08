@@ -16,7 +16,7 @@ import { clientsData } from '@/Helpers/constants';
 import Mailto from '@/Components/Shared/Mailto';
 import GeneralNotes from '@/Components/Clients/GeneralNotes';
 import Contacts from '@/Components/Clients/POC/Contacts';
-import BillingAddresses from '@/Components/Clients/BillingAddress/BillingAddresses';
+import BillingAddressList from '@/Components/Clients/BillingAddress/BillingAddressList.jsx';
 
 function Profile({ auth, client, contacts }) {
   const [openCreateSubClientModal, setOpenCreateSubClientModal] =
@@ -91,7 +91,7 @@ function Profile({ auth, client, contacts }) {
               </div>
             </div>
             <div className="flex-1 flex-col py-8 bg-white rounded-lg">
-              <BillingAddresses />
+              <BillingAddressList />
             </div>
             <div className="flex-1 flex-col py-8 bg-white rounded-lg">
               <div className="mb-4">

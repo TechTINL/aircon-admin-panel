@@ -2,7 +2,7 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { BsTelephone } from 'react-icons/bs';
 import DeletePOCModal from '@/Components/Clients/Modals/DeletePOCModal';
 
-function BillingAddress({ data: address, index }) {
+function BillingAddressRow({ data: address, index }) {
   return (
     <div key={index}>
       <div className="flex justify-between items-start pt-4">
@@ -27,4 +27,4 @@ function BillingAddress({ data: address, index }) {
   );
 }
 
-export default BillingAddress;
+export default BillingAddressRow;

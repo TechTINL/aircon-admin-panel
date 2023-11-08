@@ -11,11 +11,12 @@ import TextArea from '@/Components/Shared/TextArea';
 import Checkbox from '@/Components/Shared/Checkbox';
 import PhoneNumberInput from '@/Components/Shared/PhoneNumberInput';
 import PrimaryButton from '@/Components/PrimaryButton';
+import usePostalCodeSearch from '@/Hooks/useSearchPostalCode.js';
+import useSearchPostalCode from '@/Hooks/useSearchPostalCode.js';
 import Modal from '../../Modal';
 
 function NewClientModal() {
   const [openModal, setOpenModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
 
   const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
@@ -27,18 +28,9 @@ function NewClientModal() {
     contact_number: '',
   });
 
-  useEffect(() => {
-    if (searchTerm.length > 4) {
-      const url = `${import.meta.env.VITE_APP_URL}/postal-code/${searchTerm}`;
-      fetch(url)
-        .then(response => response.json())
-        .then(({ status, address }) => {
-          if (status === 'success') {
-            setData('address', address);
-          }
-        });
-    }
-  }, [searchTerm]);
+  const { searchTerm, setSearchTerm } = useSearchPostalCode(address => {
+    setData('address', address);
+  });
 
   const search = e => {
     setSearchTerm(e.target.value);
@@ -138,6 +130,7 @@ function NewClientModal() {
                       name="postal_code"
                       className="mt-1 block w-full bg-gray-50"
                       onChange={search}
+                      value={searchTerm}
                     />
 
                     <InputError message={errors.type} className="mt-2" />
