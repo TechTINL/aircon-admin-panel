@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
+    Route::resource('clients', ClientController::class)->only(['index', 'create', 'store', 'update']);
     Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
     Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 

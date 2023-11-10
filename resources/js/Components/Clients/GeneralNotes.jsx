@@ -7,11 +7,11 @@ function GeneralNotes() {
 
   return (
     <>
-      <div className="flex justify-between px-6">
+      <div className="flex justify-between">
         <span className="text-xl font-bold">General Notes</span>
         <NewGeneralNotesModal clientId={client.id} />
       </div>
-      <div className="flex flex-col max-h-[30vh] overflow-y-auto mt-4 gap-4 px-6">
+      <div className="flex flex-col max-h-[15vh] overflow-y-auto mt-4 gap-4">
         {generalNotes.length > 0 ? (
           <div className="flex flex-col gap-4">
             {generalNotes.map(note => (

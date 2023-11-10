@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {
-  AiOutlineEdit,
-  AiFillCloseCircle,
-  AiOutlineRightCircle,
-} from 'react-icons/ai';
+import { AiFillCloseCircle, AiOutlineRightCircle } from 'react-icons/ai';
 import { BiSearch, BiUserCircle, BiInfoCircle } from 'react-icons/bi';
 import { Head, Link } from '@inertiajs/react';
 import { BsArrowRightCircle, BsArrowUpCircle } from 'react-icons/bs';
@@ -16,7 +12,8 @@ import { clientsData } from '@/Helpers/constants';
 import Mailto from '@/Components/Shared/Mailto';
 import GeneralNotes from '@/Components/Clients/GeneralNotes';
 import Contacts from '@/Components/Clients/POC/Contacts';
-import BillingAddressList from '@/Components/Clients/BillingAddress/BillingAddressList.jsx';
+import BillingAddressList from '@/Components/Clients/BillingAddress/BillingAddressList';
+import EditClientModal from '@/Components/Clients/Modals/EditClientModal';
 
 function Profile({ auth, client, contacts }) {
   const [openCreateSubClientModal, setOpenCreateSubClientModal] =
@@ -45,10 +42,7 @@ function Profile({ auth, client, contacts }) {
                 ID - {client.id}
               </div>
             </div>
-            <div className="flex items-center gap-2 border border-[#00B4AD] px-6 py-2 rounded-lg">
-              <AiOutlineEdit size={20} />
-              <span className="text-[#00B4AD]">Edit Client</span>
-            </div>
+            <EditClientModal />
           </div>
           <div className="py-2">Data &gt; Client List &gt; Client Detail</div>
           <div className="flex gap-4 pb-4 border-b-2">
@@ -69,7 +63,7 @@ function Profile({ auth, client, contacts }) {
               <span>Notification Setting</span>
             </div>
           </div>
-          <div className="flex my-4 gap-6">
+          <div className="grid grid-cols-3 my-4 gap-6">
             <div className="flex flex-4 flex-col pt-8 pb-14 px-10 justify-center bg-white items-center rounded-lg">
               <BiUserCircle
                 size={40}
@@ -93,11 +87,13 @@ function Profile({ auth, client, contacts }) {
             <div className="flex-1 flex-col py-8 bg-white rounded-lg">
               <BillingAddressList />
             </div>
-            <div className="flex-1 flex-col py-8 bg-white rounded-lg">
-              <div className="mb-4">
+            <div className="flex-1 flex-col">
+              <div className="bg-white p-6 mb-4 rounded-lg">
                 <Contacts />
               </div>
-              <GeneralNotes />
+              <div className="p-6 bg-white rounded-lg">
+                <GeneralNotes />
+              </div>
             </div>
           </div>
 

@@ -30,6 +30,7 @@ class GetClientsAction
                     ->orWhere('phone', 'like', "%{$searchTerm}%")
                     ->orWhere('email', 'like', "%{$searchTerm}%");
             })
+            ->latest()
             ->paginate(10);
     }
 

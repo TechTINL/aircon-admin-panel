@@ -13,6 +13,7 @@ class CreateClientAction
         return [
             'name' => $request->name,
             'type' => $request->type,
+            'postal_code' => $request->postal_code,
             'address' => $request->address,
             'billing_address' => $request->billing_address,
         ];

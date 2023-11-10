@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useForm } from '@inertiajs/react';
 import ProfileImage from '@/Components/Shared/Clients/ProfileImage';
@@ -20,6 +20,7 @@ function NewClientModal() {
   const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
     type: '',
+    postal_code: '',
     address: '',
     billing_address: '',
     contact_name: '',
@@ -27,12 +28,18 @@ function NewClientModal() {
     contact_number: '',
   });
 
-  const { searchTerm, setSearchTerm } = useSearchPostalCode(address => {
-    setData('address', address);
-  });
+  const { searchTerm, setSearchTerm } = useSearchPostalCode(
+    message => {
+      console.log(message);
+    },
+    address => {
+      setData('address', address);
+    }
+  );
 
   const search = e => {
     setSearchTerm(e.target.value);
+    setData('postal_code', e.target.value);
   };
 
   const submit = e => {
@@ -132,7 +139,7 @@ function NewClientModal() {
                       value={searchTerm}
                     />
 
-                    <InputError message={errors.type} className="mt-2" />
+                    <InputError message={errors.postal_code} className="mt-2" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 mt-6">

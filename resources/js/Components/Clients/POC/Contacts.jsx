@@ -8,11 +8,11 @@ function Contacts() {
 
   return (
     <>
-      <div className="flex justify-between px-6">
+      <div className="flex justify-between">
         <span className="text-xl font-bold">POC Information</span>
         <NewClientPOCModal />
       </div>
-      <div className="max-h-[30vh] overflow-y-auto px-6">
+      <div className="max-h-[15vh] overflow-y-auto">
         {contacts.map((contact, i) => (
           <Contact key={i} index={i} data={contact} />
         ))}
