@@ -27,6 +27,7 @@ class UpdateClientRequest extends FormRequest
             'postal_code' => ['nullable'],
             'address' => ['required', 'string', 'max:255'],
             'billing_address' => ['required', 'string', 'max:255'],
+            'parent_id' => ['nullable', 'exists:clients,id'],
         ];
     }
 }

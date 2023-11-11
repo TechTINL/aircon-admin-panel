@@ -16,6 +16,7 @@ class CreateClientAction
             'postal_code' => $request->postal_code,
             'address' => $request->address,
             'billing_address' => $request->billing_address,
+	        'parent_id' => $request->input('parent_id'),
         ];
     }
 

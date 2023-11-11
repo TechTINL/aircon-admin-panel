@@ -323,18 +323,12 @@ function Profile({ auth, client, contacts }) {
               <BiSearch className="text-gray-500 absolute text-[20px] left-2" />
             </div>
             <div className="flex gap-4 items-end">
-              <button
-                type="button"
-                className="bg-primary hover:bg-green-300 text-white font-bold py-2 px-4 rounded"
-                onClick={() => setOpenCreateSubClientModal(true)}
-              >
-                Create New Sub-Client
-              </button>
+              <CreateSubClientModal />
             </div>
           </div>
           {/* Search & Filters */}
-          <div className="flex flex-1 mt-6 max-w-[80vw] relative">
-            <div className="w-full h-[68vh] overflow-x-auto overflow-y-auto">
+          <div className="flex flex-1 mt-6 relative">
+            <div className="w-full overflow-x-auto overflow-y-auto">
               <table className="w-full text-black relative">
                 <thead className="relative bg-[#F0F0F0] rounded-full">
                   <tr>
@@ -472,10 +466,6 @@ function Profile({ auth, client, contacts }) {
           </div>
         </div>
       </div>
-      <CreateSubClientModal
-        openModal={openCreateSubClientModal}
-        setOpenModal={setOpenCreateSubClientModal}
-      />
     </AuthenticatedLayout>
   );
 }

@@ -12,7 +12,9 @@ class GetClientsAction
      */
     private function getClientsWithFirstContact(): LengthAwarePaginator
     {
-        return Client::with('firstContact')->paginate(10);
+        return Client::with('firstContact')
+	        ->whereNull('parent_id')
+	        ->paginate(10);
     }
 
     /**
@@ -21,17 +23,21 @@ class GetClientsAction
     private function searchClientsWithFirstContact(string $searchTerm): LengthAwarePaginator
     {
         return Client::with('firstContact')
-            ->where('name', 'like', "%{$searchTerm}%")
-            ->orWhere('type', 'like', "%{$searchTerm}%")
-            ->orWhere('address', 'like', "%{$searchTerm}%")
-            ->orWhere('billing_address', 'like', "%{$searchTerm}%")
-            ->orWhereHas('firstContact', function ($query) use ($searchTerm) {
-                $query->where('name', 'like', "%{$searchTerm}%")
-                    ->orWhere('phone', 'like', "%{$searchTerm}%")
-                    ->orWhere('email', 'like', "%{$searchTerm}%");
-            })
-            ->latest()
-            ->paginate(10);
+	        ->whereNull('parent_id')
+	        ->where(function ($query) use ($searchTerm) {
+		        $query->where('name', 'like', "%{$searchTerm}%")
+			        ->orWhere('type', 'like', "%{$searchTerm}%")
+			        ->orWhere('address', 'like', "%{$searchTerm}%")
+			        ->orWhere('billing_address', 'like', "%{$searchTerm}%");
+	        })
+	        ->orWhereHas('firstContact', function ($query) use ($searchTerm) {
+		        $query->where('name', 'like', "%{$searchTerm}%")
+			        ->orWhere('phone', 'like', "%{$searchTerm}%")
+			        ->orWhere('email', 'like', "%{$searchTerm}%");
+	        })
+	        ->latest()
+	        ->paginate(10);
+
     }
 
     public function execute(?string $searchTerm): LengthAwarePaginator

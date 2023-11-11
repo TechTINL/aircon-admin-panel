@@ -17,6 +17,7 @@ class Client extends Model
         'postal_code',
         'address',
         'billing_address',
+        'parent_id',
     ];
 
     public function contacts(): HasMany
