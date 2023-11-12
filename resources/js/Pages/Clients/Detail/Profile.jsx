@@ -15,8 +15,9 @@ import ClientInfo from '@/Components/Clients/ClientDetails/ClientInfo';
 import TableRow from '@/Components/Ui/Table/TableRow';
 import ClientTypeChip from '@/Components/Clients/ClientTypeChip';
 import ClientHeader from '@/Components/Clients/ClientDetails/ClientHeader';
+import Breadcrumb from '@/Components/Common/Breadcrumb.jsx';
 
-function Profile({ auth, client, contacts, subClients }) {
+function Profile({ auth, client, contacts, subClients, breadcrumb }) {
   return (
     <AuthenticatedLayout user={auth?.user}>
       <Head title="Client List" />
@@ -26,7 +27,7 @@ function Profile({ auth, client, contacts, subClients }) {
             <ClientHeader />
             <EditClientModal />
           </div>
-          <div className="py-2">Data &gt; Client List &gt; Client Detail</div>
+          <Breadcrumb breadcrumbs={breadcrumb} />
           <div className="flex gap-4 pb-4 border-b-2">
             <div className="flex gap-2 border bg-[#454FA23D] px-4 py-2 rounded-full">
               <BiUserCircle size={20} />

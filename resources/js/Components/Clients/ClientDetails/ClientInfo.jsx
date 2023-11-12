@@ -13,7 +13,7 @@ function ClientInfo({ name, type, contacts, address }) {
       <span className="text-xl font-bold">{name}</span>
       <span>{type}</span>
       <div className="flex flex-col py-2 text-center">
-        <span>{contacts[0].email ?? 'No email yet'}</span>
+        <span>{contacts[0]?.email ?? 'No email yet'}</span>
         <span>{address ?? 'No Address yet'}</span>
       </div>
       <div className="flex items-center gap-3 border border-[#00B4AD] px-6 py-2 mb-4 rounded-lg">
@@ -22,7 +22,7 @@ function ClientInfo({ name, type, contacts, address }) {
       </div>
       <div className="flex items-center gap-2 border border-[#00B4AD] px-14 py-2 rounded-lg">
         <BiUserCircle size={20} />
-        <Mailto email={contacts[0].email}>Mail</Mailto>
+        <Mailto email={contacts[0]?.email}>Mail</Mailto>
       </div>
     </div>
   );

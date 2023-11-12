@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\CreateClientAction;
 use App\Actions\GetClientsAction;
 use App\Actions\GetSubClientAction;
+use App\Helpers\BreadcrumbHelper;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
@@ -65,6 +66,7 @@ class ClientController extends Controller
     public function profile(Client $client, GetSubClientAction $getSubClientAction): Response
     {
         return Inertia::render('Clients/Detail/Profile', [
+			'breadcrumb' => BreadcrumbHelper::clientProfile($client->id),
             'client' => $client,
 			'subClients' => ClientResource::collection($getSubClientAction->execute($client->id)),
             'addresses' => $client->addresses()->orderBy('created_at', 'desc')->get(),

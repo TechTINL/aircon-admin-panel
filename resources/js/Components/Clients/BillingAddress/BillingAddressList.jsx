@@ -12,7 +12,7 @@ function BillingAddressList() {
         <span className="text-xl font-bold">Billing Address</span>
         <NewBillingAddressModal />
       </div>
-      <div className="max-h-[30vh] overflow-y-auto px-6">
+      <div className="max-h-[30vh] h-full overflow-y-auto px-6">
         {addresses.length > 0 ? (
           <div className="flex flex-col gap-4">
             {addresses.map(note => (
@@ -21,8 +21,8 @@ function BillingAddressList() {
             ))}
           </div>
         ) : (
-          <div className="flex justify-center items-center">
-            <div className="text-2xl font-bold text-[#00B4AD]">
+          <div className="flex justify-center items-center h-full">
+            <div className="text-sm font-bold text-gray-300">
               No Billing Address
             </div>
           </div>
