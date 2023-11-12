@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { BiInfoCircle } from 'react-icons/bi';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { AiFillCloseCircle, AiOutlineRightCircle } from 'react-icons/ai';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -10,6 +10,8 @@ import Divider from '@/Components/Ui/Divider';
 import FilterDropdown from '@/Components/Services/FilterDropdown';
 import NewClientModal from '@/Components/Clients/Modals/NewClientModal';
 import Searchbar from '@/Components/Ui/Searchbar';
+import SubClientPopover from '@/Components/Clients/List/SubClientPopover.jsx';
+import ClientTypeChip from '@/Components/Clients/ClientTypeChip.jsx';
 
 function List({ auth, clients }) {
   const [checkedClientsFilters, setCheckedClientsFilters] = useState([]);
@@ -105,15 +107,7 @@ function List({ auth, clients }) {
                           <span className="text-[15px]">
                             {item.contactPerson.name}
                           </span>
-                          <span
-                            className={`${
-                              item.contactPerson.type === 'Residential'
-                                ? 'bg-primary'
-                                : 'bg-secondary'
-                            } text-white text-[13px] mt-2 rounded-full text-center px-2 w-max`}
-                          >
-                            {item.contactPerson.type}
-                          </span>
+                          <ClientTypeChip type={item.contactPerson.type} />
                         </div>
                       </td>
                       <td className="px-4 py-4 my-1 max-w-[200px]">
@@ -139,26 +133,11 @@ function List({ auth, clients }) {
                           >
                             <BiInfoCircle size={20} />
                           </button>
-                          <div
-                            className={`${
-                              i === showSubClients ? 'flex flex-col' : 'hidden'
-                            } absolute w-max text-white bg-[#838383] max-h-[200px] top-5 left-4 rounded-sm p-2 z-[${
-                              i + 400
-                            }]`}
-                          >
-                            <button
-                              onClick={() => setShowSubClients(null)}
-                              className="self-end"
-                            >
-                              <AiFillCloseCircle className="text-white" />
-                            </button>
-                            <span>Sub Client:</span>
-                            {item.subClients.map(subClient => (
-                              <span className="p-1" key={subClient.id}>
-                                {subClient.name}
-                              </span>
-                            ))}
-                          </div>
+                          <SubClientPopover
+                            show={showSubClients === i}
+                            subClients={item.subClients}
+                            onClose={() => setShowSubClients(null)}
+                          />
                         </div>
                       </td>
                       <td className="px-4 py-4 my-1 max-w-[200px]">

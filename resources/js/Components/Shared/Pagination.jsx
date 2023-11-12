@@ -38,13 +38,13 @@ export default function Pagination({ links, meta }) {
   }
 
   return (
-    <div className="flex justify-between items-center">
-      <span className="text-sm text-gray-500">
+    <>
+      <div className="text-sm text-gray-500">
         Showing {meta.from} to {meta.to} of {meta.total} results
-      </span>
-      {links.length > 3 && (
+      </div>
+      {meta.links.length > 3 && (
         <div className="flex flex-wrap">
-          {links.map((link, key) =>
+          {meta.links.map((link, key) =>
             link.url === null ? (
               <div
                 key={key}
@@ -62,6 +62,6 @@ export default function Pagination({ links, meta }) {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContactController;
@@ -40,7 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('clients', ClientController::class)->only(['index', 'create', 'store']);
+    Route::resource('clients', ClientController::class)->only(['index', 'create', 'store', 'update']);
     Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
     Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 
@@ -48,6 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
 	Route::resource('general-notes', GeneralNoteController::class);
+
+    // Store Address
+    Route::post('addresses', [AddressController::class, 'store'])->name('addresses.store');
 
     Route::get('/client-details', function () {
         return Inertia::render('Clients/ClientDetails');

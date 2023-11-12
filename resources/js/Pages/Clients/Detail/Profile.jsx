@@ -1,56 +1,33 @@
-import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {
-  AiOutlineEdit,
-  AiFillCloseCircle,
-  AiOutlineRightCircle,
-} from 'react-icons/ai';
-import { BiSearch, BiUserCircle, BiInfoCircle } from 'react-icons/bi';
+import { AiOutlineRightCircle } from 'react-icons/ai';
+import { BiSearch, BiUserCircle } from 'react-icons/bi';
 import { Head, Link } from '@inertiajs/react';
 import { BsArrowRightCircle, BsArrowUpCircle } from 'react-icons/bs';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import SampleProfileImg from '@/assets/images/sample-profile.png';
 import TextInput from '@/Components/TextInput';
 import CreateSubClientModal from '@/Components/Clients/Modals/CreateSubClientModal';
-import { clientsData } from '@/Helpers/constants';
-import Mailto from '@/Components/Shared/Mailto';
 import GeneralNotes from '@/Components/Clients/GeneralNotes';
 import Contacts from '@/Components/Clients/POC/Contacts';
-import BillingAddresses from '@/Components/Clients/BillingAddress/BillingAddresses';
+import BillingAddressList from '@/Components/Clients/BillingAddress/BillingAddressList';
+import EditClientModal from '@/Components/Clients/Modals/EditClientModal';
+import ClientInfo from '@/Components/Clients/ClientDetails/ClientInfo';
+import TableRow from '@/Components/Ui/Table/TableRow';
+import ClientTypeChip from '@/Components/Clients/ClientTypeChip';
+import ClientHeader from '@/Components/Clients/ClientDetails/ClientHeader';
+import Breadcrumb from '@/Components/Common/Breadcrumb.jsx';
 
-function Profile({ auth, client, contacts }) {
-  const [openCreateSubClientModal, setOpenCreateSubClientModal] =
-    useState(false);
-  const [showSubClients, setShowSubClients] = useState(null);
-
-  const handleSubClients = index => {
-    if (showSubClients === index) {
-      setShowSubClients(null);
-    } else {
-      setShowSubClients(index);
-    }
-  };
-
+function Profile({ auth, client, contacts, subClients, breadcrumb }) {
   return (
     <AuthenticatedLayout user={auth?.user}>
       <Head title="Client List" />
       <div className="flex-auto flex flex-col">
         <div className="flexf flex-auto text-black bg-gray-100 overflow-y-auto p-6">
           <div className="flex justify-between">
-            <div className="flex justify-center items-center gap-2">
-              <h3 className="text-[#303030] font-bold text-2xl">
-                Client Detail
-              </h3>
-              <div className="p-2 bg-[#D9D9D9] rounded-full">
-                ID - {client.id}
-              </div>
-            </div>
-            <div className="flex items-center gap-2 border border-[#00B4AD] px-6 py-2 rounded-lg">
-              <AiOutlineEdit size={20} />
-              <span className="text-[#00B4AD]">Edit Client</span>
-            </div>
+            <ClientHeader />
+            <EditClientModal />
           </div>
-          <div className="py-2">Data &gt; Client List &gt; Client Detail</div>
+          <Breadcrumb breadcrumbs={breadcrumb} />
           <div className="flex gap-4 pb-4 border-b-2">
             <div className="flex gap-2 border bg-[#454FA23D] px-4 py-2 rounded-full">
               <BiUserCircle size={20} />
@@ -69,35 +46,23 @@ function Profile({ auth, client, contacts }) {
               <span>Notification Setting</span>
             </div>
           </div>
-          <div className="flex my-4 gap-6">
-            <div className="flex flex-4 flex-col pt-8 pb-14 px-10 justify-center bg-white items-center rounded-lg">
-              <BiUserCircle
-                size={40}
-                className="flex justify-center items-center mb-10"
-              />
-              <span className="text-xl font-bold">{client.name}</span>
-              <span>{client.type}</span>
-              <div className="flex flex-col py-2 text-center">
-                <span>{contacts[0].email ?? 'No email yet'}</span>
-                <span>{client.address ?? 'No Address yet'}</span>
-              </div>
-              <div className="flex items-center gap-3 border border-[#00B4AD] px-6 py-2 mb-4 rounded-lg">
-                <BiUserCircle size={20} />
-                <span className="text-[#00B4AD]">See Location</span>
-              </div>
-              <div className="flex items-center gap-2 border border-[#00B4AD] px-14 py-2 rounded-lg">
-                <BiUserCircle size={20} />
-                <Mailto email={contacts[0].email}>Mail</Mailto>
-              </div>
-            </div>
+          <div className="grid grid-cols-3 my-4 gap-6">
+            <ClientInfo
+              name={client.name}
+              type={client.type}
+              contacts={contacts}
+              address={client.address}
+            />
             <div className="flex-1 flex-col py-8 bg-white rounded-lg">
-              <BillingAddresses />
+              <BillingAddressList />
             </div>
-            <div className="flex-1 flex-col py-8 bg-white rounded-lg">
-              <div className="mb-4">
+            <div className="flex-1 flex-col">
+              <div className="bg-white p-6 mb-4 rounded-lg">
                 <Contacts />
               </div>
-              <GeneralNotes />
+              <div className="p-6 bg-white rounded-lg">
+                <GeneralNotes />
+              </div>
             </div>
           </div>
 
@@ -317,169 +282,117 @@ function Profile({ auth, client, contacts }) {
               </div>
             </div>
           </div>
-          {/* Search & Filters */}
-          <div className="flex flex-row justify-between mt-6">
-            <div className="flex items-center relative">
-              <TextInput
-                className="w-full h-full pl-8 rounded-xl"
-                placeholder="Search"
-              />
-              <BiSearch className="text-gray-500 absolute text-[20px] left-2" />
-            </div>
-            <div className="flex gap-4 items-end">
-              <button
-                type="button"
-                className="bg-primary hover:bg-green-300 text-white font-bold py-2 px-4 rounded"
-                onClick={() => setOpenCreateSubClientModal(true)}
-              >
-                Create New Sub-Client
-              </button>
-            </div>
-          </div>
-          {/* Search & Filters */}
-          <div className="flex flex-1 mt-6 max-w-[80vw] relative">
-            <div className="w-full h-[68vh] overflow-x-auto overflow-y-auto">
-              <table className="w-full text-black relative">
-                <thead className="relative bg-[#F0F0F0] rounded-full">
-                  <tr>
-                    <th className="px-4 py-2 min-w-[100px] text-[#455361]">
-                      <div className="flex items-center">
-                        <span className="text-primary">Sub-Client</span> &nbsp;
-                        | ID
-                        <button>
-                          <HiChevronUpDown />
-                        </button>
-                      </div>
-                    </th>
-                    <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
-                      Contact Person
-                    </th>
-                    <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
-                      Contact
-                    </th>
-                    <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
-                      Address
-                    </th>
-                    <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
-                      Sub-Clients
-                    </th>
-                    <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
-                      Billing Address
-                    </th>
-                    <th className="px-4 py-2 sticky left-0 min-w-max text-[#455361] text-left" />
-                  </tr>
-                </thead>
-                <tbody className="relative">
-                  {clientsData.map((item, i) => (
-                    <tr
-                      className={`text-[#455361] ${
-                        i % 2 === 1 && 'bg-white rounded-full'
-                      }`}
-                      key={i}
-                    >
-                      <td className="px-4 py-4 my-1">
-                        <div className="flex flex-col justify-center max-w-[200px]">
-                          <b className="text-[15px]">{item.clientId.name}</b>
-                          <span className="text-[12px]">
-                            {item.clientId.id}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 my-1 max-w-[200px]">
-                        <div className="flex flex-col justify-center">
-                          <span className="text-[15px]">
-                            {item.contactPerson.name}
-                          </span>
-                          <span
-                            className={`${
-                              item.contactPerson.type === 'Residential'
-                                ? 'bg-primary'
-                                : 'bg-secondary'
-                            } text-white text-[13px] mt-2 rounded-full text-center px-2 w-max`}
-                          >
-                            {item.contactPerson.type}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 my-1 max-w-[200px]">
-                        <div className="flex flex-col justify-center">
-                          <span className="text-[15px]">{item.contact}</span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 my-1 max-w-[200px]">
-                        <div className="flex flex-col justify-center">
-                          <span className="text-[14px]">{item.address}</span>
-                        </div>
-                      </td>
-                      <td
-                        className={`z-[${i + 1}] px-4 py-4 my-1 max-w-[200px]`}
-                      >
-                        <div className="flex text-primary flex-row items-center relative">
-                          <span className="text-primary text-[14px]">
-                            {item.subClients.length}
-                          </span>
-                          <button
-                            className={`z-${i + 1} ml-2`}
-                            onClick={() => handleSubClients(i)}
-                          >
-                            <BiInfoCircle size={20} />
-                          </button>
-                          <div
-                            className={`${
-                              i === showSubClients ? 'flex flex-col' : 'hidden'
-                            } absolute w-max text-white bg-[#838383] max-h-[200px] top-5 left-4 rounded-sm p-2 z-[${
-                              i + 400
-                            }]`}
-                          >
-                            <button
-                              onClick={() => setShowSubClients(null)}
-                              className="self-end"
-                            >
-                              <AiFillCloseCircle className="text-white" />
-                            </button>
-                            <span>Sub Client:</span>
-                            {item.subClients.map(subClient => (
-                              <span className="p-1" key={subClient.id}>
-                                {subClient.name}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-4 my-1 max-w-[200px]">
-                        <div className="flex flex-col justify-center">
-                          <span className="text-[14px]">
-                            {item.billingAddress}
-                          </span>
-                        </div>
-                      </td>
 
-                      <td className="px-4 py-4 my-1">
-                        <Link
-                          href="/client-details"
-                          method="get"
-                          as="button"
-                          type="button"
-                          className="flex flex-col justify-center"
-                        >
-                          <AiOutlineRightCircle
-                            size={20}
-                            className="text-secondary"
-                          />
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          {client.parent_id === null && (
+            <>
+              <div className="flex flex-row justify-between mt-6">
+                <div className="flex items-center relative">
+                  <TextInput
+                    className="w-full h-full pl-8 rounded-xl"
+                    placeholder="Search"
+                  />
+                  <BiSearch className="text-gray-500 absolute text-[20px] left-2" />
+                </div>
+                <div className="flex gap-4 items-end">
+                  <CreateSubClientModal />
+                </div>
+              </div>
+              <div className="flex flex-1 mt-6 relative">
+                <div className="w-full overflow-x-auto overflow-y-auto">
+                  <table className="w-full text-black relative">
+                    <thead className="relative bg-[#F0F0F0] rounded-full">
+                      <tr>
+                        <th className="px-4 py-2 min-w-[100px] text-[#455361]">
+                          <div className="flex items-center">
+                            <span className="text-primary">Sub-Client</span>{' '}
+                            &nbsp; | ID
+                            <button>
+                              <HiChevronUpDown />
+                            </button>
+                          </div>
+                        </th>
+                        <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
+                          Contact Person
+                        </th>
+                        <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
+                          Contact
+                        </th>
+                        <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
+                          Address
+                        </th>
+                        <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
+                          Billing Address
+                        </th>
+                        <th className="px-4 py-2 sticky left-0 min-w-max text-[#455361] text-left" />
+                      </tr>
+                    </thead>
+                    <tbody className="relative">
+                      {subClients.data.map((item, i) => (
+                        <TableRow index={i} key={i}>
+                          <td className="px-4 py-4 my-1">
+                            <div className="flex flex-col justify-center max-w-[200px]">
+                              <b className="text-[15px]">
+                                {item.clientId.name}
+                              </b>
+                              <span className="text-[12px]">
+                                {item.clientId.id}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-4 my-1 max-w-[200px]">
+                            <div className="flex flex-col justify-center">
+                              <span className="text-[15px]">
+                                {item.contactPerson.name}
+                              </span>
+                              <ClientTypeChip type={item.contactPerson.type} />
+                            </div>
+                          </td>
+                          <td className="px-4 py-4 my-1 max-w-[200px]">
+                            <div className="flex flex-col justify-center">
+                              <span className="text-[15px]">
+                                {item.contact}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-4 my-1 max-w-[200px]">
+                            <div className="flex flex-col justify-center">
+                              <span className="text-[14px]">
+                                {item.address}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-4 my-1 max-w-[200px]">
+                            <div className="flex flex-col justify-center">
+                              <span className="text-[14px]">
+                                {item.billingAddress}
+                              </span>
+                            </div>
+                          </td>
+
+                          <td className="px-4 py-4 my-1">
+                            <Link
+                              href={route('clients.profile', item.clientId.id)}
+                              method="get"
+                              as="button"
+                              type="button"
+                              className="flex flex-col justify-center"
+                            >
+                              <AiOutlineRightCircle
+                                size={20}
+                                className="text-secondary"
+                              />
+                            </Link>
+                          </td>
+                        </TableRow>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
-      <CreateSubClientModal
-        openModal={openCreateSubClientModal}
-        setOpenModal={setOpenCreateSubClientModal}
-      />
     </AuthenticatedLayout>
   );
 }

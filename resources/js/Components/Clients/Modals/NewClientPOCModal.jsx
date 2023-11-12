@@ -35,7 +35,7 @@ function NewClientPOCModal() {
     <>
       <button
         onClick={() => setOpenModal(true)}
-        className="text-xl font-bold text-[#00B4AD]"
+        className="text-xl font-bold text-[#00B4AD] px-4 py-2 rounded-lg hover:bg-[#00B4AD] hover:text-white transition duration-300 ease-in-out transform hover:-translate-y-1"
       >
         + Add New
       </button>

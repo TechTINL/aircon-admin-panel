@@ -26,7 +26,7 @@ class ClientResource extends JsonResource
             ],
             'contact' => $this->firstContact->phone ?? '',
             'address' => $this->address,
-            'subClients' => [],
+            'subClients' => $this->subClients,
             'billingAddress' => $this->billing_address,
         ];
     }

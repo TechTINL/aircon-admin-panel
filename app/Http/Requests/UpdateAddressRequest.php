@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateClientRequest extends FormRequest
+class UpdateAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,12 +22,7 @@ class UpdateClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255'],
-            'postal_code' => ['nullable'],
-            'address' => ['required', 'string', 'max:255'],
-            'billing_address' => ['required', 'string', 'max:255'],
-            'parent_id' => ['nullable', 'exists:clients,id'],
+            //
         ];
     }
 }

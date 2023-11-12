@@ -25,11 +25,13 @@ class StoreClientRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'max:255'],
+            'postal_code' => ['nullable'],
             'address' => ['required', 'string', 'max:255'],
             'billing_address' => ['required', 'string', 'max:255'],
             'contact_name' => ['required', 'string', 'max:255'],
             'contact_number' => ['required', 'string', 'max:255'],
             'email' => ['required', 'unique:contacts,email', 'string', 'max:255'],
+            'parent_id' => ['nullable', 'exists:clients,id'],
         ];
     }
 }

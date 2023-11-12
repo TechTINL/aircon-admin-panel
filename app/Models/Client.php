@@ -14,8 +14,10 @@ class Client extends Model
     protected $fillable = [
         'name',
         'type',
+        'postal_code',
         'address',
         'billing_address',
+        'parent_id',
     ];
 
     public function contacts(): HasMany
@@ -35,4 +37,16 @@ class Client extends Model
             ->where('is_primary', true)
             ->orderBy('created_at', 'asc');
     }
+
+    // Addresses
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
+
+	// Sub Clients
+	public function subClients(): HasMany
+	{
+		return $this->hasMany(Client::class, 'parent_id');
+	}
 }
