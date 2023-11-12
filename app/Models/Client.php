@@ -43,4 +43,10 @@ class Client extends Model
     {
         return $this->hasMany(Address::class);
     }
+
+	// Sub Clients
+	public function subClients(): HasMany
+	{
+		return $this->hasMany(Client::class, 'parent_id');
+	}
 }

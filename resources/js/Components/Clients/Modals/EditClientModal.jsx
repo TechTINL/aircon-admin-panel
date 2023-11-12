@@ -27,7 +27,7 @@ function EditClientModal() {
     <>
       <button
         type="button"
-        className="px-6 py-2 flex items-center gap-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white"
+        className="px-6 py-2 flex items-center gap-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
         onClick={() => setOpenModal(true)}
       >
         <AiOutlineEdit size={20} />

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateClientAction;
 use App\Actions\GetClientsAction;
+use App\Actions\GetSubClientAction;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
@@ -61,10 +62,11 @@ class ClientController extends Controller
     /**
      * Display Client Profile
      */
-    public function profile(Client $client): Response
+    public function profile(Client $client, GetSubClientAction $getSubClientAction): Response
     {
         return Inertia::render('Clients/Detail/Profile', [
             'client' => $client,
+			'subClients' => ClientResource::collection($getSubClientAction->execute($client->id)),
             'addresses' => $client->addresses()->orderBy('created_at', 'desc')->get(),
             'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),
 	        'generalNotes' => $client->generalNotes()->orderBy('created_at', 'desc')->get(),
