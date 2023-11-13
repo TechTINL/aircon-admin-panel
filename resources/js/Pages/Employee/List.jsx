@@ -1,29 +1,27 @@
-import { Head, Link } from '@inertiajs/react';
-import { BiChevronDown, BiFilter, BiInfoCircle, BiSearch, BiUserCircle } from 'react-icons/bi';
+import { Head } from '@inertiajs/react';
+import { BiFilter, BiInfoCircle, BiSearch, BiUserCircle } from 'react-icons/bi';
 import { useState } from 'react';
-import { AiFillCloseCircle, AiOutlineRightCircle } from 'react-icons/ai';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { CLIENTS_FILTERS, CONTRACT_CLIENT_FILTERS, EMPLOYEE_JOB_POSITION_FILTERS, EMPLOYEE_STATUS_FILTERS, JOB_POSTION, JOB_STATUS, SERVICE_STATUS_FILTERS } from '@/Helpers/constants';
+import { EMPLOYEE_JOB_POSITION_FILTERS, EMPLOYEE_STATUS_FILTERS, JOB_POSTION, JOB_STATUS } from '@/Helpers/constants';
 import Pagination from '@/Components/Shared/Pagination';
 import Divider from '@/Components/Ui/Divider';
 import FilterDropdown from '@/Components/Services/FilterDropdown';
 import TextInput from '@/Components/TextInput';
-import NewClientModal from '@/Components/Clients/Modals/NewClientModal';
-import Dropdown from '@/Components/Dropdown';
 import { MdAdd } from 'react-icons/md'
 import { DropdownSelect } from '@/Components/Common/DropdownSelect';
-import ExportFilter from '@/Components/Services/ExportFilter';
 import ExportData from '@/Components/Services/ExportData';
-import { FaUserCircle } from 'react-icons/fa';
 import { PiNotebook } from 'react-icons/pi';
-import { FiDownload } from 'react-icons/fi';
+import EmployeeDetailModal from '@/Components/Employee/Modals/EmployeeDetailModal';
+import ApplyLeaveModal from '@/Components/Employee/Modals/ApplyLeaveModal';
 
 
 const List = ({ auth }) => {
 
     const [checkedJobPositionFilters, setCheckedJobPositionFilters] = useState([]);
     const [selectedStatusFilter, setSelectedStatusFilter] = useState(EMPLOYEE_STATUS_FILTERS[0][0]);
+    const [openEmployeeDetailModal, setOpenEmployeeDetailModal] = useState(false);
+    const [openApplyLeaveModal, setOpenApplyLeaveModal] = useState(false)
 
     const handleStatusFilterSelect = (item) => {
         setSelectedStatusFilter(item);
@@ -110,12 +108,19 @@ const List = ({ auth }) => {
             status: 'available',
             lastOnline: '20-02-2023 10:20 AM'
         },
-    ]
-
+    ];
 
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Client List" />
+            <EmployeeDetailModal
+                openModal={openEmployeeDetailModal}
+                setOpenModal={setOpenEmployeeDetailModal}
+            />
+            <ApplyLeaveModal 
+                openModal={openApplyLeaveModal}
+                setOpenModal={setOpenApplyLeaveModal}
+            />
             <div className="flex-auto flex flex-col m-6">
                 <div className='flex justify-between'>
                     <div className="text-zinc-800 text-3xl font-bold leading-10">
@@ -164,7 +169,7 @@ const List = ({ auth }) => {
                             <button
                                 type="button"
                                 className="flex gap-1 items-center border text-primary border-primary font-bold py-2 px-4 rounded-xl"
-                                onClick={() => setOpenCreateSubClientModal(true)}
+                                onClick={() => setOpenApplyLeaveModal(true)}
                             >
                                 <MdAdd size={22} />
                                 Apply Leave
@@ -236,18 +241,15 @@ const List = ({ auth }) => {
                                                 <td className={`px-4 py-2 max-w-[50px] text-primary ${item.status === 'on_leave' && 'text-red-600'}`}>{JOB_STATUS[item.status]}</td>
                                                 <td className='px-4 py-2 max-w-[100px]'>{item.lastOnline}</td>
                                                 <td className="px-4 py-4 my-1">
-                                                    <Link
-                                                        href="/client-details"
-                                                        method="get"
-                                                        as="button"
-                                                        type="button"
+                                                    <button
                                                         className="flex flex-col justify-center"
+                                                        onClick={() => setOpenEmployeeDetailModal(true)}
                                                     >
-                                                        <AiOutlineRightCircle
+                                                        <BiInfoCircle
                                                             size={20}
                                                             className="text-secondary"
                                                         />
-                                                    </Link>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         ))
