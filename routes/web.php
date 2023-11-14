@@ -1,9 +1,11 @@
 <?php
 
+use App\Actions\ActivityAction\GetActivitiesAction;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -32,8 +34,10 @@ Route::get('/confirm-password', function () {
     return Inertia::render('Auth/ConfirmPassword');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+Route::get('/dashboard', function (GetActivitiesAction $getActivitiesAction) {
+    return Inertia::render('Dashboard', [
+        'activities' => $getActivitiesAction->execute(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -91,6 +95,8 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('ManageGST');
     });
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
+
+    Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');
 });
 
 require __DIR__.'/auth.php';

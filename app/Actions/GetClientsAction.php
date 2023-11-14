@@ -14,6 +14,7 @@ class GetClientsAction
     {
         return Client::with('firstContact')
 	        ->whereNull('parent_id')
+            ->latest()
 	        ->paginate(10);
     }
 

@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class GeneralNote extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
 	protected $fillable = [
 		'note',
@@ -46,4 +49,10 @@ class GeneralNote extends Model
 	{
 		return $this->updatedBy->name;
 	}
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['note', 'client_id', 'created_by', 'updated_by']);
+    }
 }
