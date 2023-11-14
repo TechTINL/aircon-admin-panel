@@ -8,9 +8,13 @@ import Divider from '@/Components/Ui/Divider';
 import TextInput from '@/Components/TextInput';
 import { MdAdd } from 'react-icons/md';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import ApplyLeaveModal from '../../Components/Employee/Modals/ApplyLeaveModal';
+import { useState } from 'react';
 
 
 const List = ({ auth }) => {
+
+    const [openApplyLeaveModal, setOpenApplyLeaveModal] = useState(false);
 
     const DATA = [
         {
@@ -36,10 +40,13 @@ const List = ({ auth }) => {
         },
     ]
 
-
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Client List" />
+            <Head title="Admin List" />
+            <ApplyLeaveModal
+                openModal={openApplyLeaveModal}
+                setOpenModal={setOpenApplyLeaveModal}
+            />
             <div className="flex-auto flex flex-col m-6">
 
                 <div className='flex justify-between'>
@@ -47,7 +54,7 @@ const List = ({ auth }) => {
                         Admin List
                     </div>
                 </div>
-                
+
                 <div className="flex flex-col flex-auto mt-6">
                     {/* Search & Filters */}
                     <div className="flex flex-row justify-between">
@@ -63,19 +70,20 @@ const List = ({ auth }) => {
                             <button
                                 type="button"
                                 className="flex gap-1 items-center border text-primary border-primary font-bold py-2 px-4 rounded-xl"
-                                onClick={() => setOpenCreateSubClientModal(true)}
+                                onClick={() => setOpenApplyLeaveModal(true)}
                             >
                                 <MdAdd size={22} />
                                 Apply Leave
                             </button>
-                            <button
+                            <Link
+                                href='/admin/create'
+                                method='get'
                                 type="button"
                                 className="flex gap-1 items-center bg-primary text-white font-bold py-2 px-4 rounded-xl"
-                                onClick={() => setOpenCreateSubClientModal(true)}
                             >
                                 <MdAdd size={22} />
                                 New Admin
-                            </button>
+                            </Link>
                         </div>
                     </div>
                     {/* Search & Filters */}
@@ -89,7 +97,7 @@ const List = ({ auth }) => {
                                         <th className="px-4 py-2">
                                             <div className='flex items-center'>
                                                 <span>
-                                                   Admin Name
+                                                    Admin Name
                                                 </span>
                                                 <button>
                                                     <HiChevronUpDown />

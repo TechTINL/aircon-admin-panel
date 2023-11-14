@@ -79,12 +79,26 @@ Route::middleware('auth')->group(function () {
     Route::get('employee', function () {
         return Inertia::render('Employee/List');
     });
+
+    Route::get('employee/edit', function () {
+        return Inertia::render('Employee/Create');
+    });
+
     Route::get('admin', function () {
         return Inertia::render('Admin/List');
+    });
+    Route::get('admin/create', function () {
+        return Inertia::render('Admin/Create');
     });
 
     Route::get('template-task', function () {
         return Inertia::render('Template/Task/List');
+    });
+    Route::get('template-contract', function () {
+        return Inertia::render('Template/Contract/List');
+    });
+    Route::get('template-service', function () {
+        return Inertia::render('Template/Service/List');
     });
 
     Route::get('manage-gst', function () {

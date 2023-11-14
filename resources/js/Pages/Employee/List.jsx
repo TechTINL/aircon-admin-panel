@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { BiFilter, BiInfoCircle, BiSearch, BiUserCircle } from 'react-icons/bi';
 import { useState } from 'react';
 import { HiChevronUpDown } from 'react-icons/hi2';
@@ -6,7 +6,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { EMPLOYEE_JOB_POSITION_FILTERS, EMPLOYEE_STATUS_FILTERS, JOB_POSTION, JOB_STATUS } from '@/Helpers/constants';
 import Pagination from '@/Components/Shared/Pagination';
 import Divider from '@/Components/Ui/Divider';
-import FilterDropdown from '@/Components/Services/FilterDropdown';
 import TextInput from '@/Components/TextInput';
 import { MdAdd } from 'react-icons/md'
 import { DropdownSelect } from '@/Components/Common/DropdownSelect';
@@ -21,10 +20,15 @@ const List = ({ auth }) => {
     const [checkedJobPositionFilters, setCheckedJobPositionFilters] = useState([]);
     const [selectedStatusFilter, setSelectedStatusFilter] = useState(EMPLOYEE_STATUS_FILTERS[0][0]);
     const [openEmployeeDetailModal, setOpenEmployeeDetailModal] = useState(false);
-    const [openApplyLeaveModal, setOpenApplyLeaveModal] = useState(false)
+    const [openApplyLeaveModal, setOpenApplyLeaveModal] = useState(false);
 
     const handleStatusFilterSelect = (item) => {
         setSelectedStatusFilter(item);
+    }
+
+    const handleAddLeave = () => {
+        setOpenEmployeeDetailModal(false);
+        setOpenApplyLeaveModal(true);
     }
 
     const handleCheckJobPositionFilters = (item, checked) => {
@@ -116,8 +120,9 @@ const List = ({ auth }) => {
             <EmployeeDetailModal
                 openModal={openEmployeeDetailModal}
                 setOpenModal={setOpenEmployeeDetailModal}
+                handleAddLeave={handleAddLeave}
             />
-            <ApplyLeaveModal 
+            <ApplyLeaveModal
                 openModal={openApplyLeaveModal}
                 setOpenModal={setOpenApplyLeaveModal}
             />
@@ -174,14 +179,15 @@ const List = ({ auth }) => {
                                 <MdAdd size={22} />
                                 Apply Leave
                             </button>
-                            <button
+                            <Link
+                                href='/employee/edit'
+                                method='get'
                                 type="button"
                                 className="flex gap-1 items-center bg-primary text-white font-bold py-2 px-4 rounded-xl"
-                                onClick={() => setOpenCreateSubClientModal(true)}
                             >
                                 <MdAdd size={22} />
                                 New Employee
-                            </button>
+                            </Link>
                         </div>
                     </div>
                     {/* Search & Filters */}

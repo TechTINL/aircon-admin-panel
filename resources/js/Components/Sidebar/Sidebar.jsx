@@ -76,14 +76,14 @@ function Sidebar({ children }) {
 
 
         <NavItem
-            text="Template"
-            isActive={url.includes('/template-task')}
-            url="/template-task"
-            icon={<PiUsersFourLight size={22} className="lg:mx-4 md:mx-1" />}
-          />
-        {/* <div className='flex'>
+          text="Template"
+          isActive={url.includes('/template-task')}
+          url="/template-task"
+          icon={<PiUsersFourLight size={22} className="lg:mx-4 md:mx-1" />}
+        />
 
-          
+
+        <div className='flex flex-col pl-14'>
           <NavItem
             text="Task"
             isActive={url.includes('/template-task')}
@@ -102,7 +102,7 @@ function Sidebar({ children }) {
             url="/template-contract"
             icon={null}
           />
-        </div> */}
+        </div>
 
         <NavItem
           text="Manage GST"

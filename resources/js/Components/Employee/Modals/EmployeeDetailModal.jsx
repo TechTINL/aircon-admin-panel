@@ -2,10 +2,12 @@ import Modal from '@/Components/Modal';
 import React, { useState } from 'react'
 import EmployeeImg from '../../../assets/images/employee_sample.png';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { Link } from '@inertiajs/react';
 
 const EmployeeDetailModal = ({
     openModal,
-    setOpenModal
+    setOpenModal,
+    handleAddLeave
 }) => {
     return (
         <Modal
@@ -67,8 +69,8 @@ const EmployeeDetailModal = ({
                 </div>
 
                 <div className='flex flex-col items-center gap-6 mt-16'>
-                    <button className='bg-primary text-white rounded-xl w-[80%] max-w-[800px] py-3 font-bold'>Edit Employee</button>
-                    <button className='border border-red-600 text-red-600 rounded-xl w-[80%] max-w-[800px] py-3 font-bold'>Add Leave</button>
+                    <Link method='get' href='/employee/edit' className='bg-primary text-white rounded-xl w-[80%] max-w-[800px] py-3 font-bold text-center'>Edit Employee</Link>
+                    <button onClick={handleAddLeave} className='border border-red-600 text-red-600 rounded-xl w-[80%] max-w-[800px] py-3 font-bold'>Add Leave</button>
                 </div>
             </div>
         </Modal>
