@@ -24,8 +24,8 @@ export const DropdownSelect = ({
                     <BiChevronDown size={20} fontWeight={800} />
                 </button>
             </Dropdown.Trigger>
-            <Dropdown.Content width='100%'>
-                <div className='flex flex-col max-h-[200px] overflow-y-scroll'>
+            <Dropdown.Content width='full'>
+                <div className='flex flex-col max-h-[200px] overflow-y-scroll z-[500]'>
                     <div>
                         {
                             items.map((item, i) => (
@@ -39,10 +39,10 @@ export const DropdownSelect = ({
                                                             id={filter.value}
                                                             label={filter.label}
                                                             value={filter.value}
-                                                            checked={selectedItem.includes(filter.value)}
+                                                            checked={selectedItem?.includes(filter.value)}
                                                             onChange={e => handleItemSelect(filter, e.target.checked)}
                                                         /> :
-                                                        <button key={i} onClick={() => handleItemSelect(filter)} className={`flex text-black items-start p-2 ${selectedItem.value === filter.value && 'text-secondary'}`}>
+                                                        <button key={i} onClick={() => handleItemSelect(filter)} className={`flex text-black items-start p-2 ${selectedItem?.value === filter.value && 'text-secondary'}`}>
                                                             {filter.label}
                                                         </button>
                                                 }

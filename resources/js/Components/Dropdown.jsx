@@ -27,7 +27,7 @@ const Trigger = ({ children }) => {
 
       {open && (
         <div
-          className="fixed inset-0 z-40"
+          className="fixed inset-0 z-50"
           onClick={() => setOpen(false)}
         ></div>
       )}
@@ -37,7 +37,7 @@ const Trigger = ({ children }) => {
 
 const Content = ({
   align = 'right',
-  width = '48',
+  width = 'w-48',
   contentClasses = 'py-1 bg-white',
   children,
 }) => {
@@ -51,9 +51,9 @@ const Content = ({
     alignmentClasses = 'origin-top-right right-0';
   }
 
-  let widthClasses = '';
+  let widthClasses = width;
 
-  if (width === '48') {
+  if (!widthClasses) {
     widthClasses = 'w-48';
   }
 

@@ -3,14 +3,21 @@ import Dropdown from '../Dropdown';
 import './CalendarStyles.css';
 import { BiChevronDown } from 'react-icons/bi';
 import Calendar from 'react-calendar';
+import { MdOutlineDateRange } from 'react-icons/md';
 
 const DatePicker = ({
     label,
     value,
     onChange,
     prefixIcon,
-    classes
+    classes,
+    isRange
 }) => {
+    console.log(value);
+    const formatDateRange = (dateArr) => {
+        const [start, end] = dateArr;
+        return `${new Date(start).toLocaleDateString()} - ${new Date(end).toLocaleDateString()}`
+    }
     return (
         <Dropdown>
             <Dropdown.Trigger>
@@ -20,14 +27,14 @@ const DatePicker = ({
                 >
                     <div className='flex'>
                         {prefixIcon}
-                        <span className='px-2 font-bold'>{value || label || 'Select Date'}</span>
+                        <span className='px-2 font-bold'>{value ? isRange ? formatDateRange(value) : new Date(value).toLocaleDateString() : label || 'Select Date'}</span>
                     </div>
-                    <BiChevronDown size={20} fontWeight={800} />
+                    <MdOutlineDateRange size={20} fontWeight={800} />
                 </button>
             </Dropdown.Trigger>
             <Dropdown.Content width='full' contentClasses='bg-white min-w-[300px]'>
                 <div className="p-4 min-w-[300px]">
-                    <Calendar onChange={onChange} />
+                    <Calendar onChange={onChange} selectRange={isRange || false} value={value} />
                 </div>
             </Dropdown.Content>
         </Dropdown>
