@@ -1,7 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { BiInfoCircle } from 'react-icons/bi';
 import React, { useState } from 'react';
-import { AiFillCloseCircle, AiOutlineRightCircle } from 'react-icons/ai';
+import { AiOutlineRightCircle } from 'react-icons/ai';
 import { HiChevronUpDown } from 'react-icons/hi2';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { CLIENTS_FILTERS } from '@/Helpers/constants';
@@ -10,8 +10,8 @@ import Divider from '@/Components/Ui/Divider';
 import FilterDropdown from '@/Components/Services/FilterDropdown';
 import NewClientModal from '@/Components/Clients/Modals/NewClientModal';
 import Searchbar from '@/Components/Ui/Searchbar';
-import SubClientPopover from '@/Components/Clients/List/SubClientPopover.jsx';
-import ClientTypeChip from '@/Components/Clients/ClientTypeChip.jsx';
+import SubClientPopover from '@/Components/Clients/List/SubClientPopover';
+import ClientTypeChip from '@/Components/Clients/ClientTypeChip';
 
 function List({ auth, clients }) {
   const [checkedClientsFilters, setCheckedClientsFilters] = useState([]);
