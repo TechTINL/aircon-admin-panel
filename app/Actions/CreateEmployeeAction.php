@@ -14,7 +14,7 @@ class CreateEmployeeAction
 			'name' => $data['name'],
 			'phone' => $data['phone'],
 			'password' => bcrypt(config('constants.admin.password')),
-			'team_id' => $data['team_id'],
+			'team_id' => $data['team_id'] ?? null,
 			'organization' => $data['organization'],
 		];
 	}
