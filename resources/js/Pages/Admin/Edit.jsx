@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import PhoneNumberInput from '@/Components/Shared/PhoneNumberInput';
@@ -6,18 +5,18 @@ import Breadcrumb from '@/Components/Common/Breadcrumb';
 import EmployeeImg from '@/assets/images/employee_sample.png';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
-import useCreateAdmin from '@/Hooks/Admin/useCreateAdmin';
+import useEditAdmin from '@/Hooks/Admin/useEditAdmin';
 
-function Create({ auth, breadcrumbs }) {
-  const { data, setData, errors, submit: handleSubmit } = useCreateAdmin();
+function Edit({ auth, breadcrumbs }) {
+  const { data, setData, errors, handleSubmit } = useEditAdmin();
 
   return (
     <AuthenticatedLayout user={auth.user}>
-      <Head title="Admin Create" />
+      <Head title="Admin Edit" />
       <div className="flex-auto flex flex-col m-6">
         <div className="flex flex-col">
           <div className="text-zinc-800 text-3xl font-bold leading-10">
-            New Admin
+            Update Admin
           </div>
           <Breadcrumb breadcrumbs={breadcrumbs} />
         </div>
@@ -56,7 +55,7 @@ function Create({ auth, breadcrumbs }) {
               type="submit"
               className="rounded-xl bg-primary py-2 w-full text-white font-bold mt-8"
             >
-              Save Changes
+              Update Changes
             </button>
           </form>
         </div>
@@ -65,4 +64,4 @@ function Create({ auth, breadcrumbs }) {
   );
 }
 
-export default Create;
+export default Edit;

@@ -6,8 +6,10 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -80,20 +82,18 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Contract/Create');
     });
 
-    Route::get('employee', function () {
-        return Inertia::render('Employee/List');
-    });
+    Route::get('employee', [EmployeeController::class, 'index'])->name('employee.index');
+	Route::get('employee/create', [EmployeeController::class, 'create'])->name('employee.create');
+	Route::post('employee', [EmployeeController::class, 'store'])->name('employee.store');
 
-    Route::get('employee/edit', function () {
-        return Inertia::render('Employee/Create');
-    });
 
-    Route::get('admin', function () {
-        return Inertia::render('Admin/List');
-    });
-    Route::get('admin/create', function () {
-        return Inertia::render('Admin/Create');
-    });
+    Route::get('admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('admin/create', [AdminController::class, 'create'])->name('admin.create');
+	Route::get('admin/{user}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+	Route::patch('admin/{user}', [AdminController::class, 'update'])->name('admin.update');
+    Route::post('admin', [AdminController::class, 'store'])->name('admin.store');
+
+	Route::post('apply-leave', [AdminController::class, 'storeLeave'])->name('leave.store');
 
     Route::get('template-task', function () {
         return Inertia::render('Template/Task/List');

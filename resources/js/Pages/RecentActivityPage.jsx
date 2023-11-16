@@ -6,8 +6,9 @@ import Pagination from '@/Components/Shared/Pagination';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Dropdown from '@/Components/Dropdown';
 import ExportFilter from '@/Components/Services/ExportFilter';
+import Breadcrumb from '@/Components/Common/Breadcrumb.jsx';
 
-function RecentActivityPage({ auth }) {
+function RecentActivityPage({ auth, breadcrumbs }) {
   const { activities, links, meta } = useRecentActivity();
 
   return (
@@ -17,6 +18,7 @@ function RecentActivityPage({ auth }) {
         <div className="text-zinc-800 text-3xl font-bold leading-10">
           Recent Activity
         </div>
+        <Breadcrumb breadcrumbs={breadcrumbs} />
         <div className="flex gap-4 justify-end my-4">
           <Dropdown>
             <Dropdown.Trigger>

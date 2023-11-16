@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +22,9 @@ class User extends Authenticatable
         'name',
         'phone',
         'password',
-        'otp'
+        'otp',
+	    'last_online_at',
+	    'team_id',
     ];
 
     /**
@@ -50,4 +54,13 @@ class User extends Authenticatable
     {
         return 'phone';
     }
+
+	/**
+	 * Get the team that the user belongs to.
+	 */
+	public function team(): BelongsTo
+	{
+		return $this->belongsTo(User::class, 'team_id');
+	}
+
 }

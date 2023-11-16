@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('otp')->nullable();
             $table->rememberToken();
+	        $table->timestamp('last_online_at')->nullable();
+			$table->string('organization')->nullable();
+	        $table->foreign('team_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }
