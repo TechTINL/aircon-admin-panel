@@ -20,6 +20,7 @@ class ActivityDescription
                 : $this->getClientActivityDescription($activity),
             'App\\Models\\Address' => $this->getAddressActivityDescription($activity),
             'App\\Models\\GeneralNote' => $this->getGeneralNoteActivityDescription($activity),
+	        'App\\Models\\Contact' => $this->getContactActivityDescription($activity),
             default => $this->getDefaultDescription($activity),
         };
     }
@@ -76,6 +77,19 @@ class ActivityDescription
             default => "Activity by {$causerName}",
         };
     }
+
+	private function getContactActivityDescription(Activity $activity): string
+	{
+		$causerName = optional($activity->causer)->name ?? 'Unknown';
+		$clientName = $activity->properties['attributes']['name'] ?? 'Unknown Contact';
+
+		return match ($activity->description) {
+			'created' => "{$causerName} created a new contact: {$clientName}",
+			'updated' => "{$causerName} updated the contact: {$clientName}",
+			'deleted' => "{$causerName} deleted the contact: {$clientName}",
+			default => "Activity by {$causerName}",
+		};
+	}
 
     private function getDefaultDescription(Activity $activity): string
     {
