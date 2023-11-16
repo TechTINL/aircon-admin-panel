@@ -1,10 +1,7 @@
-import { useState } from 'react';
-import { useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 
-function useApplyLeave({ id }) {
-  const [openModal, setOpenModal] = useState(false);
-
-  const { data, setData, errors, post } = useForm({
+function useApplyLeave({ id }, setOpenModal) {
+  const { data, setData, errors } = useForm({
     leave_date: null,
     reason: '',
     user_id: id,
@@ -12,24 +9,30 @@ function useApplyLeave({ id }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    post(route('leave.store'), {
-      onSuccess: () => {
-        setOpenModal(false);
-        setData({
-          leave_date: null,
-          reason: '',
-          user_id: id,
-        });
+    router.post(
+      route('leave.store'),
+      {
+        leave_date: data.leave_date,
+        reason: data.reason,
+        user_id: id,
       },
-      onError: err => {
-        console.log(err);
-      },
-    });
+      {
+        onSuccess: () => {
+          setOpenModal(false);
+          setData({
+            leave_date: null,
+            reason: '',
+            user_id: id,
+          });
+        },
+        onError: err => {
+          console.log(err);
+        },
+      }
+    );
   };
 
   return {
-    openModal,
-    setOpenModal,
     data,
     setData,
     errors,

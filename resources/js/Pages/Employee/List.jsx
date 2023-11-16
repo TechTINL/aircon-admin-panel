@@ -6,7 +6,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {
   EMPLOYEE_JOB_POSITION_FILTERS,
   EMPLOYEE_STATUS_FILTERS,
-  JOB_POSTION,
   JOB_STATUS,
 } from '@/Helpers/constants';
 import Divider from '@/Components/Ui/Divider';
@@ -16,9 +15,9 @@ import { DropdownSelect } from '@/Components/Common/DropdownSelect';
 import ExportData from '@/Components/Services/ExportData';
 import { PiNotebook } from 'react-icons/pi';
 import EmployeeDetailModal from '@/Components/Employee/Modals/EmployeeDetailModal';
-import ApplyLeaveModal from '@/Components/Employee/Modals/ApplyLeaveModal';
-import useGetEmployee from '@/Hooks/Employee/useGetEmployee.js';
-import TableRow from '@/Components/Ui/Table/TableRow.jsx';
+import useGetEmployee from '@/Hooks/Employee/useGetEmployee';
+import TableRow from '@/Components/Ui/Table/TableRow';
+import Pagination from '@/Components/Shared/Pagination';
 
 function List({ auth }) {
   const [checkedJobPositionFilters, setCheckedJobPositionFilters] = useState(
@@ -48,83 +47,7 @@ function List({ auth }) {
       );
     }
   };
-
-  const DATA = [
-    {
-      name: 'Anthony Birkin',
-      phone: '+6591837475',
-      jobPosition: 'team_leader',
-      team: 'Anthony Birkin',
-      organisation: '',
-      status: 'available',
-      lastOnline: '20-02-2023 10:20 AM',
-    },
-    {
-      name: 'Anthony Birkin',
-      phone: '+6591837475',
-      jobPosition: 'sub_contractor',
-      team: 'Anthony Birkin',
-      organisation: 'Company Name',
-      status: 'on_leave',
-      lastOnline: '20-02-2023 10:20 AM',
-    },
-    {
-      name: 'Anthony Birkin',
-      phone: '+6591837475',
-      jobPosition: 'technician',
-      team: 'Anthony Birkin',
-      organisation: '',
-      status: 'available',
-      lastOnline: '20-02-2023 10:20 AM',
-    },
-    {
-      name: 'Anthony Birkin',
-      phone: '+6591837475',
-      jobPosition: 'team_leader',
-      team: 'Anthony Birkin',
-      organisation: '',
-      status: 'available',
-      lastOnline: '20-02-2023 10:20 AM',
-    },
-    {
-      name: 'Anthony Birkin',
-      phone: '+6591837475',
-      jobPosition: 'part_time_technician',
-      team: 'Anthony Birkin',
-      organisation: 'Company Name',
-      status: 'on_leave',
-      lastOnline: '20-02-2023 10:20 AM',
-    },
-    {
-      name: 'Anthony Birkin',
-      phone: '+6591837475',
-      jobPosition: 'team_leader',
-      team: 'Anthony Birkin',
-      organisation: '',
-      status: 'available',
-      lastOnline: '20-02-2023 10:20 AM',
-    },
-    {
-      name: 'Anthony Birkin',
-      phone: '+6591837475',
-      jobPosition: 'team_leader',
-      team: 'Anthony Birkin',
-      organisation: '',
-      status: 'available',
-      lastOnline: '20-02-2023 10:20 AM',
-    },
-    {
-      name: 'Anthony Birkin',
-      phone: '+6591837475',
-      jobPosition: 'team_leader',
-      team: 'Anthony Birkin',
-      organisation: '',
-      status: 'available',
-      lastOnline: '20-02-2023 10:20 AM',
-    },
-  ];
-
-  const { employees } = useGetEmployee();
+  const { employees, links, meta } = useGetEmployee();
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -235,12 +158,10 @@ function List({ auth }) {
                         </div>
                       </td>
 
-                      <td className="px-4 py-2 w-[180px]">
-                        {JOB_POSTION[item.jobPosition]}
-                      </td>
+                      <td className="px-4 py-2 w-[180px]">{item.role}</td>
                       <td className="px-4 py-2 max-w-[200px]">{item.team}</td>
                       <td className="px-4 py-2 max-w-[200px]">
-                        {item.organisation || '-'}
+                        {item.organization || '-'}
                       </td>
                       <td
                         className={`px-4 py-2 max-w-[50px] text-primary ${
@@ -270,7 +191,7 @@ function List({ auth }) {
           <Divider />
 
           <div className="flex flex-initial justify-between items-center mt-4">
-            {/* <Pagination links={contracts?.links} meta={contracts?.meta} /> */}
+            <Pagination links={links} meta={meta} />
           </div>
         </div>
       </div>

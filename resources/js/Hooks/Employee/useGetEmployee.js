@@ -5,6 +5,8 @@ function useGetEmployee() {
 
   return {
     employees: employees.data,
+    links: employees.links,
+    meta: employees.meta,
   };
 }
 

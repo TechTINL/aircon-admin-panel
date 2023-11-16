@@ -13,6 +13,6 @@ class GetEmployeesAction
 			'sub-contractor',
 			'full-time-technician',
 			'part-time-technician'
-		])->latest()->paginate(10);
+		], 'api')->latest()->paginate(10);
 	}
 }

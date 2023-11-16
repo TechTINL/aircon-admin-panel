@@ -10,7 +10,7 @@ class GetEmployeeRolesAction
 	public function execute()
 	{
 		// Role::where('guard_name', 'api')
-		return Role::where('guard_name', 'web')
+		return Role::where('guard_name', 'api')
 			->get()
 			->pluck('name')
 			->map(function ($role) {

@@ -12,13 +12,24 @@ import useGetAdmin from '@/Hooks/Admin/useGetAdmin';
 import Pagination from '@/Components/Shared/Pagination';
 import TableRow from '@/Components/Ui/Table/TableRow';
 import ApplyLeaveModal from '@/Components/Employee/Modals/ApplyLeaveModal';
+import { LuCalendarPlus } from 'react-icons/lu';
+import { useState } from 'react';
 
 function List({ auth, breadcrumbs }) {
   const { admins, links, meta } = useGetAdmin();
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedAdmin, setSelectedAdmin] = useState({
+    id: null,
+  });
 
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Admin List" />
+      <ApplyLeaveModal
+        user={selectedAdmin}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
       <div className="flex-auto flex flex-col m-6">
         <div className="flex justify-between">
           <div className="text-zinc-800 text-3xl font-bold leading-10">
@@ -87,7 +98,16 @@ function List({ auth, breadcrumbs }) {
                       </td>
                       <td className="px-4 py-2 max-w-[100px]">{item.joined}</td>
                       <td className="px-4 py-4 my-1 max-w-[40px] flex gap-4">
-                        <ApplyLeaveModal user={item} />
+                        <button
+                          type="button"
+                          className="flex flex-col justify-center"
+                          onClick={() => {
+                            setOpenModal(true);
+                            setSelectedAdmin(item);
+                          }}
+                        >
+                          <LuCalendarPlus size={22} />
+                        </button>
                         <Link
                           href={route('admin.edit', item.id)}
                           method="get"

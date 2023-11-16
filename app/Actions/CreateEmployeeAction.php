@@ -21,14 +21,16 @@ class CreateEmployeeAction
 	public function execute($data): void
 	{
 		// Set the default guard to 'api' before creating the user
-		// Auth::shouldUse('api');
+		 Auth::shouldUse('api');
 
 		$user = User::create($this->prepareData($data));
 		$user->assignRole($data['role']);
 
-		//		if (Role::where('name', $data['role'])->where('guard_name', 'api')->exists()) {
-		//			$role = Role::findByName($data['role'], 'api');
-		//			$user->assignRole($role);
-		//		}
+		if (Role::where('name', $data['role'])->where('guard_name', 'api')->exists()) {
+			$role = Role::findByName($data['role'], 'api');
+			$user->assignRole($role);
+		}
+
+		Auth::shouldUse('web');
 	}
 }

@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'otp',
 	    'last_online_at',
+	    'organization',
 	    'team_id',
     ];
 

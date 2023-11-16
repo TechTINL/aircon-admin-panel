@@ -9,7 +9,7 @@ class GetTeamsAction
 	public function execute()
 	{
 		// User::role('leader', 'api')
-		return User::role('leader')
+		return User::role('leader', 'api')
 			->whereNotNull('team_id')
 			->distinct('team_id')
 			->select([

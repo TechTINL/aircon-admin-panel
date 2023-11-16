@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class EmployeeResource extends JsonResource
 {
@@ -18,7 +19,10 @@ class EmployeeResource extends JsonResource
         return [
 			'id' => $this->id,
 			'name' => $this->name,
-	        'role' => $this->getRoleNames()->first(),
+	        'phone' => $this->phone,
+	        'role' => $this->getRoleNames()->map(function ($role) {
+		        return Str::headline($role);
+	        })->implode(', '),
 	        'team' => $this->team()->first()->name ?? 'No team',
 	        'organization' => $this->organization,
 	        'joined' => $this->created_at->diffForHumans(),
