@@ -19,6 +19,7 @@
         "salsify/json-streaming-parser": "^8.3",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-permission": "^6.1",
+        "spatie/laravel-web-tinker": "^1.8",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
