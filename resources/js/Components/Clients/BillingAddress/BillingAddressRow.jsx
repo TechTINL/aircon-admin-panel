@@ -1,6 +1,7 @@
 import { BsTelephone } from 'react-icons/bs';
 import DeletePOCModal from '@/Components/Clients/Modals/DeletePOCModal';
 import { FaRegMap } from 'react-icons/fa';
+import DeleteBillingAddressModal from '@/Components/Clients/BillingAddress/Modals/DeleteBillingAddressModal.jsx';
 
 function BillingAddressRow({ data: address, index }) {
   return (
@@ -20,7 +21,7 @@ function BillingAddressRow({ data: address, index }) {
           </div>
         </div>
         <div className="flex items-center gap-2 text-primary">
-          <DeletePOCModal data={address} />
+          <DeleteBillingAddressModal data={address} />
         </div>
       </div>
     </div>

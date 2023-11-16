@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('address');
-            $table->string('billing_address');
+            $table->string('billing_address')->nullable();
             $table->string('postal_code')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreign('parent_id')->references('id')->on('clients')->onDelete('set null');

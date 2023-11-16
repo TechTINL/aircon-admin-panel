@@ -80,9 +80,6 @@ function List({ auth, clients }) {
                     <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
                       Sub-Clients
                     </th>
-                    <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
-                      Billing Address
-                    </th>
                     <th className="px-4 py-2 sticky left-0 min-w-max text-[#455361] text-left" />
                   </tr>
                 </thead>
@@ -140,14 +137,6 @@ function List({ auth, clients }) {
                           />
                         </div>
                       </td>
-                      <td className="px-4 py-4 my-1 max-w-[200px]">
-                        <div className="flex flex-col justify-center">
-                          <span className="text-[14px]">
-                            {item.billingAddress}
-                          </span>
-                        </div>
-                      </td>
-
                       <td className="px-4 py-4 my-1">
                         <Link
                           href={route('clients.profile', item.clientId.id)}

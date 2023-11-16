@@ -1,20 +1,16 @@
 import { useState } from 'react';
-import {
-  AiFillCloseCircle,
-  AiOutlineEdit,
-  AiOutlineMail,
-} from 'react-icons/ai';
+import { AiFillCloseCircle } from 'react-icons/ai';
 import { BsTelephone } from 'react-icons/bs';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { router } from '@inertiajs/react';
-import Modal from '../../Modal';
+import { FaRegMap } from 'react-icons/fa';
+import Modal from '@/Components/Modal';
 
-function DeletePOCModal({ data }) {
+function DeleteBillingAddressModal({ data }) {
   const [openModal, setOpenModal] = useState(false);
 
   const handleDelete = () => {
-    console.log('Delete');
-    router.delete(route('contacts.destroy', data.id), {
+    router.delete(route('addresses.destroy', data.id), {
       preserveScroll: true,
       onSuccess: () => {
         setOpenModal(false);
@@ -40,7 +36,7 @@ function DeletePOCModal({ data }) {
         <div className="flex flex-col p-6 w-[100%] max-h-[80vh] overflow-y-auto">
           <div className="flex justify-between items-center">
             <div className="text-zinc-800 text-3xl font-bold leading-10">
-              Delete POC
+              Delete Billing Address
             </div>
             <button className="self-end" onClick={() => setOpenModal(false)}>
               <AiFillCloseCircle className="text-border-gray text-4xl" />
@@ -48,26 +44,28 @@ function DeletePOCModal({ data }) {
           </div>
 
           <div className="flex flex-col border border-border-gray rounded-lg p-4 mt-6">
-            <span className="text-md font-bold">{data?.name || 'POC 1'}</span>
+            <span className="text-md font-bold">{data?.name}</span>
             <span className="text-sm text-[#00B4AD] font-bold py-2">
-              {data?.personName || 'Albert'}
+              {data?.personName}
             </span>
             <div className="flex items-center gap-2 py-2">
               <BsTelephone size={18} />
-              <span>{data?.phone || '+65 9208 3801'}</span>
+              <span>{data?.phone}</span>
             </div>
             <div className="flex items-center gap-2">
-              <AiOutlineMail size={18} />
-              <span>{data?.email || 'alberts@casuarina.com.sg'}</span>
+              <FaRegMap size={18} />
+              <span>{data?.address}</span>
             </div>
           </div>
 
-          <div className="my-4">Are you sure you want to delete this POC?</div>
+          <div className="my-4">
+            Are you sure you want to delete this address?
+          </div>
           <button
             onClick={handleDelete}
             className="self-center mt-6 font-extrabold w-[70%] py-2 text-white justify-center items-center bg-red-600 rounded-xl flex flex-row"
           >
-            Delete POC
+            Delete Address
           </button>
           <button
             onClick={() => setOpenModal(false)}
@@ -80,4 +78,4 @@ function DeletePOCModal({ data }) {
     </>
   );
 }
-export default DeletePOCModal;
+export default DeleteBillingAddressModal;

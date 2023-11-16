@@ -58,6 +58,8 @@ Route::middleware('auth')->group(function () {
 
     // Store Address
     Route::post('addresses', [AddressController::class, 'store'])->name('addresses.store');
+	// Delete Address
+	Route::delete('addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
 
     Route::get('/client-details', function () {
         return Inertia::render('Clients/ClientDetails');

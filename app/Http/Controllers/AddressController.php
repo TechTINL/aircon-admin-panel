@@ -63,6 +63,7 @@ class AddressController extends Controller
      */
     public function destroy(Address $address)
     {
-        //
+        $address->delete();
+		return back()->with('success', 'Address deleted.');
     }
 }
