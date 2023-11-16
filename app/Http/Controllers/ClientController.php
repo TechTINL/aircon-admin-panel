@@ -45,7 +45,7 @@ class ClientController extends Controller
         $action->execute($request);
 
         // Redirect to Clients List
-        return redirect()->route('clients.index');
+        return back()->with('success', 'Client created.');
     }
 
     /**
