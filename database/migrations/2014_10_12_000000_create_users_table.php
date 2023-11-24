@@ -23,6 +23,7 @@ return new class extends Migration
 	        $table->unsignedBigInteger('team_id')->nullable();
 	        $table->foreign('team_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

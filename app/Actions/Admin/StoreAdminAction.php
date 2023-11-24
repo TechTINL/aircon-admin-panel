@@ -10,6 +10,6 @@ class StoreAdminAction
     {
         $data['password'] = bcrypt(config('constants.admin.password'));
         $user = User::create($data);
-		$user->assignRole('admin');
+		$user->assignRole($data['role']);
     }
 }

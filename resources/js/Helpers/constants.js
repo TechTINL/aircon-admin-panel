@@ -113,19 +113,19 @@ export const SERVICE_STAFF_FILTERS = [
 ];
 
 export const CONTRACT_CLIENT_FILTERS = [
-    {
-        value: 'all',
-        label: 'Show All',
-    },
-    {
-        value: 'client',
-        label: 'Client Only',
-    },
-    {
-        value: 'sub_client',
-        label: 'Sub-Client Only',
-    },
-]
+  {
+    value: 'all',
+    label: 'Show All',
+  },
+  {
+    value: 'client',
+    label: 'Client Only',
+  },
+  {
+    value: 'sub_client',
+    label: 'Sub-Client Only',
+  },
+];
 
 export const CLIENTS_FILTERS = [
   [
@@ -448,92 +448,91 @@ export const POCData = [
   },
 ];
 
-
 export const SERVICE_STATUS_LABELS = {
-    'UNASSIGNED': 'Unassigned',
-    'SCHEDULED': 'Scheduled',
-    'ON_HOLD': 'On-Hold',
-    'COMPLETED': 'Completed',
-    'REQUIRE_FOLLOW_UP': 'Requires Follow-up',
-    'FOLLOW_UP_COMPLETED': 'Follow-up Completed'
+  UNASSIGNED: 'Unassigned',
+  SCHEDULED: 'Scheduled',
+  ON_HOLD: 'On-Hold',
+  COMPLETED: 'Completed',
+  REQUIRE_FOLLOW_UP: 'Requires Follow-up',
+  FOLLOW_UP_COMPLETED: 'Follow-up Completed',
 };
 
 export const EMPLOYEE_STATUS_FILTERS = [
-    [
-        {
-            label: 'Status',
-            value: 'status'
-        }
-    ],
-    [
-        {
-            label: 'Available',
-            value: 'available'
-        }
-    ],
-    [
-        {
-            label: 'On Leave',
-            value: 'on_leave'
-        }
-    ],
-]
+  [
+    {
+      label: 'Status',
+      value: 'status',
+    },
+  ],
+  [
+    {
+      label: 'Available',
+      value: 'available',
+    },
+  ],
+  [
+    {
+      label: 'On Leave',
+      value: 'on_leave',
+    },
+  ],
+];
 
 export const EMPLOYEE_JOB_POSITION_FILTERS = [
-    [
-        {
-            value: 'all',
-            label: 'Show All Employee'
-        },
-    ],
-    [
-        {
-            value: 'admin',
-            label: 'Admin'
-        },
-    ],
-    [
-        {
-            value: 'super_admin',
-            label: 'Super Admin'
-        },
-    ],
-    [
-        {
-            value: 'team_leader',
-            label: 'Team Leader'
-        },
-    ],
-    [
-        {
-            value: 'sub_contractor',
-            label: 'Sub-Contractor'
-        },
-    ],
-    [
-        {
-            value: 'technician',
-            label: 'Technician'
-        },
-    ],
-    [
-        {
-            value: 'part_time_technician',
-            label: 'Part-Time Technician'
-        },
-    ]
-]
+  [
+    {
+      value: 'all',
+      label: 'Show All Employee',
+    },
+  ],
+  [
+    {
+      value: 'admin',
+      label: 'Admin',
+    },
+  ],
+  [
+    {
+      value: 'super_admin',
+      label: 'Super Admin',
+    },
+  ],
+  [
+    {
+      value: 'team_leader',
+      label: 'Team Leader',
+    },
+  ],
+  [
+    {
+      value: 'sub_contractor',
+      label: 'Sub-Contractor',
+    },
+  ],
+  [
+    {
+      value: 'technician',
+      label: 'Technician',
+    },
+  ],
+  [
+    {
+      value: 'part_time_technician',
+      label: 'Part-Time Technician',
+    },
+  ],
+];
 
 export const JOB_POSTION = {
-    'team_leader': 'Team Leader',
-    'admin': 'Admin',
-    'super_admin': 'Super Admin',
-    'sub_contractor': 'Sub-Contractor',
-    'technician': 'Technician',
-    'part_time_technician': 'Part-Time Technician'
-}
+  team_leader: 'Team Leader',
+  admin: 'Admin',
+  'super-admin': 'Super Admin',
+  sub_contractor: 'Sub-Contractor',
+  technician: 'Technician',
+  part_time_technician: 'Part-Time Technician',
+};
 
 export const JOB_STATUS = {
-    'available': 'Available',
-    'on_leave': 'On Leave'
-}
+  available: 'Available',
+  on_leave: 'On Leave',
+};

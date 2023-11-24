@@ -53,6 +53,7 @@ export default function Login({ status }) {
             <PhoneNumberInput
               id="phone"
               name="phone"
+              onlyCountries={['sg', 'my', 'mm']}
               className="mt-1 block w-full"
               value={data.phone}
               onChange={value => setData('phone', value)}

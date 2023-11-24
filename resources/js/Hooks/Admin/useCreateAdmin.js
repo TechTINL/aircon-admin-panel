@@ -4,6 +4,7 @@ function useCreateAdmin() {
   const { data, setData, post, errors, reset } = useForm({
     name: '',
     phone: '',
+    role: '',
   });
 
   const submit = e => {

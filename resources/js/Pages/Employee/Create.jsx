@@ -95,6 +95,17 @@ function Create({ auth, breadcrumbs }) {
               <InputError message={errors.phone} className="my-2" />
             </div>
 
+            <div className="flex flex-col gap-1">
+              <b className="text-black text-[16px]">Vehicle Number</b>
+              <TextInput
+                className="w-full h-full rounded-xl"
+                placeholder="Vehicle No. ..."
+                value={data.vehicle}
+                onChange={e => setData('vehicle', e.target.value)}
+              />
+              <InputError message={errors.vehicle} className="my-2" />
+            </div>
+
             <button
               type="submit"
               disabled={processing}

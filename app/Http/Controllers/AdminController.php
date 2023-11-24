@@ -19,11 +19,15 @@ use Inertia\Response;
 class AdminController extends Controller
 {
     // show Admin List
-    public function index(GetAdminAction $action): Response
+    public function index(Request $request, GetAdminAction $action): Response
     {
+        if ($request->has('deleted')) {
+            $admins = $action->execute($request->get('deleted', false));
+        }
+
         return Inertia::render('Admin/List', [
             'breadcrumbs' => BreadcrumbHelper::admin(),
-	        'admins' => AdminResource::collection($action->execute()),
+	        'admins' => AdminResource::collection($admins ?? $action->execute()),
         ]);
     }
 
@@ -57,6 +61,13 @@ class AdminController extends Controller
 		$user->update($request->validated());
 		return redirect()->route('admin.index');
 	}
+
+    // delete Admin
+    public function destroy(User $user): RedirectResponse
+    {
+        $user->delete();
+        return back()->with('success', 'Admin Deleted Successfully');
+    }
 
 	// Store Leave
 	public function storeLeave(StoreLeaveRequest $request, StoreLeaveAction $action): RedirectResponse

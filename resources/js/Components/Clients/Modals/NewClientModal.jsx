@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useForm } from '@inertiajs/react';
 import ProfileImage from '@/Components/Shared/Clients/ProfileImage';
@@ -16,6 +16,8 @@ import Modal from '../../Modal';
 
 function NewClientModal() {
   const [openModal, setOpenModal] = useState(false);
+  const [addressIsUsed, setAddressIsUsed] = useState(false);
+  const [clientName, setClientName] = useState('');
 
   const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
@@ -36,6 +38,34 @@ function NewClientModal() {
       setData('address', address);
     }
   );
+
+  // check if address is used by other clients
+  useEffect(() => {
+    if (data.address) {
+      const csrfToken = document
+        .querySelector('head > meta[name="csrf-token"]')
+        .getAttribute('content');
+      // check if address is used by other clients using Fetch API
+      fetch(route('addresses.isUsed'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify({
+          address: data.address,
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          setAddressIsUsed(data.used);
+          setClientName(data.client_name);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }, [data.address]);
 
   const search = e => {
     setSearchTerm(e.target.value);
@@ -153,6 +183,12 @@ function NewClientModal() {
                     />
 
                     <InputError message={errors.address} className="mt-2" />
+                    {addressIsUsed && (
+                      <InputError
+                        message={`Address is already used by ${clientName}`}
+                        className="mt-2"
+                      />
+                    )}
                   </div>
                   <div>
                     <TextArea
@@ -219,7 +255,7 @@ function NewClientModal() {
                   <div>
                     <InputLabel
                       htmlFor="poc_email"
-                      value="POC Email *"
+                      value="POC Email"
                       className="text-zinc-800 text-base font-bold my-1"
                     />
                     <TextInput

@@ -4,8 +4,12 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import SidebarContext from '@/Context/SidebarContext';
 import NavItem from '@/Components/Sidebar/NavItem';
 import { useContext } from 'react';
-import { PiBriefcase, PiBriefcaseLight, PiFolder, PiFolderThin, PiUsersFourLight, PiWrenchLight } from 'react-icons/pi';
-import { BiFolder, BiWrench } from 'react-icons/bi';
+import {
+  PiBriefcaseLight,
+  PiFolder,
+  PiUsersFourLight,
+  PiWrenchLight,
+} from 'react-icons/pi';
 import { FiTrendingUp } from 'react-icons/fi';
 
 function Sidebar({ children }) {
@@ -16,12 +20,12 @@ function Sidebar({ children }) {
   const isServiceTimelineActive = url.includes('/services-time-line');
   const isServiceReportActive = url.includes('/service-report');
   const isClientActive = url.includes('/clients');
-  const isTemplateActive = url.includes('/template');
 
   return (
     <div
-      className={`z-50 flex h-auto ${isSidebarCollapsed ? 'w-[7%]' : 'w-1/6'
-        } flex-col border-r bg-white pt-4 shadow-xl shadow-right`}
+      className={`z-50 flex h-auto ${
+        isSidebarCollapsed ? 'w-[7%]' : 'w-1/6'
+      } flex-col border-r bg-white pt-4 shadow-xl shadow-right`}
     >
       {!isSidebarCollapsed && (
         <div className="flex justify-center">
@@ -47,15 +51,11 @@ function Sidebar({ children }) {
           url="/service-report"
           icon={<PiWrenchLight size={22} className="lg:mx-4 md:mx-1" />}
         />
-        <div className='flex'>
+        <div className="flex">
           <PiFolder size={22} className="text-gray-600 lg:mx-4 md:mx-1" />
-          <div className='flex flex-col'>
+          <div className="flex flex-col">
             <span>Data</span>
-            <NavItem
-              text="Client"
-              isActive={isClientActive}
-              url="/clients"
-            />
+            <NavItem text="Client" isActive={isClientActive} url="/clients" />
             <NavItem
               text="Contract"
               isActive={url.includes('/contract')}
@@ -74,7 +74,6 @@ function Sidebar({ children }) {
           </div>
         </div>
 
-
         <NavItem
           text="Template"
           isActive={url.includes('/template-task')}
@@ -82,8 +81,7 @@ function Sidebar({ children }) {
           icon={<PiUsersFourLight size={22} className="lg:mx-4 md:mx-1" />}
         />
 
-
-        <div className='flex flex-col pl-14'>
+        <div className="flex flex-col pl-14">
           <NavItem
             text="Task"
             isActive={url.includes('/template-task')}

@@ -13,14 +13,25 @@ import Pagination from '@/Components/Shared/Pagination';
 import TableRow from '@/Components/Ui/Table/TableRow';
 import ApplyLeaveModal from '@/Components/Employee/Modals/ApplyLeaveModal';
 import { LuCalendarPlus } from 'react-icons/lu';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Checkbox, IconButton } from '@material-tailwind/react';
+import { FaRegTrashCan } from 'react-icons/fa6';
+import useDeleteAdmin from '@/Hooks/Admin/useDeleteAdmin';
 
 function List({ auth, breadcrumbs }) {
-  const { admins, links, meta } = useGetAdmin();
+  const { admins, links, meta, getAdmin } = useGetAdmin();
+  const { deleteAdmin } = useDeleteAdmin();
   const [openModal, setOpenModal] = useState(false);
+  const [showDeleted, setShowDeleted] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState({
     id: null,
   });
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const deletedParam = queryParams.get('deleted');
+    setShowDeleted(deletedParam === '1');
+  }, []);
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -48,17 +59,28 @@ function List({ auth, breadcrumbs }) {
               />
               <BiSearch className="text-gray-500 absolute text-[20px] left-2" />
             </div>
-            <div className="flex gap-4 items-end">
-              <Link
-                href="/admin/create"
-                method="get"
-                type="button"
-                className="flex gap-1 items-center bg-primary text-white font-bold py-2 px-4 rounded-xl"
-              >
-                <MdAdd size={22} />
-                New Admin
-              </Link>
-            </div>
+            {auth.permissions.includes('admin.any') && (
+              <div className="flex gap-4 items-end">
+                <Checkbox
+                  color="blue"
+                  label="Show Deleted"
+                  checked={showDeleted}
+                  onChange={event => {
+                    setShowDeleted(event.target.checked);
+                    getAdmin(event.target.checked);
+                  }}
+                />
+                <Link
+                  href="/admin/create"
+                  method="get"
+                  type="button"
+                  className="flex gap-1 items-center bg-primary text-white font-bold py-2 px-4 rounded-xl"
+                >
+                  <MdAdd size={22} />
+                  New Admin
+                </Link>
+              </div>
+            )}
           </div>
           {/* Search & Filters */}
 
@@ -85,19 +107,12 @@ function List({ auth, breadcrumbs }) {
                 <tbody className="relative">
                   {admins.map((item, i) => (
                     <TableRow index={i} key={item.id}>
-                      <td className="px-4 py-2 my-1 max-w-[100px]">
-                        {item.name}
-                      </td>
-
-                      <td className="px-4 py-2 w-[180px]">{item.phone}</td>
-                      <td className="px-4 py-2 max-w-[200px]">
-                        {JOB_POSTION[item.role]}
-                      </td>
-                      <td className="px-4 py-2 max-w-[200px]">
-                        {item.lastOnline}
-                      </td>
-                      <td className="px-4 py-2 max-w-[100px]">{item.joined}</td>
-                      <td className="px-4 py-4 my-1 max-w-[40px] flex gap-4">
+                      <td className="px-4 py-2 my-1">{item.name}</td>
+                      <td className="px-4 py-2">{item.phone}</td>
+                      <td className="px-4 py-2">{JOB_POSTION[item.role]}</td>
+                      <td className="px-4 py-2">{item.lastOnline}</td>
+                      <td className="px-4 py-2">{item.joined}</td>
+                      <td className="px-4 py-4 my-1 flex gap-4">
                         <button
                           type="button"
                           className="flex flex-col justify-center"
@@ -117,6 +132,13 @@ function List({ auth, breadcrumbs }) {
                         >
                           <BsPencilSquare size={20} />
                         </Link>
+                        <IconButton
+                          variant="text"
+                          color="red"
+                          onClick={() => deleteAdmin(item.id)}
+                        >
+                          <FaRegTrashCan size={20} />
+                        </IconButton>
                       </td>
                     </TableRow>
                   ))}

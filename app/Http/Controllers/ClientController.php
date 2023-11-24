@@ -10,6 +10,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -88,5 +89,27 @@ class ClientController extends Controller
             'address' => $address
         ];
     }
+
+    /**
+     * Get Clients
+     */
+    public function clientsList(): JsonResponse
+    {
+        return response()->json([
+            'clients' => Client::all()
+        ]);
+    }
+
+    /**
+     * Get Sub Clients
+     */
+    public function subClients(Client $client): JsonResponse
+    {
+        return response()->json([
+            'subClients' => ClientResource::collection($client->subClients()->get()),
+        ]);
+    }
+
+
 
 }

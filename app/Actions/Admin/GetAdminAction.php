@@ -6,8 +6,12 @@ use App\Models\User;
 
 class GetAdminAction
 {
-	public function execute()
+	public function execute($deleted = false)
 	{
-		return User::role('admin')->latest()->paginate(10);
+        if ($deleted) {
+            return User::role(['admin', 'super-admin'])->onlyTrashed()->latest()->paginate(10);
+        }
+        
+		return User::role(['admin', 'super-admin'])->latest()->paginate(10);
 	}
 }

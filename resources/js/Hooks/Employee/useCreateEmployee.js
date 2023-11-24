@@ -21,6 +21,7 @@ function useCreateEmployee() {
         role: data.role.value,
         team_id: data.team_id.value,
         organization: data.organization,
+        vehicle: data.vehicle,
       },
       {
         onSuccess: () => reset(),

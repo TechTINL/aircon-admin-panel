@@ -12,7 +12,7 @@ class UpdateAdminRequest extends FormRequest
      */
     public function authorize(): bool
     {
-	    return auth()->user()->can('access dashboard');
+	    return auth()->user()->can('access dashboard') && auth()->user()->can('admin.any');
     }
 
     /**

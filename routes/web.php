@@ -94,6 +94,7 @@ Route::middleware('auth')->group(function () {
 	Route::get('admin/{user}/edit', [AdminController::class, 'edit'])->name('admin.edit');
 	Route::patch('admin/{user}', [AdminController::class, 'update'])->name('admin.update');
     Route::post('admin', [AdminController::class, 'store'])->name('admin.store');
+    Route::delete('admin/{user}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
 	Route::post('apply-leave', [AdminController::class, 'storeLeave'])->name('leave.store');
 
@@ -116,3 +117,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/json.php';

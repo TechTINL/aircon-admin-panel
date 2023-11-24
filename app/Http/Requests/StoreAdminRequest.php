@@ -12,7 +12,7 @@ class StoreAdminRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can('access dashboard');
+        return auth()->user()->can('access dashboard') && auth()->user()->can('admin.any');
     }
 
     /**
@@ -25,6 +25,7 @@ class StoreAdminRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'phone' => ['required', 'string', 'phone:MY,SG,MM', 'unique:users'],
+            'role' => 'required',
         ];
     }
 }

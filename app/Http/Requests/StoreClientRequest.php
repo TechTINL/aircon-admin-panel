@@ -30,7 +30,7 @@ class StoreClientRequest extends FormRequest
             'billing_address' => ['nullable', 'string', 'max:255'],
             'contact_name' => ['required', 'string', 'max:255'],
             'contact_number' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'unique:contacts,email', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'max:255'],
             'parent_id' => ['nullable', 'exists:clients,id'],
         ];
     }

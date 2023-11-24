@@ -27,7 +27,8 @@ class StoreEmployeeRequest extends FormRequest
 	        'phone' => ['required', 'string', 'phone:MY,SG,MM', 'unique:users'],
 	        'role' => 'required',
 	        'team_id' => ['nullable', 'exists:users,id'],
-	        'organization' => 'required'
+	        'organization' => 'required',
+            'vehicle' => 'nullable',
         ];
     }
 }

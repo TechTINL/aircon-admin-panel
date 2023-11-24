@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import PhoneNumberInput from '@/Components/Shared/PhoneNumberInput';
@@ -7,6 +6,12 @@ import EmployeeImg from '@/assets/images/employee_sample.png';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 import useCreateAdmin from '@/Hooks/Admin/useCreateAdmin';
+import Select from 'react-select';
+
+const roles = [
+  { value: 'admin', label: 'Admin' },
+  { value: 'super-admin', label: 'Super Admin' },
+];
 
 function Create({ auth, breadcrumbs }) {
   const { data, setData, errors, submit: handleSubmit } = useCreateAdmin();
@@ -49,6 +54,17 @@ function Create({ auth, breadcrumbs }) {
                 label="Phone Number"
                 value={data.phone}
                 onChange={value => setData('phone', value)}
+              />
+              <InputError message={errors.phone} className="mt-2" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <b className="text-black text-[16px]">Role</b>
+              <Select
+                options={roles}
+                defaultValue={roles[0]}
+                isClearable
+                name="role"
+                onChange={option => setData('role', option?.value)}
               />
               <InputError message={errors.phone} className="mt-2" />
             </div>
