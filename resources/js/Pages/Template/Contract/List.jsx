@@ -8,6 +8,7 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import NewContractTemplateModal from '@/Components/Template/Modals/NewContractTemplateModal';
 import { IconButton } from '@material-tailwind/react';
+import useDeleteContractTemplate from '@/Hooks/Template/Contract/useDeleteContract.js';
 import DeleteConfirmationModal from '../../../Components/Template/Modals/DeleteConfirmationModal';
 
 function List({ auth, contractTemplates }) {
@@ -16,6 +17,8 @@ function List({ auth, contractTemplates }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openNewContractModal, setOpenNewContractModal] = useState(false);
   const [selectedContract, setSelectedContract] = useState(null);
+
+  const { handleDeleteContract } = useDeleteContractTemplate();
 
   const onEdit = contractData => {
     setSelectedContract(contractData);
@@ -48,6 +51,11 @@ function List({ auth, contractTemplates }) {
         }
         openModal={openDeleteModal}
         setOpenModal={setOpenDeleteModal}
+        onDelete={() => {
+          handleDeleteContract(selectedContract.id, () => {
+            setOpenDeleteModal(false);
+          });
+        }}
       />
       <div className="flex flex-auto flex-col m-6 gap-6 max-w-full">
         <div className="text-zinc-800 text-3xl font-bold leading-10">

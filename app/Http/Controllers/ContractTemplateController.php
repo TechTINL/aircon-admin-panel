@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreContractTemplateRequest;
 use App\Http\Requests\UpdateContractTemplateRequest;
 use App\Models\ContractTemplate;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -71,8 +72,10 @@ class ContractTemplateController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ContractTemplate $contractTemplate)
+    public function destroy(ContractTemplate $contractTemplate): RedirectResponse
     {
-        //
+        $contractTemplate->delete();
+
+        return redirect()->back()->with('success', 'Contract template deleted.');
     }
 }

@@ -1,7 +1,14 @@
 import Modal from '@/Components/Modal';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { IconButton } from '@material-tailwind/react';
 
-function DeleteConfirmationModal({ title, content, openModal, setOpenModal }) {
+function DeleteConfirmationModal({
+  title,
+  content,
+  openModal,
+  setOpenModal,
+  onDelete,
+}) {
   return (
     <Modal show={openModal} onClose={() => setOpenModal(false)} maxWidth="4xl">
       <div className="flex flex-col p-8 text-black gap-8">
@@ -9,9 +16,9 @@ function DeleteConfirmationModal({ title, content, openModal, setOpenModal }) {
           <div className="text-zinc-800 text-3xl font-bold leading-10">
             Delete {title} Template
           </div>
-          <button onClick={() => setOpenModal(false)}>
+          <IconButton variant="text" onClick={() => setOpenModal(false)}>
             <AiFillCloseCircle className="text-border-gray text-4xl" />
-          </button>
+          </IconButton>
         </div>
 
         <div>
@@ -25,7 +32,10 @@ function DeleteConfirmationModal({ title, content, openModal, setOpenModal }) {
         </div>
 
         <div className="flex flex-col items-center justify-center mt-6">
-          <button className="bg-red-600 py-2 w-full max-w-[600px] rounded-xl text-white font-bold">
+          <button
+            className="bg-red-600 py-2 w-full max-w-[600px] rounded-xl text-white font-bold"
+            onClick={onDelete}
+          >
             Delete {title} Template
           </button>
           <button className="py-2 w-full max-w-[600px] rounded-xl text-black font-bold">
