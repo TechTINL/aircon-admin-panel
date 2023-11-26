@@ -14,9 +14,9 @@ import TableRow from '@/Components/Ui/Table/TableRow';
 import ApplyLeaveModal from '@/Components/Employee/Modals/ApplyLeaveModal';
 import { LuCalendarPlus } from 'react-icons/lu';
 import { useEffect, useState } from 'react';
-import { Checkbox, IconButton } from '@material-tailwind/react';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import useDeleteAdmin from '@/Hooks/Admin/useDeleteAdmin';
+import { Checkbox, IconButton } from '@material-tailwind/react';
 
 function List({ auth, breadcrumbs }) {
   const { admins, links, meta, getAdmin } = useGetAdmin();

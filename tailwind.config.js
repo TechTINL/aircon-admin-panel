@@ -3,19 +3,19 @@ import forms from '@tailwindcss/forms';
 
 const withMT = require('@material-tailwind/react/utils/withMT');
 
+/** @type {import('tailwindcss').Config} */
 export default withMT({
   content: [
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
     './storage/framework/views/*.php',
     './resources/views/**/*.blade.php',
     './resources/js/**/*.jsx',
-    './index.html',
-    './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
 
   theme: {
     extend: {
       gridTemplateColumns: {
+        // Simple 16 column grid
         25: 'repeat(25, minmax(0, 1fr))',
       },
       fontFamily: {
@@ -32,10 +32,8 @@ export default withMT({
         'table-header-bg': '#F0F0F0',
         'border-gray': '#53616C',
       },
-      // Any additional theme extensions from the second config
-      // should be added here
     },
   },
 
-  plugins: [forms /* any other plugins from the second config */],
+  plugins: [forms],
 });

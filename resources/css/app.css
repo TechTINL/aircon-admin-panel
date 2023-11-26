@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#react-select-2-input {
+    grid-area: unset !important;
+    min-width: 0px !important;
+}

@@ -6,6 +6,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\ContractTemplateController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
@@ -76,13 +77,8 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
-    Route::get('contract', function () {
-        return Inertia::render('Contract/List');
-    });
 
-    Route::post('contract', function () {
-        return Inertia::render('Contract/Create');
-    });
+    Route::resource('contracts', ContractController::class)->only(['index', 'create', 'store', 'update']);
 
     Route::get('employee', [EmployeeController::class, 'index'])->name('employee.index');
 	Route::get('employee/create', [EmployeeController::class, 'create'])->name('employee.create');
@@ -101,9 +97,10 @@ Route::middleware('auth')->group(function () {
     Route::get('template-task', function () {
         return Inertia::render('Template/Task/List');
     });
-    Route::get('template-contract', function () {
-        return Inertia::render('Template/Contract/List');
-    });
+
+    Route::resource('contract-templates', ContractTemplateController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
+
     Route::get('template-service', function () {
         return Inertia::render('Template/Service/List');
     });

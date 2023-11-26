@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
 import { useQuery } from '@tanstack/react-query';
 import { fetchClients } from '@/API/api';
+import CreatableSelect from 'react-select/creatable';
 import TextInput from '../../TextInput';
 import DatePicker from '../../Common/DatePicker';
 
@@ -35,6 +35,32 @@ function ContractDetails() {
     setSelectedContract(item);
   };
 
+  function MyCreateableSelect({ options, ...props }) {
+    const handleChange = (newValue, actionMeta) => {
+      console.group('Value Changed');
+      console.log(newValue);
+      console.log(`action: ${actionMeta.action}`);
+      console.groupEnd();
+    };
+
+    const handleInputChange = (inputValue, actionMeta) => {
+      console.group('Input Changed');
+      console.log(inputValue);
+      console.log(`action: ${actionMeta.action}`);
+      console.groupEnd();
+    };
+
+    return (
+      <CreatableSelect
+        isClearable
+        onChange={handleChange}
+        onInputChange={handleInputChange}
+        options={options}
+        {...props}
+      />
+    );
+  }
+
   const onChangeDate = (name, value) => {
     const date = new Date(value).toLocaleDateString();
     switch (name) {
@@ -57,7 +83,8 @@ function ContractDetails() {
           <span className="text-black font-bold text-[18px]">
             Contract Detail
           </span>
-          <Select options={contractsList} />
+          <MyCreateableSelect options={contractsList} />
+          <CreatableSelect options={contractsList} />
         </div>
         <div className="flex flex-col gap-3">
           <span className="text-black font-bold text-[16px]">
