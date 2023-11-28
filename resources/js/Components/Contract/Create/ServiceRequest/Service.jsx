@@ -16,6 +16,7 @@ function Service({ index }) {
   const { serviceData, setServiceData, handleAddTask } = useContext(
     CreateContractContext
   );
+
   const [leaderOptions, setLeaderOptions] = useState([]);
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [selectedLeader, setSelectedLeader] = useState('');
@@ -89,8 +90,8 @@ function Service({ index }) {
           <button className="text-primary">Select template</button>
         </div>
         <TextArea
+          id="service-name"
           placeholder="Name of Service"
-          value={serviceData[index]?.name ?? ''}
           onChange={value => updateServiceName(value)}
         />
       </div>
@@ -108,7 +109,6 @@ function Service({ index }) {
         <div className="flex flex-col gap-1 max-w-max">
           <span>Technician Count</span>
           <TextInput
-            value={serviceData[index]?.technicianCount ?? ''}
             placeholder="Technician Count"
             className="rounded flex-1"
             onChange={e => updateTechnicianCount(e.target.value)}

@@ -19,6 +19,8 @@ return new class extends Migration
 			$table->string('start_date');
 			$table->string('end_date');
 			$table->string('amount');
+	        $table->foreignId('client_id')->constrained('clients');
+	        $table->foreignId('subClient_id')->constrained('clients');
             $table->timestamps();
         });
     }

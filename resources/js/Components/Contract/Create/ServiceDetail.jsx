@@ -1,67 +1,18 @@
-import React, { useState } from 'react';
-import { MdOutlineAddCircleOutline } from 'react-icons/md';
+import { useContext } from 'react';
 import Service from '@/Components/Contract/Create/ServiceRequest/Service';
 import Select from 'react-select';
-import { DropdownSelect } from '../../Common/DropdownSelect';
-import { getTimes } from '../../../Utils/utils';
-
-const dropDownServiceRepeats = [
-  [
-    {
-      label: 'Quarterly',
-      value: 'quarterly',
-    },
-  ],
-];
-
-const dropDownEvery = [
-  [
-    {
-      label: 3,
-      value: 3,
-    },
-  ],
-  [
-    {
-      label: 4,
-      value: 4,
-    },
-  ],
-];
-
-const dropDownEndsAfter = [
-  [
-    {
-      label: 3,
-      value: 3,
-    },
-  ],
-  [
-    {
-      label: 4,
-      value: 4,
-    },
-  ],
-];
-
-const dropDownTimes = [
-  ...getTimes().map(time => {
-    return [
-      {
-        label: time,
-        value: time,
-      },
-    ];
-  }),
-];
+import CreateContractContext from '@/Context/CreateContractContext';
 
 function ServiceDetail() {
-  const [selectedRepeat, setSelectedRepeat] = useState(
-    dropDownServiceRepeats[0][0]
-  );
-  const [every, setEvery] = useState(dropDownEvery[0][0]);
-  const [time, setTime] = useState(dropDownTimes[0][0]);
-  const [endsAfter, setEndsAfter] = useState(dropDownEvery[0][0]);
+  const {
+    serviceRepeatOptions,
+    setSelectedServiceRepeat,
+    selectedServiceRepeat,
+    timeOptions,
+    setTime,
+    serviceCount,
+  } = useContext(CreateContractContext);
+
   return (
     <div className="bg-white rounded-xl p-6 flex flex-col gap-2">
       <span className="font-bold text-[14px]">Service Detail</span>

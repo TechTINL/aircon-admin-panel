@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreContractRequest extends FormRequest
@@ -17,14 +18,14 @@ class StoreContractRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
             'title' => 'required|string',
+	        'service_count' => 'required|string',
 			'contract_number' => 'required|string',
-			'service_count' => 'required|string',
 			'start_date' => 'required|date',
 			'end_date' => 'required|date',
 			'amount' => 'required|string',

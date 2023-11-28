@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getTimes } from '@/Utils/utils.js';
-import { router } from '@inertiajs/react';
+import { getTimes } from '@/Utils/utils';
 
 function useCreateContract(templates, clients) {
+  const [title, setTitle] = useState('');
   const [templateOptions, setTemplateOptions] = useState([]);
   const [clientOptions, setClientOptions] = useState([]);
   const [subClientOptions, setSubClientOptions] = useState([]);
@@ -31,7 +31,7 @@ function useCreateContract(templates, clients) {
       label: 'Annually',
     },
   ]);
-  const [selectedServiceRepeat, setSelectedServiceRepeat] = useState(null);
+  const [selectedServiceRepeat, setSelectedServiceRepeat] = useState('monthly');
   const timeOptions = getTimes().map(time => ({
     label: time,
     value: time,
@@ -125,8 +125,6 @@ function useCreateContract(templates, clients) {
   };
 
   const createContract = () => {
-    console.log(selectedTemplate);
-
     const contract = {
       clientId: selectedClient,
       subClientId: selectedSubClient,
@@ -143,6 +141,8 @@ function useCreateContract(templates, clients) {
   };
 
   return {
+    title,
+    setTitle,
     templateOptions,
     clientOptions,
     subClientOptions,
