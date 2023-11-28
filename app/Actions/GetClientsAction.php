@@ -49,4 +49,9 @@ class GetClientsAction
 
         return $this->getClientsWithFirstContact();
     }
+
+    public function getClients()
+    {
+        return Client::get();
+    }
 }

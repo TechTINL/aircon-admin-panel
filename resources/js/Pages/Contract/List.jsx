@@ -156,7 +156,7 @@ function List({ auth }) {
                 handleChecked={handleChecked}
               />
               <Link
-                href="/contract/create"
+                href="/contracts/create"
                 as="button"
                 type="button"
                 className="flex gap-1 items-center bg-primary hover:bg-green-300 text-white font-bold py-2 px-4 rounded-xl"

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\GetClientsAction;
+use App\Actions\GetEmployeesAction;
+use App\Actions\Template\Contract\GetContractTemplatesAction;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
 use App\Models\Contract;
@@ -13,7 +16,7 @@ class ContractController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
         return Inertia::render('Contract/List');
     }
@@ -21,9 +24,17 @@ class ContractController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): Response
+    public function create(
+		GetContractTemplatesAction $action,
+		GetClientsAction $getClientsAction,
+		GetEmployeesAction $employeesAction): Response
     {
-        return Inertia::render('Contract/Create');
+        return Inertia::render('Contract/Create', [
+            'contractTemplates' => $action->execute(),
+            'clients' => $getClientsAction->getClients(),
+	        'leaders' => $employeesAction->leader(),
+	        'employees' => $employeesAction->get(),
+        ]);
     }
 
     /**
@@ -31,7 +42,9 @@ class ContractController extends Controller
      */
     public function store(StoreContractRequest $request)
     {
-        //
+        Contract::create($request->validated());
+
+		return redirect()->route('contracts.index');
     }
 
     /**

@@ -1,65 +1,43 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchClients } from '@/API/api';
-import CreatableSelect from 'react-select/creatable';
+import useCreateContract from '@/Hooks/Contract/useCreateContract';
+import ContractCreatableSelect from '@/Components/Contract/Create/ContractCreateableSelect';
+import { usePage } from '@inertiajs/react';
+import Select from 'react-select';
+import React from 'react';
+import CreateContractContext from '@/Context/CreateContractContext';
+import Service from '@/Components/Contract/Create/ServiceRequest/Service';
+import Summary from '@/Components/Contract/Create/Summary/index';
 import TextInput from '../../TextInput';
 import DatePicker from '../../Common/DatePicker';
 
-const contractsList = [
-  {
-    label: 'One Year Quarterly Maintenance Contract',
-    value: 'quartely',
-  },
-];
+function ContractDetails({ templates }) {
+  const { clients } = usePage().props;
 
-function ContractDetails() {
-  const [selectedContract, setSelectedContract] = useState(contractsList[0]);
-  const [client, setClient] = useState('');
-  const [contractTermStart, setContractTermStart] = useState();
-  const [contractTermEnd, setContractTermEnd] = useState();
-
-  const { status, data, error } = useQuery({
-    queryKey: ['clients'],
-    queryFn: fetchClients(),
-  });
-
-  if (status === 'success') {
-    console.log(data);
-  }
-
-  if (status === 'error') {
-    console.log(error);
-  }
-
-  const handleContractSelect = item => {
-    setSelectedContract(item);
-  };
-
-  function MyCreateableSelect({ options, ...props }) {
-    const handleChange = (newValue, actionMeta) => {
-      console.group('Value Changed');
-      console.log(newValue);
-      console.log(`action: ${actionMeta.action}`);
-      console.groupEnd();
-    };
-
-    const handleInputChange = (inputValue, actionMeta) => {
-      console.group('Input Changed');
-      console.log(inputValue);
-      console.log(`action: ${actionMeta.action}`);
-      console.groupEnd();
-    };
-
-    return (
-      <CreatableSelect
-        isClearable
-        onChange={handleChange}
-        onInputChange={handleInputChange}
-        options={options}
-        {...props}
-      />
-    );
-  }
+  const {
+    templateOptions,
+    clientOptions,
+    subClientOptions,
+    serviceCount,
+    setServiceCount,
+    selectedTemplate,
+    setSelectedClient,
+    setSelectedSubClient,
+    contractTermStart,
+    setContractTermStart,
+    contractTermEnd,
+    setContractTermEnd,
+    contractAmount,
+    setContractAmount,
+    serviceRepeatOptions,
+    selectedServiceRepeat,
+    setSelectedServiceRepeat,
+    timeOptions,
+    setTime,
+    serviceData,
+    setServiceData,
+    handleAddTask,
+    handleRemoveTask,
+    createContract,
+  } = useCreateContract(templates, clients);
 
   const onChangeDate = (name, value) => {
     const date = new Date(value).toLocaleDateString();
@@ -76,90 +54,124 @@ function ContractDetails() {
   };
 
   return (
-    <div className="bg-white rounded-xl p-6 flex flex-col gap-4">
-      <span className="font-bold text-[16px]">Contract Detail</span>
-      <div className="grid grid-cols-2 gap-8">
-        <div className="flex flex-col gap-3">
-          <span className="text-black font-bold text-[18px]">
-            Contract Detail
-          </span>
-          <MyCreateableSelect options={contractsList} />
-          <CreatableSelect options={contractsList} />
-        </div>
-        <div className="flex flex-col gap-3">
-          <span className="text-black font-bold text-[16px]">
-            No. of Service
-          </span>
-          <TextInput
-            disabled
-            value="4 Time"
-            className="rounded-xl bg-[#BCBDC0] border-none"
-          />
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <span className="text-black font-bold text-[16px]">
-          Client <span className="text-red">*</span>
-        </span>
-        <TextInput placeholder="Client Name" className="rounded-xl" />
-      </div>
-      <div className="flex flex-col gap-3">
-        <span className="text-black font-bold text-[16px]">Sub-Client</span>
-        <TextInput placeholder="Sub-Client Name" className="rounded-xl" />
-      </div>
-      <div className="flex flex-wrap flex-row gap-3">
-        <div className="flex flex-col flex-1 gap-2">
-          <span className="text-black font-bold text-[16px]">
-            Contract-Term Start <span className="text-red-600">*</span>
-          </span>
-          <DatePicker
-            classes="rounded-xl"
-            onChange={value => onChangeDate('contract-term-start', value)}
-            value={contractTermStart}
-          />
-        </div>
-        <div className="flex flex-col flex-1 gap-2">
-          <span className="text-black font-bold text-[16px]">
-            Contract-Term End <span className="text-red-600">*</span>
-          </span>
-          <DatePicker
-            classes="rounded-xl"
-            onChange={value => onChangeDate('contract-term-end', value)}
-            value={contractTermEnd}
-          />
-        </div>
-        <div className="flex flex-col flex-1 gap-2">
-          <div className="flex justify-between">
-            <span className="text-black font-bold text-[16px]">
-              Contract ID
+    <CreateContractContext.Provider
+      value={{
+        selectedTemplate,
+        serviceData,
+        setServiceData,
+        handleAddTask,
+        handleRemoveTask,
+        createContract,
+      }}
+    >
+      <div className="bg-white rounded-xl p-6 flex flex-col gap-4">
+        <span className="font-bold text-[16px]">Contract Detail</span>
+        <div className="grid grid-cols-2 gap-8">
+          <div className="flex flex-col gap-3">
+            <span className="text-black font-bold text-[18px]">
+              Contract Title <span className="text-red-600">*</span>
             </span>
-            <span className="text-black text-[12px] italic">
-              This is auto-generated.
-            </span>
+            <ContractCreatableSelect isClearable options={templateOptions} />
           </div>
-          <TextInput
-            disabled
-            value="230920-CO-XXXXX"
-            className="rounded-xl bg-[#BCBDC0] border-none"
-          />
+          <div className="flex flex-col gap-3">
+            <span className="text-black font-bold text-[16px]">
+              No. of Service
+            </span>
+            <TextInput
+              type="number"
+              value={serviceCount}
+              onChange={e => setServiceCount(e.target.value)}
+              className="rounded-xl disabled:bg-[#BCBDC0] disabled:border-none"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-col gap-3">
-        <span className="text-black font-bold text-[16px]">
-          Contract Amount
-        </span>
-        <div className="flex items-center gap-2">
-          <span>$</span>
-          <TextInput
-            value={1000}
-            placeholder="Sub-Client Name"
-            className="rounded-xl flex-1"
+        <div className="flex flex-col gap-3">
+          <span className="text-black font-bold text-[16px]">
+            Client <span className="text-red">*</span>
+          </span>
+          <Select
+            isClearable
+            isSearchable
+            options={clientOptions}
+            onChange={option => setSelectedClient(option.value)}
           />
         </div>
+        {subClientOptions.length > 0 && (
+          <div className="flex flex-col gap-3">
+            <span className="text-black font-bold text-[16px]">Sub-Client</span>
+            <Select
+              isClearable
+              isSearchable
+              options={subClientOptions}
+              onChange={option => setSelectedSubClient(option.value)}
+            />
+          </div>
+        )}
+        <div className="flex flex-wrap flex-row gap-3">
+          <div className="flex flex-col flex-1 gap-2">
+            <span className="text-black font-bold text-[16px]">
+              Contract-Term Start <span className="text-red-600">*</span>
+            </span>
+            <DatePicker
+              classes="rounded-xl"
+              onChange={value => onChangeDate('contract-term-start', value)}
+              value={contractTermStart}
+            />
+          </div>
+          <div className="flex flex-col flex-1 gap-2">
+            <span className="text-black font-bold text-[16px]">
+              Contract-Term End <span className="text-red-600">*</span>
+            </span>
+            <DatePicker
+              classes="rounded-xl"
+              onChange={value => onChangeDate('contract-term-end', value)}
+              value={contractTermEnd}
+            />
+          </div>
+          <div className="flex flex-col flex-1 gap-2">
+            <div className="flex justify-between">
+              <span className="text-black font-bold text-[16px]">
+                Contract ID
+              </span>
+              <span className="text-black text-[12px] italic">
+                This is auto-generated.
+              </span>
+            </div>
+            <TextInput
+              disabled
+              value="230920-CO-XXXXX"
+              className="rounded-xl bg-[#BCBDC0] border-none"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <span className="text-black font-bold text-[16px]">
+            Contract Amount
+          </span>
+          <div className="flex items-center gap-2">
+            <span>$</span>
+            <TextInput
+              value={contractAmount}
+              placeholder="Sub-Client Name"
+              className="rounded-xl flex-1"
+              onChange={e => setContractAmount(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
-    </div>
+      <Summary />
+      <button
+        className="bg-primary text-white rounded-xl py-2 font-bold"
+        onClick={() => {
+          console.log('create contract');
+          createContract();
+        }}
+      >
+        Confirm
+      </button>
+    </CreateContractContext.Provider>
   );
 }
 

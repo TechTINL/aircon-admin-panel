@@ -11,7 +11,7 @@ class StoreContractRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string',
+			'contract_number' => 'required|string',
+			'service_count' => 'required|string',
+			'start_date' => 'required|date',
+			'end_date' => 'required|date',
+			'amount' => 'required|string',
         ];
     }
 }
