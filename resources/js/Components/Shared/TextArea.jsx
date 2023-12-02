@@ -7,9 +7,10 @@ function TextArea({
   onChange,
   showLabel = true,
   value,
+  className = '',
 }) {
   return (
-    <div>
+    <div className={className}>
       <label
         htmlFor={id}
         className={`block text-sm font-medium text-gray-700 ${

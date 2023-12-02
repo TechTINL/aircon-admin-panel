@@ -21,13 +21,16 @@ function useSummary() {
     serviceData.forEach(service => {
       _totalTechnicians += parseInteger(service.technicianCount);
       _tasksCost += sumTaskCosts(service.tasks);
-      _totalAmount += sumTaskCosts(service.tasks) * 1.08;
     });
+
+    const totalContractAmount = Number(contractAmount) + Number(_tasksCost);
+    const totalGST = totalContractAmount * 0.08;
+    _totalAmount = Number(totalContractAmount) + Number(totalGST);
 
     setTotalTechnicians(_totalTechnicians);
     setTasksCost(_tasksCost);
     setTotalAmount(_totalAmount);
-  }, [serviceData]);
+  }, [contractAmount, serviceData]);
 
   return {
     contractAmount,

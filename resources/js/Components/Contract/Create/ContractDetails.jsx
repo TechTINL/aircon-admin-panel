@@ -49,8 +49,8 @@ function ContractDetails() {
           <ContractCreatableSelect
             isClearable
             options={templateOptions}
-            handleChange={({ value }) => {
-              setTitle(value);
+            handleChange={value => {
+              setTitle(value?.label);
             }}
           />
         </div>

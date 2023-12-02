@@ -39,13 +39,31 @@ function Service({ index }) {
 
   const updateSelectedEmployees = values => {
     const newData = [...serviceData];
-    newData[index].employeeIds = values.map(value => value.value);
+    newData[index].technicianIds = values.map(value => value.value);
     setServiceData(newData);
   };
 
   const updateTechnicianCount = value => {
     const newData = [...serviceData];
     newData[index].technicianCount = value;
+    setServiceData(newData);
+  };
+
+  const handleOnDurationHrChange = value => {
+    const newData = [...serviceData];
+    newData[index].durationHr = value;
+    setServiceData(newData);
+  };
+
+  const handleOnDurationMinChange = value => {
+    const newData = [...serviceData];
+    newData[index].durationMin = value;
+    setServiceData(newData);
+  };
+
+  const handleOnCostChange = value => {
+    const newData = [...serviceData];
+    newData[index].cost = value;
     setServiceData(newData);
   };
 
@@ -139,6 +157,35 @@ function Service({ index }) {
             onChange={value => setSRTime(value)}
             value={srTime}
           />
+        </div>
+      </div>
+      <div className="flex gap-4 items-center">
+        <div className="flex flex-col flex-1 gap-1">
+          <b>Duration</b>
+          <div className="flex gap-2 items-center">
+            <TextInput
+              value={serviceData[index]?.durationHr}
+              onChange={e => handleOnDurationHrChange(e.target.value)}
+              className="flex-1"
+            />
+            <span>Hours</span>
+            <TextInput
+              className="flex-1"
+              value={serviceData[index]?.durationMin}
+              onChange={e => handleOnDurationMinChange(e.target.value)}
+            />
+            <span>Minutes</span>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <b>Cost</b>
+          <div className="flex gap-2 items-center">
+            <TextInput
+              value={serviceData[index]?.cost}
+              onChange={e => handleOnCostChange(e.target.value)}
+            />
+            <span>$</span>
+          </div>
         </div>
         <div className="flex gap-1 max-w-max items-center mt-5">
           <button>

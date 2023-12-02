@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getTimes } from '@/Utils/utils';
+import { router } from '@inertiajs/react';
 
 function useCreateContract(templates, clients) {
   const [title, setTitle] = useState('');
@@ -12,7 +13,7 @@ function useCreateContract(templates, clients) {
   const [selectedSubClient, setSelectedSubClient] = useState(null);
   const [contractTermStart, setContractTermStart] = useState();
   const [contractTermEnd, setContractTermEnd] = useState();
-  const [contractAmount, setContractAmount] = useState();
+  const [contractAmount, setContractAmount] = useState(0);
   const [serviceRepeatOptions, setServiceRepeatOptions] = useState([
     {
       value: 'monthly',
@@ -77,7 +78,8 @@ function useCreateContract(templates, clients) {
     }
 
     if (serviceCount > 0) {
-      for (let i = 1; i <= serviceCount; i++) {
+      const upperLimit = serviceCount - serviceData.length;
+      for (let i = 1; i <= upperLimit; i++) {
         setServiceData(prevState => [
           ...prevState,
           {
@@ -87,11 +89,12 @@ function useCreateContract(templates, clients) {
             technicianIds: [],
             date: '',
             time: '',
+            durationHr: '',
+            durationMin: '',
+            cost: '',
             tasks: [
               {
                 name: '',
-                durationHr: '',
-                durationMin: '',
                 cost: '',
               },
             ],
@@ -125,19 +128,34 @@ function useCreateContract(templates, clients) {
   };
 
   const createContract = () => {
+    const unassignedServiceCount = serviceData
+      .map(service => service.technicianIds.length)
+      .filter(count => count === 0).length;
+
+    const assignedServiceCount = serviceData
+      .map(service => service.technicianIds.length)
+      .filter(count => count > 0).length;
+
     const contract = {
-      clientId: selectedClient,
-      subClientId: selectedSubClient,
-      contractTermStart,
-      contractTermEnd,
-      contractAmount,
+      title,
+      service_count: Number(serviceCount),
+      unassigned_service_count: Number(unassignedServiceCount),
+      assigned_service_count: Number(assignedServiceCount),
+      start_date: contractTermStart,
+      end_date: contractTermEnd,
+      amount: contractAmount,
+      client_id: selectedClient,
+      subClient_id: selectedSubClient,
       serviceRepeat: selectedServiceRepeat,
       serviceData,
     };
 
-    console.log(contract);
-
-    // router.post(route('contracts.store'), contract);
+    router.post(route('contracts.store'), contract, {
+      preserveScroll: true,
+      onError: errors => {
+        console.log(errors);
+      },
+    });
   };
 
   return {

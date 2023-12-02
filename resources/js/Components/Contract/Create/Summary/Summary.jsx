@@ -1,5 +1,5 @@
 import React from 'react';
-import useSummary from '@/Hooks/Contract/useSummary.js';
+import useSummary from '@/Hooks/Contract/useSummary';
 
 function Summary() {
   const { contractAmount, totalTechnicians, tasksCost, totalAmount } =

@@ -11,6 +11,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TaskTemplateController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -93,10 +94,7 @@ Route::middleware('auth')->group(function () {
 
 	Route::post('apply-leave', [AdminController::class, 'storeLeave'])->name('leave.store');
 
-    Route::get('template-task', function () {
-        return Inertia::render('Template/Task/List');
-    });
-
+    Route::resource('task-templates', TaskTemplateController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('contract-templates', ContractTemplateController::class)
         ->only(['index', 'store', 'update', 'destroy']);
 

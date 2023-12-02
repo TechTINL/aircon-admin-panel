@@ -4,102 +4,18 @@ import { BiChevronDown, BiFilter, BiSearch } from 'react-icons/bi';
 import { useState } from 'react';
 import { AiOutlineRightCircle } from 'react-icons/ai';
 import { HiChevronUpDown } from 'react-icons/hi2';
-import {
-  CONTRACT_CLIENT_FILTERS,
-  SERVICE_STATUS_FILTERS,
-} from '@/Helpers/constants';
+import { CONTRACT_CLIENT_FILTERS } from '@/Helpers/constants';
 import Divider from '@/Components/Ui/Divider';
-import FilterDropdown from '@/Components/Services/FilterDropdown';
 import TextInput from '@/Components/TextInput';
 import Dropdown from '@/Components/Dropdown';
 import { MdAdd } from 'react-icons/md';
 
-function List({ auth }) {
-  const [checkedClientsFilters, setCheckedClientsFilters] = useState([]);
-  const [showSubClients, setShowSubClients] = useState(null);
-  const [checkedStatusFilters, setCheckedStatusFilters] = useState([]);
+function List({ auth, contracts }) {
+  const { data, links, meta } = contracts;
+
   const [checkedClientFilter, setCheckedClientFilter] = useState(
     CONTRACT_CLIENT_FILTERS[0]
   );
-
-  const handleChecked = (name, value, checked) => {
-    if (checked) {
-      setCheckedStatusFilters([...checkedStatusFilters, value]);
-    } else {
-      setCheckedStatusFilters(checkedStatusFilters.filter(f => f !== value));
-    }
-  };
-
-  const handleClientsChecked = (name, value, checked) => {
-    if (checked) {
-      setCheckedClientsFilters([...checkedClientsFilters, value]);
-    } else {
-      setCheckedClientsFilters(checkedClientsFilters.filter(f => f !== value));
-    }
-  };
-
-  const handleSubClients = index => {
-    if (showSubClients === index) {
-      setShowSubClients(null);
-    } else {
-      setShowSubClients(index);
-    }
-  };
-
-  const DATA = [
-    {
-      id: '20230316-01',
-      name: 'One Year Quarterly Maintenance Contract',
-      clientName: 'Client A',
-      subClient: 'Sub-Client B',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      startDate: '20-09-2023',
-      dueDate: '20-09-2023',
-      unassignedSR: 2,
-      assignedSR: 2,
-      totalSR: 4,
-      createdDate: '20-09-2024',
-    },
-    {
-      id: '20230316-01',
-      name: 'One Year Quarterly Maintenance Contract',
-      clientName: 'Client A',
-      subClient: 'Sub-Client B',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      startDate: '20-09-2023',
-      dueDate: '20-09-2023',
-      unassignedSR: 2,
-      assignedSR: 2,
-      totalSR: 4,
-      createdDate: '20-09-2024',
-    },
-    {
-      id: '20230316-01',
-      name: 'One Year Quarterly Maintenance Contract',
-      clientName: 'Client A',
-      subClient: 'Sub-Client B',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      startDate: '20-09-2023',
-      dueDate: '20-09-2023',
-      unassignedSR: 2,
-      assignedSR: 2,
-      totalSR: 4,
-      createdDate: '20-09-2024',
-    },
-    {
-      id: '20230316-01',
-      name: 'One Year Quarterly Maintenance Contract',
-      clientName: 'Client A',
-      subClient: 'Sub-Client B',
-      address: 'Blk 28 Jalan Bahagia, #03-21, Singapore 213810',
-      startDate: '20-09-2023',
-      dueDate: '20-09-2023',
-      unassignedSR: 2,
-      assignedSR: 2,
-      totalSR: 4,
-      createdDate: '20-09-2024',
-    },
-  ];
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -148,13 +64,6 @@ function List({ auth }) {
                   </div>
                 </Dropdown.Content>
               </Dropdown>
-              <FilterDropdown
-                name="status"
-                label="Status"
-                data={SERVICE_STATUS_FILTERS}
-                checkedData={checkedStatusFilters}
-                handleChecked={handleChecked}
-              />
               <Link
                 href="/contracts/create"
                 as="button"
@@ -207,7 +116,7 @@ function List({ auth }) {
                   </tr>
                 </thead>
                 <tbody className="relative">
-                  {DATA.map((item, i) => (
+                  {data.map((item, i) => (
                     <tr
                       className={`text-[#455361] text-[14px] ${
                         i % 2 === 1 && 'bg-white rounded-full'
@@ -219,45 +128,47 @@ function List({ auth }) {
                     >
                       <td className="px-4 py-2 my-1 max-w-[100px]">
                         <div className="flex flex-col justify-center">
-                          {item.subClient ? (
+                          {item?.subClient ? (
                             <span className="text-gray-600 text-[13px]">
-                              {item.clientName} /{' '}
+                              {item?.client?.name} /{' '}
                               <span className="text-secondary">
-                                {item.subClient}
+                                {item?.subClient?.name}
                               </span>
                             </span>
                           ) : (
                             <span className="text-secondary">
-                              {item.clientName}
+                              {item?.client?.name}
                             </span>
                           )}
                           <span className="text-black font-bold">
-                            {item.name}
+                            {item?.title}
                           </span>
                           <span className="text-[12px]">
-                            Contract ID: <b>{item.id}</b>
+                            Contract ID: <b>{item?.contract_number}</b>
                           </span>
                         </div>
                       </td>
 
-                      <td className="px-4 py-2 w-[180px]">{item.address}</td>
-                      <td className="px-4 py-2 max-w-[200px]">
-                        {item.startDate}
+                      <td className="px-4 py-2 w-[180px]">
+                        {item?.client?.address}
                       </td>
                       <td className="px-4 py-2 max-w-[200px]">
-                        {item.dueDate}
+                        {item.start_date}
+                      </td>
+                      <td className="px-4 py-2 max-w-[200px]">
+                        {item.end_date}
                       </td>
                       <td className="px-4 py-2 max-w-[50px] text-center">
-                        {item.unassignedSR}
+                        {item.unassigned_service_count}
                       </td>
                       <td className="px-4 py-2 max-w-[50px] text-center">
-                        {item.assignedSR}
+                        {item.assigned_service_count}
                       </td>
                       <td className="px-4 py-2 max-w-[50px] text-center">
-                        {item.totalSR}
+                        {item.service_count}
                       </td>
                       <td className="px-4 py-2 max-w-[200px] text-center">
-                        {item.createdDate}
+                        {item?.created_at}
                       </td>
                       <td className="px-4 py-4 my-1">
                         <Link

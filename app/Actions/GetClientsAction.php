@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Models\Client;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class GetClientsAction
 {
@@ -50,8 +51,8 @@ class GetClientsAction
         return $this->getClientsWithFirstContact();
     }
 
-    public function getClients()
+    public function getClients(): Collection|array
     {
-        return Client::get();
+        return Client::with('addresses')->get();
     }
 }

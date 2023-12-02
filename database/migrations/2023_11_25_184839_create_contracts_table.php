@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
 			$table->string('title');
-			$table->string('contract_number');
-			$table->string('service_count');
+			$table->string('contract_number')->nullable();
+            $table->integer('unassigned_service_count')->nullable();
+            $table->integer('assigned_service_count')->nullable();
+			$table->integer('service_count');
 			$table->string('start_date');
 			$table->string('end_date');
 			$table->string('amount');

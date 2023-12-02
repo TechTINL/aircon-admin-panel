@@ -161,7 +161,7 @@ function Sidebar({ children }) {
             </ListItem>
             <AccordionBody className="py-1">
               <List className="p-0">
-                <Link href="/template-task">
+                <Link href="/task-templates">
                   <ListItem>
                     <ListItemPrefix>
                       <FaChevronRight strokeWidth={3} className="h-3 w-5" />

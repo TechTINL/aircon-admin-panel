@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Contract\GetContractAction;
 use App\Actions\GetClientsAction;
 use App\Actions\GetEmployeesAction;
 use App\Actions\Template\Contract\GetContractTemplatesAction;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
+use App\Http\Resources\ContractResource;
 use App\Models\Contract;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,9 +18,11 @@ class ContractController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(GetContractAction $action): Response
     {
-        return Inertia::render('Contract/List');
+        return Inertia::render('Contract/List', [
+			'contracts' => ContractResource::collection($action->execute()),
+		]);
     }
 
     /**
