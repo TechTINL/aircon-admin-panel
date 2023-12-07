@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('unassigned_service_count')->nullable();
             $table->integer('assigned_service_count')->nullable();
 			$table->integer('service_count');
+            $table->string('billing_address');
 			$table->string('start_date');
 			$table->string('end_date');
 			$table->string('amount');

@@ -2,12 +2,12 @@ import { useContext } from 'react';
 import Select from 'react-select';
 import ContractCreatableSelect from '@/Components/Contract/Create/ContractCreateableSelect';
 import CreateContractContext from '@/Context/CreateContractContext';
+import AddressSelect from '@/Components/Contract/AddressSelect.jsx';
 import TextInput from '../../TextInput';
 import DatePicker from '../../Common/DatePicker';
 
 function ContractDetails() {
   const {
-    title,
     setTitle,
     templateOptions,
     serviceCount,
@@ -23,6 +23,13 @@ function ContractDetails() {
     contractAmount,
     setContractAmount,
   } = useContext(CreateContractContext);
+
+  const onContractTitleChange = value => {
+    setTitle(value?.label);
+    if (!value?.__isNew__) {
+      setServiceCount(value?.serviceCount);
+    }
+  };
 
   const onChangeDate = (name, value) => {
     const date = new Date(value).toLocaleDateString();
@@ -49,9 +56,7 @@ function ContractDetails() {
           <ContractCreatableSelect
             isClearable
             options={templateOptions}
-            handleChange={value => {
-              setTitle(value?.label);
-            }}
+            handleChange={onContractTitleChange}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -75,7 +80,7 @@ function ContractDetails() {
           isClearable
           isSearchable
           options={clientOptions}
-          onChange={option => setSelectedClient(option.value)}
+          onChange={option => setSelectedClient(option)}
         />
       </div>
       {subClientOptions.length > 0 && (
@@ -85,10 +90,11 @@ function ContractDetails() {
             isClearable
             isSearchable
             options={subClientOptions}
-            onChange={option => setSelectedSubClient(option.value)}
+            onChange={option => setSelectedSubClient(option)}
           />
         </div>
       )}
+      <AddressSelect />
       <div className="flex flex-wrap flex-row gap-3">
         <div className="flex flex-col flex-1 gap-2">
           <span className="text-black font-bold text-[16px]">

@@ -169,7 +169,7 @@ function Sidebar({ children }) {
                     Task
                   </ListItem>
                 </Link>
-                <Link href="/template-service">
+                <Link href="/service-templates">
                   <ListItem>
                     <ListItemPrefix>
                       <FaChevronRight strokeWidth={3} className="h-3 w-5" />

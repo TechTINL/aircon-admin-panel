@@ -6,6 +6,8 @@ use App\Actions\Contract\GetContractAction;
 use App\Actions\GetClientsAction;
 use App\Actions\GetEmployeesAction;
 use App\Actions\Template\Contract\GetContractTemplatesAction;
+use App\Actions\Template\GetServiceTemplatesAction;
+use App\Actions\Template\GetTaskTemplatesAction;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
 use App\Http\Resources\ContractResource;
@@ -31,13 +33,17 @@ class ContractController extends Controller
     public function create(
 		GetContractTemplatesAction $action,
 		GetClientsAction $getClientsAction,
-		GetEmployeesAction $employeesAction): Response
+		GetEmployeesAction $employeesAction,
+		GetServiceTemplatesAction $getServiceTemplatesAction,
+        GetTaskTemplatesAction $getTaskTemplatesAction): Response
     {
         return Inertia::render('Contract/Create', [
             'contractTemplates' => $action->execute(),
             'clients' => $getClientsAction->getClients(),
 	        'leaders' => $employeesAction->leader(),
 	        'employees' => $employeesAction->get(),
+	        'serviceTemplates' => $getServiceTemplatesAction->execute(),
+	        'taskTemplates' => $getTaskTemplatesAction->execute(),
         ]);
     }
 

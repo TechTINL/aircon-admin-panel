@@ -11,6 +11,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ServiceTemplateController;
 use App\Http\Controllers\TaskTemplateController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -98,9 +99,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('contract-templates', ContractTemplateController::class)
         ->only(['index', 'store', 'update', 'destroy']);
 
-    Route::get('template-service', function () {
-        return Inertia::render('Template/Service/List');
-    });
+    Route::resource('service-templates', ServiceTemplateController::class)
+	    ->only(['index', 'store', 'update', 'destroy']);
 
     Route::get('manage-gst', function () {
         return Inertia::render('ManageGST');

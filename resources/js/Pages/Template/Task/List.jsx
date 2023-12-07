@@ -1,61 +1,48 @@
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { BiSearch } from 'react-icons/bi';
-import TextInput from '@/Components/TextInput';
 import { MdAddCircleOutline } from 'react-icons/md';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import NewTaskTemplateModal from '@/Components/Template/Task/NewTaskTemplateModal.jsx';
+import TaskTemplateModal from '@/Components/Template/Task/TaskTemplateModal';
+import { IconButton } from '@material-tailwind/react';
 import DeleteConfirmationModal from '../../../Components/Template/Modals/DeleteConfirmationModal';
-import NewTemplateModal from '../../../Components/Template/Modals/NewTemplateModal';
 
-function List({ auth }) {
-  const tasks = [
-    {
-      name: 'Supply labour, tools & materials to perform ad-hoc general servicing for X Nos. of FCUs, inclusive of test run system.',
-    },
-    {
-      name: 'Supply labour, tools & materials to perform ad-hoc general servicing for X Nos. of FCUs, inclusive of test run system.',
-    },
-    {
-      name: 'Supply labour, tools & materials to perform ad-hoc general servicing for X Nos. of FCUs, inclusive of test run system.',
-    },
-    {
-      name: 'Supply labour, tools & materials to perform ad-hoc general servicing for X Nos. of FCUs, inclusive of test run system.',
-    },
-    {
-      name: 'Supply labour, tools & materials to perform ad-hoc general servicing for X Nos. of FCUs, inclusive of test run system.',
-    },
-  ];
+function List({ auth, taskTemplates }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openNewTaskModal, setOpenNewTaskModal] = useState(false);
-  const [editTask, setEditTask] = useState(null);
+  const [openTaskModal, setOpenTaskModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
-  const onEdit = task => {
-    setEditTask(task);
-    setOpenNewTaskModal(true);
+  const onEdit = t => {
+    setSelectedTask(t);
+    setOpenTaskModal(true);
+  };
+
+  const onDelete = () => {
+    router.delete(`/task-templates/${selectedTask?.id}`, {
+      onSuccess: () => {
+        setOpenDeleteModal(false);
+      },
+      onError: error => {
+        setOpenDeleteModal(false);
+      },
+    });
   };
 
   return (
     <AuthenticatedLayout user={auth.user}>
-      <Head title="Job Table" />
-      <NewTaskTemplateModal
-        task={editTask}
-        title="Task"
-        openModal={openNewTaskModal}
-        setOpenModal={setOpenNewTaskModal}
+      <Head title="Task List" />
+      <TaskTemplateModal
+        task={selectedTask}
+        openModal={openTaskModal}
+        setOpenModal={setOpenTaskModal}
       />
       <DeleteConfirmationModal
         title="Task"
-        content={
-          <span className="text-[#455361]">
-            Supply labour, tools & materials to perform ad-hoc general servicing
-            for X Nos. of FCUs, inclusive of test run system.
-          </span>
-        }
+        content={<span className="text-[#455361]">{selectedTask?.name}</span>}
         openModal={openDeleteModal}
         setOpenModal={setOpenDeleteModal}
+        onDelete={onDelete}
       />
       <div className="flex flex-auto flex-col m-6 gap-6 max-w-full">
         <div className="text-zinc-800 text-3xl font-bold leading-10">
@@ -66,11 +53,11 @@ function List({ auth }) {
           {/* Search & Filters */}
           <div className="flex flex-row justify-between">
             <div className="flex items-center relative">
-              <TextInput
-                className="w-full h-full pl-8 rounded-xl"
-                placeholder="Search"
-              />
-              <BiSearch className="text-gray-500 absolute text-[20px] left-2" />
+              {/* <TextInput */}
+              {/*  className="w-full h-full pl-8 rounded-xl" */}
+              {/*  placeholder="Search" */}
+              {/* /> */}
+              {/* <BiSearch className="text-gray-500 absolute text-[20px] left-2" /> */}
             </div>
             <button
               onClick={() => onEdit(null)}
@@ -94,7 +81,7 @@ function List({ auth }) {
                 </tr>
               </thead>
               <tbody className="relative">
-                {tasks.map((task, i) => (
+                {taskTemplates.map((task, i) => (
                   <tr
                     className={`text-[#455361] ${
                       i % 2 === 1 && 'bg-white rounded-full'
@@ -106,12 +93,22 @@ function List({ auth }) {
                   >
                     <td className="px-4 py-2 my-1">{task.name}</td>
                     <td className="py-2 my-1 flex items-center justify-center gap-4">
-                      <button onClick={() => onEdit(task)}>
+                      <IconButton
+                        variant="text"
+                        type="button"
+                        onClick={() => onEdit(task)}
+                      >
                         <AiOutlineEdit className="text-primary" size={20} />
-                      </button>
-                      <button onClick={() => setOpenDeleteModal(true)}>
+                      </IconButton>
+                      <IconButton
+                        variant="text"
+                        onClick={() => {
+                          setOpenDeleteModal(true);
+                          setSelectedTask(task);
+                        }}
+                      >
                         <RiDeleteBin6Line color="red" size={20} />
-                      </button>
+                      </IconButton>
                     </td>
                   </tr>
                 ))}

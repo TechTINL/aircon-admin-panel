@@ -150,7 +150,7 @@ function List({ auth, contracts }) {
                       </td>
 
                       <td className="px-4 py-2 w-[180px]">
-                        {item?.client?.address}
+                        {item?.billing_address}
                       </td>
                       <td className="px-4 py-2 max-w-[200px]">
                         {item.start_date}

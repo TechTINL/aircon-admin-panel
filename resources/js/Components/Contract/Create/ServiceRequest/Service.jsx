@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
+import { Button } from '@material-tailwind/react';
 import CreateContractContext from '@/Context/CreateContractContext';
 import { usePage } from '@inertiajs/react';
 import Select from 'react-select';
 import TextInput from '@/Components/TextInput';
+import SelectTemplateModal from '@/Components/Template/SelectTemplateModal';
 import TextArea from '../../../Shared/TextArea';
 import DatePicker from '../../../Common/DatePicker';
 import TimePicker from '../../../Common/TimePicker';
 import Task from './Task';
 
 function Service({ index }) {
-  const { leaders, employees } = usePage().props;
+  const { leaders, employees, serviceTemplates } = usePage().props;
 
   const { serviceData, setServiceData, handleAddTask } = useContext(
     CreateContractContext
@@ -22,6 +24,8 @@ function Service({ index }) {
   const [selectedLeader, setSelectedLeader] = useState('');
   const [srDate, setSRDate] = useState(new Date().toLocaleDateString());
   const [srTime, setSRTime] = useState({ label: '9:00 AM', value: '9:00 AM' });
+  const [openServiceTemplateModal, setOpenServiceTemplateModal] =
+    useState(false);
 
   const updateServiceName = value => {
     const newData = [...serviceData];
@@ -46,24 +50,6 @@ function Service({ index }) {
   const updateTechnicianCount = value => {
     const newData = [...serviceData];
     newData[index].technicianCount = value;
-    setServiceData(newData);
-  };
-
-  const handleOnDurationHrChange = value => {
-    const newData = [...serviceData];
-    newData[index].durationHr = value;
-    setServiceData(newData);
-  };
-
-  const handleOnDurationMinChange = value => {
-    const newData = [...serviceData];
-    newData[index].durationMin = value;
-    setServiceData(newData);
-  };
-
-  const handleOnCostChange = value => {
-    const newData = [...serviceData];
-    newData[index].cost = value;
     setServiceData(newData);
   };
 
@@ -99,17 +85,26 @@ function Service({ index }) {
   return (
     <div className="p-4 flex flex-col border border-border-gray rounded-xl text-[14px] gap-2">
       <span className="text-primary">Service Request</span>
-
       <div className="flex flex-col">
         <div className="flex justify-between">
           <span>
             Name of Service <span className="text-red-600">*</span>
           </span>
-          <button className="text-primary">Select template</button>
+          <Button
+            type="button"
+            variant="text"
+            className="text-primary"
+            onClick={() => {
+              setOpenServiceTemplateModal(true);
+            }}
+          >
+            Select template
+          </Button>
         </div>
         <TextArea
           id="service-name"
           placeholder="Name of Service"
+          value={serviceData[index]?.name}
           onChange={value => updateServiceName(value)}
         />
       </div>
@@ -158,35 +153,6 @@ function Service({ index }) {
             value={srTime}
           />
         </div>
-      </div>
-      <div className="flex gap-4 items-center">
-        <div className="flex flex-col flex-1 gap-1">
-          <b>Duration</b>
-          <div className="flex gap-2 items-center">
-            <TextInput
-              value={serviceData[index]?.durationHr}
-              onChange={e => handleOnDurationHrChange(e.target.value)}
-              className="flex-1"
-            />
-            <span>Hours</span>
-            <TextInput
-              className="flex-1"
-              value={serviceData[index]?.durationMin}
-              onChange={e => handleOnDurationMinChange(e.target.value)}
-            />
-            <span>Minutes</span>
-          </div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <b>Cost</b>
-          <div className="flex gap-2 items-center">
-            <TextInput
-              value={serviceData[index]?.cost}
-              onChange={e => handleOnCostChange(e.target.value)}
-            />
-            <span>$</span>
-          </div>
-        </div>
         <div className="flex gap-1 max-w-max items-center mt-5">
           <button>
             <RiDeleteBin6Line color="red" size={22} />
@@ -211,6 +177,14 @@ function Service({ index }) {
         <span>Add More Task</span>
         <MdOutlineAddCircleOutline size={20} />
       </button>
+      <SelectTemplateModal
+        openModal={openServiceTemplateModal}
+        setOpenModal={setOpenServiceTemplateModal}
+        templateOptions={serviceTemplates}
+        handleSave={value => {
+          updateServiceName(value?.name);
+        }}
+      />
     </div>
   );
 }

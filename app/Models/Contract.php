@@ -16,6 +16,7 @@ class Contract extends Model
 		'service_count',
         'unassigned_service_count',
         'assigned_service_count',
+        'billing_address',
 		'start_date',
 		'end_date',
 		'amount',

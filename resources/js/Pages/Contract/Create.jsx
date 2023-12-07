@@ -17,9 +17,13 @@ function Create({ auth, contractTemplates: templates, clients }) {
     serviceCount,
     setServiceCount,
     clientOptions,
+    selectedClient,
     setSelectedClient,
     subClientOptions,
+    selectedSubClient,
     setSelectedSubClient,
+    address,
+    setAddress,
     contractTermStart,
     setContractTermStart,
     contractTermEnd,
@@ -35,6 +39,7 @@ function Create({ auth, contractTemplates: templates, clients }) {
     serviceData,
     setServiceData,
     handleAddTask,
+    handleRemoveTask,
     createContract,
   } = useCreateContract(templates, clients);
 
@@ -47,9 +52,13 @@ function Create({ auth, contractTemplates: templates, clients }) {
         serviceCount,
         setServiceCount,
         clientOptions,
+        selectedClient,
         setSelectedClient,
         subClientOptions,
+        selectedSubClient,
         setSelectedSubClient,
+        address,
+        setAddress,
         contractTermStart,
         setContractTermStart,
         contractTermEnd,
@@ -65,6 +74,7 @@ function Create({ auth, contractTemplates: templates, clients }) {
         serviceData,
         setServiceData,
         handleAddTask,
+        handleRemoveTask,
       }}
     >
       <AuthenticatedLayout user={auth.user}>

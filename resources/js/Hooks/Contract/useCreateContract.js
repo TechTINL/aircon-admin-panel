@@ -7,6 +7,7 @@ function useCreateContract(templates, clients) {
   const [templateOptions, setTemplateOptions] = useState([]);
   const [clientOptions, setClientOptions] = useState([]);
   const [subClientOptions, setSubClientOptions] = useState([]);
+  const [address, setAddress] = useState('');
   const [serviceCount, setServiceCount] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
@@ -46,6 +47,7 @@ function useCreateContract(templates, clients) {
         return {
           value: template.id,
           label: template.name,
+          serviceCount: template.service_count,
         };
       });
       setTemplateOptions(options);
@@ -56,9 +58,11 @@ function useCreateContract(templates, clients) {
         .filter(client => client.parent_id === null)
         .map(client => {
           return {
+            id: client.id,
             value: client.id,
             label: client.name,
             parent_id: client.parent_id,
+            addresses: client.addresses,
           };
         });
       setClientOptions(options);
@@ -66,12 +70,14 @@ function useCreateContract(templates, clients) {
 
     if (selectedClient) {
       const options = clients
-        .filter(client => client.parent_id === selectedClient)
+        .filter(client => client.parent_id === selectedClient.id)
         .map(client => {
           return {
+            id: client.id,
             value: client.id,
             label: client.name,
             parent_id: client.parent_id,
+            addresses: client.addresses,
           };
         });
       setSubClientOptions(options);
@@ -89,12 +95,11 @@ function useCreateContract(templates, clients) {
             technicianIds: [],
             date: '',
             time: '',
-            durationHr: '',
-            durationMin: '',
-            cost: '',
             tasks: [
               {
                 name: '',
+                durationHr: '',
+                durationMin: '',
                 cost: '',
               },
             ],
@@ -138,14 +143,15 @@ function useCreateContract(templates, clients) {
 
     const contract = {
       title,
+      billing_address: address,
       service_count: Number(serviceCount),
       unassigned_service_count: Number(unassignedServiceCount),
       assigned_service_count: Number(assignedServiceCount),
       start_date: contractTermStart,
       end_date: contractTermEnd,
       amount: contractAmount,
-      client_id: selectedClient,
-      subClient_id: selectedSubClient,
+      client_id: selectedClient.id,
+      subClient_id: selectedSubClient.id,
       serviceRepeat: selectedServiceRepeat,
       serviceData,
     };
@@ -172,6 +178,8 @@ function useCreateContract(templates, clients) {
     setSelectedClient,
     selectedSubClient,
     setSelectedSubClient,
+    address,
+    setAddress,
     contractTermStart,
     setContractTermStart,
     contractTermEnd,
