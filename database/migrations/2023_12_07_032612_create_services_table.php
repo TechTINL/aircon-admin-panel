@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('type'); // contract or adhoc
             $table->integer('technician_count');
-            $table->string('service_time'); // 3 of 4
+            $table->string('service_no_of_time'); // 3 of 4
             $table->date('service_date');
             $table->string('service_time');
             $table->dateTime('service_at');
