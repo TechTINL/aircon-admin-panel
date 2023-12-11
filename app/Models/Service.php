@@ -24,6 +24,8 @@ class Service extends Model
         'contract_id',
         'service_address',
         'billing_address',
+        'client_id',
+        'sub_client_id',
     ];
 
     public function contract(): BelongsTo
@@ -59,12 +61,12 @@ class Service extends Model
             ->withTimestamps();
     }
 
-    public function client(): BelongsTo
+    public function clients(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function subClient(): BelongsTo
+    public function subClients(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'sub_client_id');
     }
