@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Facades\Log;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Client extends Model
@@ -19,9 +17,7 @@ class Client extends Model
     protected $fillable = [
         'name',
         'type',
-        'postal_code',
-        'address',
-        'billing_address',
+        'is_primary',
         'parent_id',
     ];
 
@@ -54,7 +50,13 @@ class Client extends Model
 	{
 		return $this->hasMany(Client::class, 'parent_id');
 	}
-    
+
+    // Contracts
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

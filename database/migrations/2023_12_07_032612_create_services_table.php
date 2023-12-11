@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('service_number');
+            $table->string('service_number')->nullable();
             $table->string('name');
             $table->string('type'); // contract or adhoc
             $table->integer('technician_count');
@@ -21,8 +21,13 @@ return new class extends Migration
             $table->date('service_date');
             $table->string('service_time');
             $table->dateTime('service_at');
+            $table->string('service_address');
+            $table->string('billing_address');
             $table->string('status');
             $table->unsignedBigInteger('contract_id')->nullable();
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('subClient_id')->nullable();
             $table->timestamps();
         });
     }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthenticatedApiController;
+use App\Http\Controllers\Api\ClientApiController;
+use App\Http\Controllers\Api\ServiceApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Http\Request;
@@ -21,8 +23,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthenticatedApiController::class, 'profile']);
     Route::post('/profile', [AuthenticatedApiController::class, 'updateProfile']);
     Route::post('/logout', [AuthenticatedApiController::class, 'logout']);
-    Route::get('/services', [ServiceController::class, 'index']);
-    Route::get('/services/{service}', [ServiceController::class, 'show']);
+    Route::get('/services', [ServiceApiController::class, 'index']);
+    Route::get('/clients/{client}', [ClientApiController::class, 'show']);
 });
 
 Route::post('/login', [AuthenticatedApiController::class, 'login']);

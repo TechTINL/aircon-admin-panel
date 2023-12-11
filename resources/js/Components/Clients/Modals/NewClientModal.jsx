@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useForm } from '@inertiajs/react';
 import ProfileImage from '@/Components/Shared/Clients/ProfileImage';
@@ -91,6 +91,17 @@ function NewClientModal() {
     reset();
   };
 
+  const handleCheckBoxChange = useCallback(
+    e => {
+      if (e.target.checked) {
+        setData('billing_address', data.address);
+      } else {
+        setData('billing_address', '');
+      }
+    },
+    [data.address]
+  );
+
   return (
     <>
       <button
@@ -122,7 +133,7 @@ function NewClientModal() {
                   <div className="col-span-4">
                     <InputLabel
                       htmlFor="name"
-                      value="Client Name *"
+                      value="Client Name"
                       className="text-zinc-800 text-base font-bold my-1"
                     />
 
@@ -138,7 +149,7 @@ function NewClientModal() {
                   <div>
                     <InputLabel
                       htmlFor="type"
-                      value="Property Type *"
+                      value="Property Type"
                       className="text-zinc-800 text-base font-bold my-1"
                     />
 
@@ -160,7 +171,6 @@ function NewClientModal() {
                       value="Postal Code"
                       className="text-zinc-800 text-base font-bold my-1"
                     />
-
                     <TextInput
                       id="postal_code"
                       name="postal_code"
@@ -168,7 +178,6 @@ function NewClientModal() {
                       onChange={search}
                       value={searchTerm}
                     />
-
                     <InputError message={errors.postal_code} className="mt-2" />
                   </div>
                 </div>
@@ -207,13 +216,7 @@ function NewClientModal() {
                         id="same_address"
                         label="Same as address"
                         value="same_address"
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setData('billing_address', data.address);
-                          } else {
-                            setData('billing_address', '');
-                          }
-                        }}
+                        onChange={e => handleCheckBoxChange(e)}
                       />
                     </div>
                   </div>
@@ -221,7 +224,7 @@ function NewClientModal() {
                 <div>
                   <InputLabel
                     htmlFor="contact_name"
-                    value="POC Name *"
+                    value="POC Name"
                     className="text-zinc-800 text-base font-bold my-1"
                   />
 

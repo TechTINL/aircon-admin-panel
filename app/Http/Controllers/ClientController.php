@@ -68,7 +68,13 @@ class ClientController extends Controller
     {
         return Inertia::render('Clients/Detail/Profile', [
 			'breadcrumb' => BreadcrumbHelper::clientProfile($client->id),
-            'client' => $client,
+            'client' => [
+                'id' => $client->id,
+                'name' => $client->name,
+                'type' => $client->type,
+                'parent_id' => $client->parent_id,
+                'address' => $client->addresses->where('is_primary', true)->first()->address ?? '',
+            ],
 			'subClients' => ClientResource::collection($getSubClientAction->execute($client->id)),
             'addresses' => $client->addresses()->orderBy('created_at', 'desc')->get(),
             'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),

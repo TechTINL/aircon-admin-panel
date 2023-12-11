@@ -7,7 +7,8 @@ function useCreateContract(templates, clients) {
   const [templateOptions, setTemplateOptions] = useState([]);
   const [clientOptions, setClientOptions] = useState([]);
   const [subClientOptions, setSubClientOptions] = useState([]);
-  const [address, setAddress] = useState('');
+  const [serviceAddress, setServiceAddress] = useState('');
+  const [billingAddress, setBillingAddress] = useState('');
   const [serviceCount, setServiceCount] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
@@ -90,7 +91,7 @@ function useCreateContract(templates, clients) {
           ...prevState,
           {
             name: '',
-            teamLeaderId: '',
+            teamLeaderIds: [],
             technicianCount: '',
             technicianIds: [],
             date: '',
@@ -143,7 +144,8 @@ function useCreateContract(templates, clients) {
 
     const contract = {
       title,
-      billing_address: address,
+      service_address: serviceAddress?.address,
+      billing_address: billingAddress?.address,
       service_count: Number(serviceCount),
       unassigned_service_count: Number(unassignedServiceCount),
       assigned_service_count: Number(assignedServiceCount),
@@ -151,7 +153,7 @@ function useCreateContract(templates, clients) {
       end_date: contractTermEnd,
       amount: contractAmount,
       client_id: selectedClient.id,
-      subClient_id: selectedSubClient.id,
+      subClient_id: selectedSubClient?.id,
       serviceRepeat: selectedServiceRepeat,
       serviceData,
     };
@@ -178,8 +180,10 @@ function useCreateContract(templates, clients) {
     setSelectedClient,
     selectedSubClient,
     setSelectedSubClient,
-    address,
-    setAddress,
+    serviceAddress,
+    setServiceAddress,
+    billingAddress,
+    setBillingAddress,
     contractTermStart,
     setContractTermStart,
     contractTermEnd,

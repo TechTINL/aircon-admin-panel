@@ -68,7 +68,7 @@ function Sidebar({ children }) {
         <NavItem
           text="Service Report"
           isActive={isServiceReportActive}
-          url="/service-report"
+          url="/services"
           icon={<PiWrenchLight size={22} className="lg:mx-4 md:mx-1" />}
         />
         <List>

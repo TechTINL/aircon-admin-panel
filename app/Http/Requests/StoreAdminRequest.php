@@ -12,7 +12,7 @@ class StoreAdminRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can('access dashboard') && auth()->user()->can('admin.any');
+        return auth()->user()->can('dashboard.any') && auth()->user()->can('admin.any');
     }
 
     /**

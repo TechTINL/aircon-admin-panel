@@ -24,15 +24,17 @@ class StoreContractRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
+            'billing_address' => 'required|string',
+            'service_address' => 'required|string',
 	        'service_count' => 'required|integer',
             'unassigned_service_count' => 'required|integer',
             'assigned_service_count' => 'required|integer',
-            'billing_address' => 'required|string',
 			'start_date' => 'required|date',
 			'end_date' => 'required|date',
 			'amount' => 'required|string',
 	        'client_id' => 'required|exists:clients,id',
-	        'subClient_id' => 'required|exists:clients,id',
+	        'subClient_id' => 'nullable|exists:clients,id',
+            'serviceData' => 'array',
         ];
     }
 }

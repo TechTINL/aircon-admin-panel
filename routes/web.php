@@ -11,6 +11,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceTemplateController;
 use App\Http\Controllers\TaskTemplateController;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +82,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
 
     Route::resource('contracts', ContractController::class)->only(['index', 'create', 'store', 'update']);
+    Route::resource('services', ServiceController::class)->only(['index']);
+    Route::get('services/export', [ServiceController::class, 'export'])->name('services.export');
 
     Route::get('employee', [EmployeeController::class, 'index'])->name('employee.index');
 	Route::get('employee/create', [EmployeeController::class, 'create'])->name('employee.create');

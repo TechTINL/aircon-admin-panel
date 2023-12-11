@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Console\View\Components\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Contract extends Model
 {
@@ -17,6 +19,7 @@ class Contract extends Model
         'unassigned_service_count',
         'assigned_service_count',
         'billing_address',
+        'service_address',
 		'start_date',
 		'end_date',
 		'amount',
@@ -33,6 +36,16 @@ class Contract extends Model
 	{
 		return $this->belongsTo(Client::class, 'client_id', 'id');
 	}
+
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class);
+    }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
 
 	protected static function boot()
 	{

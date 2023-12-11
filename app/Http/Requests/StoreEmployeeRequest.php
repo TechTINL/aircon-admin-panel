@@ -12,7 +12,7 @@ class StoreEmployeeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can('access dashboard');
+        return auth()->user()->can('dashboard.any');
     }
 
     /**

@@ -20,6 +20,7 @@ class Address extends Model
         'phone',
         'postal_code',
         'address',
+        'is_primary',
         'client_id',
     ];
 
@@ -27,7 +28,7 @@ class Address extends Model
     {
         return $this->belongsTo(Client::class);
     }
-    
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

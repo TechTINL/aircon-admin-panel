@@ -1,34 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
-import CreateContractContext from '@/Context/CreateContractContext';
 import Select from 'react-select';
-
-function constructAddressOptions(addresses) {
-  return addresses.map(address => ({
-    ...address,
-    label: address.address,
-    value: address.address,
-  }));
-}
+import useAddress from '@/Hooks/Contract/useAddress';
 
 function AddressSelect() {
-  const { selectedClient, selectedSubClient, setAddress } = useContext(
-    CreateContractContext
-  );
-
-  const [addressOptions, setAddressOptions] = useState([]);
-
-  useEffect(() => {
-    if (selectedClient) {
-      setAddressOptions(constructAddressOptions(selectedClient.addresses));
-    }
-    if (selectedSubClient) {
-      setAddressOptions(constructAddressOptions(selectedSubClient.addresses));
-    }
-  }, [selectedClient, selectedSubClient]);
-
-  if (!selectedClient) {
-    return null;
-  }
+  const { addressOptions, setBillingAddress } = useAddress();
 
   return (
     <div className="flex flex-col gap-3">
@@ -37,7 +11,7 @@ function AddressSelect() {
         isClearable
         isSearchable
         options={addressOptions}
-        onChange={option => setAddress(option.value)}
+        onChange={option => setBillingAddress(option)}
       />
     </div>
   );

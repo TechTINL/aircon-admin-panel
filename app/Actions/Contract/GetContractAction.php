@@ -9,6 +9,6 @@ class GetContractAction
 {
 	public function execute()
 	{
-		return Contract::paginate(10);
+		return Contract::latest()->paginate(10);
 	}
 }

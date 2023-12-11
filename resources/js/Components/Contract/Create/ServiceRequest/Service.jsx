@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
+import { produce } from 'immer';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import { Button } from '@material-tailwind/react';
@@ -22,35 +23,55 @@ function Service({ index }) {
   const [leaderOptions, setLeaderOptions] = useState([]);
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [selectedLeader, setSelectedLeader] = useState('');
-  const [srDate, setSRDate] = useState(new Date().toLocaleDateString());
-  const [srTime, setSRTime] = useState({ label: '9:00 AM', value: '9:00 AM' });
   const [openServiceTemplateModal, setOpenServiceTemplateModal] =
     useState(false);
 
   const updateServiceName = value => {
-    const newData = [...serviceData];
-    newData[index].name = value;
-    setServiceData(newData);
+    setServiceData(
+      produce(draft => {
+        draft[index].name = value;
+      })
+    );
   };
 
-  const updateSelectedLeader = value => {
-    const newData = [...serviceData];
-    if (newData[index]) {
-      newData[index].teamLeaderId = value;
-    }
-    setServiceData(newData);
+  const updateSelectedLeader = values => {
+    setServiceData(
+      produce(draft => {
+        draft[index].teamLeaderIds = values.map(value => value.value);
+      })
+    );
   };
 
   const updateSelectedEmployees = values => {
-    const newData = [...serviceData];
-    newData[index].technicianIds = values.map(value => value.value);
-    setServiceData(newData);
+    setServiceData(
+      produce(draft => {
+        draft[index].technicianIds = values.map(value => value.value);
+      })
+    );
   };
 
   const updateTechnicianCount = value => {
-    const newData = [...serviceData];
-    newData[index].technicianCount = value;
-    setServiceData(newData);
+    setServiceData(
+      produce(draft => {
+        draft[index].technicianCount = value;
+      })
+    );
+  };
+
+  const updateServiceDate = value => {
+    setServiceData(
+      produce(draft => {
+        draft[index].date = value;
+      })
+    );
+  };
+
+  const updateServiceTime = value => {
+    setServiceData(
+      produce(draft => {
+        draft[index].time = value;
+      })
+    );
   };
 
   useEffect(() => {
@@ -70,17 +91,6 @@ function Service({ index }) {
     });
     setEmployeeOptions(employeeOptionsData);
   }, [leaders, employees]);
-
-  useEffect(() => {
-    updateSelectedLeader(selectedLeader);
-    const employeeOptionsData = employees.map(employee => {
-      return {
-        label: employee.name,
-        value: employee.id,
-      };
-    });
-    setEmployeeOptions(employeeOptionsData);
-  }, [selectedLeader]);
 
   return (
     <div className="p-4 flex flex-col border border-border-gray rounded-xl text-[14px] gap-2">
@@ -116,7 +126,7 @@ function Service({ index }) {
             isMulti
             isSearchable
             options={leaderOptions}
-            onChange={option => setSelectedLeader(option.value)}
+            onChange={option => updateSelectedLeader(option)}
           />
         </div>
         <div className="flex flex-col gap-1 max-w-max">
@@ -131,7 +141,6 @@ function Service({ index }) {
           <span>Technician / Sub-Contractor</span>
           <Select
             isMulti
-            isClearable
             isSearchable
             options={employeeOptions}
             onChange={option => updateSelectedEmployees(option)}
@@ -141,16 +150,16 @@ function Service({ index }) {
           <span>Date</span>
           <DatePicker
             classes="rounded-xl"
-            onChange={value => setSRDate(value)}
-            value={srDate}
+            onChange={value => updateServiceDate(value)}
+            value={serviceData[index]?.date}
           />
         </div>
         <div className="flex flex-col gap-1 max-w-max">
           <span>Time</span>
           <TimePicker
             classes="rounded-xl"
-            onChange={value => setSRTime(value)}
-            value={srTime}
+            onChange={value => updateServiceTime(value)}
+            value={serviceData[index]?.time}
           />
         </div>
         <div className="flex gap-1 max-w-max items-center mt-5">

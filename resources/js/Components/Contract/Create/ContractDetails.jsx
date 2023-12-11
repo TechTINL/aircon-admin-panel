@@ -3,6 +3,7 @@ import Select from 'react-select';
 import ContractCreatableSelect from '@/Components/Contract/Create/ContractCreateableSelect';
 import CreateContractContext from '@/Context/CreateContractContext';
 import AddressSelect from '@/Components/Contract/AddressSelect.jsx';
+import useAddress from '@/Hooks/Contract/useAddress.js';
 import TextInput from '../../TextInput';
 import DatePicker from '../../Common/DatePicker';
 
@@ -23,6 +24,8 @@ function ContractDetails() {
     contractAmount,
     setContractAmount,
   } = useContext(CreateContractContext);
+
+  const { addressOptions, setServiceAddress, SetBillingAddress } = useAddress();
 
   const onContractTitleChange = value => {
     setTitle(value?.label);
@@ -94,6 +97,17 @@ function ContractDetails() {
           />
         </div>
       )}
+      <div className="flex flex-col gap-3">
+        <span className="text-black font-bold text-[16px]">
+          Service Address
+        </span>
+        <Select
+          isClearable
+          isSearchable
+          options={addressOptions}
+          onChange={option => setServiceAddress(option)}
+        />
+      </div>
       <AddressSelect />
       <div className="flex flex-wrap flex-row gap-3">
         <div className="flex flex-col flex-1 gap-2">

@@ -9,6 +9,7 @@ import Divider from '@/Components/Ui/Divider';
 import TextInput from '@/Components/TextInput';
 import Dropdown from '@/Components/Dropdown';
 import { MdAdd } from 'react-icons/md';
+import Pagination from '@/Components/Shared/Pagination';
 
 function List({ auth, contracts }) {
   const { data, links, meta } = contracts;
@@ -194,7 +195,7 @@ function List({ auth, contracts }) {
           <Divider />
 
           <div className="flex flex-initial justify-between items-center mt-4">
-            {/* <Pagination links={contracts?.links} meta={contracts?.meta} /> */}
+            <Pagination links={links} meta={meta} />
           </div>
         </div>
       </div>

@@ -13,9 +13,6 @@ class CreateClientAction
         return [
             'name' => $request->name,
             'type' => $request->type,
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
-            'billing_address' => $request->billing_address,
 	        'parent_id' => $request->input('parent_id'),
         ];
     }
@@ -28,6 +25,7 @@ class CreateClientAction
 			'phone' => $request->contact_number,
 			'postal_code' => $request->postal_code,
 			'address' => $request->address,
+            'is_primary' => true,
 		];
 	}
 

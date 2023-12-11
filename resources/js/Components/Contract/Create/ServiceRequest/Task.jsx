@@ -6,6 +6,7 @@ import CreateContractContext from '@/Context/CreateContractContext';
 import { Button } from '@material-tailwind/react';
 import SelectTemplateModal from '@/Components/Template/SelectTemplateModal';
 import { usePage } from '@inertiajs/react';
+import { produce } from 'immer';
 
 function Task({ serviceIndex, taskIndex }) {
   const { taskTemplates } = usePage().props;
@@ -17,27 +18,35 @@ function Task({ serviceIndex, taskIndex }) {
   const [openTemplateModal, setOpenTemplateModal] = useState(false);
 
   const handleOnNameChange = value => {
-    const newData = [...serviceData];
-    newData[serviceIndex].tasks[taskIndex].name = value;
-    setServiceData(newData);
+    setServiceData(
+      produce(draft => {
+        draft[serviceIndex].tasks[taskIndex].name = value;
+      })
+    );
   };
 
   const handleOnDurationHrChange = value => {
-    const newData = [...serviceData];
-    newData[serviceIndex].tasks[taskIndex].durationHr = value;
-    setServiceData(newData);
+    setServiceData(
+      produce(draft => {
+        draft[serviceIndex].tasks[taskIndex].durationHr = value;
+      })
+    );
   };
 
   const handleOnDurationMinChange = value => {
-    const newData = [...serviceData];
-    newData[serviceIndex].tasks[taskIndex].durationMin = value;
-    setServiceData(newData);
+    setServiceData(
+      produce(draft => {
+        draft[serviceIndex].tasks[taskIndex].durationMin = value;
+      })
+    );
   };
 
   const handleOnCostChange = value => {
-    const newData = [...serviceData];
-    newData[serviceIndex].tasks[taskIndex].cost = value;
-    setServiceData(newData);
+    setServiceData(
+      produce(draft => {
+        draft[serviceIndex].tasks[taskIndex].cost = value;
+      })
+    );
   };
 
   return (

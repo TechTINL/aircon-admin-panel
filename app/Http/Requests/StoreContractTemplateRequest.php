@@ -12,7 +12,7 @@ class StoreContractTemplateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()?->can('access dashboard') ?? false;
+        return auth()->user()?->can('dashboard.any') ?? false;
     }
 
     /**
