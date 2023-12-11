@@ -16,8 +16,8 @@ class ServiceApiResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'client' => $this->clients->name,
-            'sub_client' => $this->subClients->name,
+            'client' => $this->client->name ?? '',
+            'sub_client' => $this->subClient->name ?? '',
             'service_number' => $this->service_number,
             'contract_number' => $this->contract->contract_number,
             'name' => $this->name,
