@@ -61,12 +61,12 @@ class Service extends Model
             ->withTimestamps();
     }
 
-    public function clients(): BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function subClients(): BelongsTo
+    public function subClient(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'sub_client_id');
     }
