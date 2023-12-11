@@ -68,7 +68,7 @@ class Service extends Model
 
     public function subClient(): BelongsTo
     {
-        return $this->belongsTo(Client::class, 'sub_client_id');
+        return $this->belongsTo(Client::class, 'subClient_id');
     }
 
 
