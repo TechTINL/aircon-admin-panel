@@ -15,7 +15,7 @@ import ClientInfo from '@/Components/Clients/ClientDetails/ClientInfo';
 import TableRow from '@/Components/Ui/Table/TableRow';
 import ClientTypeChip from '@/Components/Clients/ClientTypeChip';
 import ClientHeader from '@/Components/Clients/ClientDetails/ClientHeader';
-import Breadcrumb from '@/Components/Common/Breadcrumb.jsx';
+import Breadcrumb from '@/Components/Common/Breadcrumb';
 
 function Profile({ auth, client, contacts, subClients, breadcrumb }) {
   return (
@@ -320,9 +320,6 @@ function Profile({ auth, client, contacts, subClients, breadcrumb }) {
                         <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
                           Address
                         </th>
-                        <th className="px-4 py-2 sticky left-0 min-w-[150px] text-[#455361] text-left">
-                          Billing Address
-                        </th>
                         <th className="px-4 py-2 sticky left-0 min-w-max text-[#455361] text-left" />
                       </tr>
                     </thead>
@@ -358,13 +355,6 @@ function Profile({ auth, client, contacts, subClients, breadcrumb }) {
                             <div className="flex flex-col justify-center">
                               <span className="text-[14px]">
                                 {item.address}
-                              </span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-4 my-1 max-w-[200px]">
-                            <div className="flex flex-col justify-center">
-                              <span className="text-[14px]">
-                                {item.billingAddress}
                               </span>
                             </div>
                           </td>

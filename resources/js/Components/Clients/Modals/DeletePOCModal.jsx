@@ -26,15 +26,11 @@ function DeletePOCModal({ data }) {
   };
   return (
     <>
-      <button>
-        <AiOutlineEdit size={20} />
-      </button>
-      <button>
-        <RiDeleteBin5Line
-          size={20}
-          color="red"
-          onClick={() => setOpenModal(true)}
-        />
+      {/* <button> */}
+      {/*  <AiOutlineEdit size={20} /> */}
+      {/* </button> */}
+      <button type="button" onClick={() => setOpenModal(true)}>
+        <RiDeleteBin5Line size={20} color="red" />
       </button>
       <Modal
         show={openModal}

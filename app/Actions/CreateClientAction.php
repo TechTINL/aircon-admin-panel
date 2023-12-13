@@ -13,12 +13,21 @@ class CreateClientAction
         return [
             'name' => $request->name,
             'type' => $request->type,
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
-            'billing_address' => $request->billing_address,
 	        'parent_id' => $request->input('parent_id'),
         ];
     }
+
+	// Get Billing Address Data from request
+	private function billingAddressData(StoreClientRequest $request): array
+	{
+		return [
+			'name' => $request->name,
+			'phone' => $request->contact_number,
+			'postal_code' => $request->postal_code,
+			'address' => $request->address,
+            'is_primary' => true,
+		];
+	}
 
     // Get Contact Data from request
     private function contactData(StoreClientRequest $request): array
@@ -35,6 +44,11 @@ class CreateClientAction
     {
         // create client
         $client_id = Client::create($this->clientData($request));
+
+		if ($request->billing_address != null) {
+			// Create Billing Address
+			$client_id->addresses()->create($this->billingAddressData($request));
+		}
 
         // get contact
         $contact = $this->contactData($request);

@@ -1,12 +1,26 @@
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { DashboardIcon } from '@/Components/Shared/assets/Icons';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import SidebarContext from '@/Context/SidebarContext';
 import NavItem from '@/Components/Sidebar/NavItem';
-import { useContext } from 'react';
-import { PiBriefcase, PiBriefcaseLight, PiFolder, PiFolderThin, PiUsersFourLight, PiWrenchLight } from 'react-icons/pi';
-import { BiFolder, BiWrench } from 'react-icons/bi';
+import { useContext, useState } from 'react';
+import {
+  PiBriefcaseLight,
+  PiFolder,
+  PiUsersFourLight,
+  PiWrenchLight,
+} from 'react-icons/pi';
 import { FiTrendingUp } from 'react-icons/fi';
+import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
+  List,
+  ListItem,
+  ListItemPrefix,
+  Typography,
+} from '@material-tailwind/react';
 
 function Sidebar({ children }) {
   const { url } = usePage();
@@ -15,13 +29,23 @@ function Sidebar({ children }) {
   const isDashboardActive = url.includes('/dashboard');
   const isServiceTimelineActive = url.includes('/services-time-line');
   const isServiceReportActive = url.includes('/service-report');
-  const isClientActive = url.includes('/clients');
-  const isTemplateActive = url.includes('/template');
+
+  const [open, setOpen] = useState(0);
+  const [templateOpen, setTemplateOpen] = useState(0);
+
+  const handleOpen = value => {
+    setOpen(open === value ? 0 : value);
+  };
+
+  const handleTemplateOpen = value => {
+    setTemplateOpen(templateOpen === value ? 0 : value);
+  };
 
   return (
     <div
-      className={`z-50 flex h-auto ${isSidebarCollapsed ? 'w-[7%]' : 'w-1/6'
-        } flex-col border-r bg-white pt-4 shadow-xl shadow-right`}
+      className={`z-50 flex h-auto ${
+        isSidebarCollapsed ? 'w-[7%]' : 'w-1/6'
+      } flex-col border-r bg-white pt-4 shadow-xl shadow-right`}
     >
       {!isSidebarCollapsed && (
         <div className="flex justify-center">
@@ -44,66 +68,127 @@ function Sidebar({ children }) {
         <NavItem
           text="Service Report"
           isActive={isServiceReportActive}
-          url="/service-report"
+          url="/services"
           icon={<PiWrenchLight size={22} className="lg:mx-4 md:mx-1" />}
         />
-        <div className='flex'>
-          <PiFolder size={22} className="text-gray-600 lg:mx-4 md:mx-1" />
-          <div className='flex flex-col'>
-            <span>Data</span>
-            <NavItem
-              text="Client"
-              isActive={isClientActive}
-              url="/clients"
-            />
-            <NavItem
-              text="Contract"
-              isActive={url.includes('/contract')}
-              url="/contract"
-            />
-            <NavItem
-              text="Employee"
-              isActive={url.includes('/employee')}
-              url="/employee"
-            />
-            <NavItem
-              text="Admin"
-              isActive={url.includes('/admin')}
-              url="/admin"
-            />
-          </div>
-        </div>
-
-
-        <NavItem
-          text="Template"
-          isActive={url.includes('/template-task')}
-          url="/template-task"
-          icon={<PiUsersFourLight size={22} className="lg:mx-4 md:mx-1" />}
-        />
-
-
-        <div className='flex flex-col pl-14'>
-          <NavItem
-            text="Task"
-            isActive={url.includes('/template-task')}
-            url="/template-task"
-            icon={null}
-          />
-          <NavItem
-            text="Service"
-            isActive={url.includes('/template-service')}
-            url="/template-service"
-            icon={null}
-          />
-          <NavItem
-            text="Contract"
-            isActive={url.includes('/template-contract')}
-            url="/template-contract"
-            icon={null}
-          />
-        </div>
-
+        <List>
+          <Accordion
+            open={open === 1}
+            icon={
+              <FaChevronDown
+                strokeWidth={2.5}
+                className={`mx-auto h-4 w-4 transition-transform ${
+                  open === 1 ? 'rotate-180' : ''
+                }`}
+              />
+            }
+          >
+            <ListItem className="p-0" selected={open === 1}>
+              <AccordionHeader
+                onClick={() => handleOpen(1)}
+                className="border-b-0 p-3"
+              >
+                <ListItemPrefix>
+                  <PiFolder className="h-5 w-5" />
+                </ListItemPrefix>
+                <Typography color="blue-gray" className="mr-auto font-normal">
+                  Data
+                </Typography>
+              </AccordionHeader>
+            </ListItem>
+            <AccordionBody className="py-1">
+              <List className="p-0">
+                <Link href="/clients">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Client
+                  </ListItem>
+                </Link>
+                <Link href="/contracts">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Contract
+                  </ListItem>
+                </Link>
+                <Link href="/employee">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Employee
+                  </ListItem>
+                </Link>
+                <Link href="/admin">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Admin
+                  </ListItem>
+                </Link>
+              </List>
+            </AccordionBody>
+          </Accordion>
+        </List>
+        <List>
+          <Accordion
+            open={templateOpen === 1}
+            icon={
+              <FaChevronDown
+                strokeWidth={2.5}
+                className={`mx-auto h-4 w-4 transition-transform ${
+                  templateOpen === 1 ? 'rotate-180' : ''
+                }`}
+              />
+            }
+          >
+            <ListItem className="p-0" selected={templateOpen === 1}>
+              <AccordionHeader
+                onClick={() => handleTemplateOpen(1)}
+                className="border-b-0 p-3"
+              >
+                <ListItemPrefix>
+                  <PiUsersFourLight className="h-5 w-5" />
+                </ListItemPrefix>
+                <Typography color="blue-gray" className="mr-auto font-normal">
+                  Template
+                </Typography>
+              </AccordionHeader>
+            </ListItem>
+            <AccordionBody className="py-1">
+              <List className="p-0">
+                <Link href="/task-templates">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Task
+                  </ListItem>
+                </Link>
+                <Link href="/service-templates">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Service
+                  </ListItem>
+                </Link>
+                <Link href="/contract-templates">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Contract
+                  </ListItem>
+                </Link>
+              </List>
+            </AccordionBody>
+          </Accordion>
+        </List>
         <NavItem
           text="Manage GST"
           isActive={url.includes('/manage-gst')}

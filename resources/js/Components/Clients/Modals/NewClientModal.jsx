@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useForm } from '@inertiajs/react';
 import ProfileImage from '@/Components/Shared/Clients/ProfileImage';
@@ -16,6 +16,8 @@ import Modal from '../../Modal';
 
 function NewClientModal() {
   const [openModal, setOpenModal] = useState(false);
+  const [addressIsUsed, setAddressIsUsed] = useState(false);
+  const [clientName, setClientName] = useState('');
 
   const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
@@ -36,6 +38,34 @@ function NewClientModal() {
       setData('address', address);
     }
   );
+
+  // check if address is used by other clients
+  useEffect(() => {
+    if (data.address) {
+      const csrfToken = document
+        .querySelector('head > meta[name="csrf-token"]')
+        .getAttribute('content');
+      // check if address is used by other clients using Fetch API
+      fetch(route('addresses.isUsed'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify({
+          address: data.address,
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          setAddressIsUsed(data.used);
+          setClientName(data.client_name);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }, [data.address]);
 
   const search = e => {
     setSearchTerm(e.target.value);
@@ -60,6 +90,17 @@ function NewClientModal() {
     setOpenModal(false);
     reset();
   };
+
+  const handleCheckBoxChange = useCallback(
+    e => {
+      if (e.target.checked) {
+        setData('billing_address', data.address);
+      } else {
+        setData('billing_address', '');
+      }
+    },
+    [data.address]
+  );
 
   return (
     <>
@@ -92,7 +133,7 @@ function NewClientModal() {
                   <div className="col-span-4">
                     <InputLabel
                       htmlFor="name"
-                      value="Client Name *"
+                      value="Client Name"
                       className="text-zinc-800 text-base font-bold my-1"
                     />
 
@@ -108,7 +149,7 @@ function NewClientModal() {
                   <div>
                     <InputLabel
                       htmlFor="type"
-                      value="Client Type *"
+                      value="Property Type"
                       className="text-zinc-800 text-base font-bold my-1"
                     />
 
@@ -117,7 +158,7 @@ function NewClientModal() {
                       name="type"
                       data={CLIENT_TYPES}
                       onChange={item => setData('type', item)}
-                      placeholder="Clinic Type"
+                      placeholder="Property Type"
                     />
 
                     <InputError message={errors.type} className="mt-2" />
@@ -130,7 +171,6 @@ function NewClientModal() {
                       value="Postal Code"
                       className="text-zinc-800 text-base font-bold my-1"
                     />
-
                     <TextInput
                       id="postal_code"
                       name="postal_code"
@@ -138,7 +178,6 @@ function NewClientModal() {
                       onChange={search}
                       value={searchTerm}
                     />
-
                     <InputError message={errors.postal_code} className="mt-2" />
                   </div>
                 </div>
@@ -153,6 +192,12 @@ function NewClientModal() {
                     />
 
                     <InputError message={errors.address} className="mt-2" />
+                    {addressIsUsed && (
+                      <InputError
+                        message={`Address is already used by ${clientName}`}
+                        className="mt-2"
+                      />
+                    )}
                   </div>
                   <div>
                     <TextArea
@@ -171,13 +216,7 @@ function NewClientModal() {
                         id="same_address"
                         label="Same as address"
                         value="same_address"
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setData('billing_address', data.address);
-                          } else {
-                            setData('billing_address', '');
-                          }
-                        }}
+                        onChange={e => handleCheckBoxChange(e)}
                       />
                     </div>
                   </div>
@@ -185,7 +224,7 @@ function NewClientModal() {
                 <div>
                   <InputLabel
                     htmlFor="contact_name"
-                    value="POC Name *"
+                    value="POC Name"
                     className="text-zinc-800 text-base font-bold my-1"
                   />
 
@@ -219,7 +258,7 @@ function NewClientModal() {
                   <div>
                     <InputLabel
                       htmlFor="poc_email"
-                      value="POC Email *"
+                      value="POC Email"
                       className="text-zinc-800 text-base font-bold my-1"
                     />
                     <TextInput

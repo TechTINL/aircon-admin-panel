@@ -1,8 +1,10 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 
+const withMT = require('@material-tailwind/react/utils/withMT');
+
 /** @type {import('tailwindcss').Config} */
-export default {
+export default withMT({
   content: [
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
     './storage/framework/views/*.php',
@@ -14,7 +16,7 @@ export default {
     extend: {
       gridTemplateColumns: {
         // Simple 16 column grid
-        '25': 'repeat(25, minmax(0, 1fr))',
+        25: 'repeat(25, minmax(0, 1fr))',
       },
       fontFamily: {
         sans: ['Figtree', ...defaultTheme.fontFamily.sans],
@@ -28,10 +30,10 @@ export default {
         'indigo-800': '#454FA2',
         'teal-500': '#00B4AD',
         'table-header-bg': '#F0F0F0',
-        'border-gray': '#53616C'
+        'border-gray': '#53616C',
       },
     },
   },
 
   plugins: [forms],
-};
+});

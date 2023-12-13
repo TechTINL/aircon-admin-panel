@@ -10,6 +10,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -45,7 +46,7 @@ class ClientController extends Controller
         $action->execute($request);
 
         // Redirect to Clients List
-        return redirect()->route('clients.index');
+        return back()->with('success', 'Client created.');
     }
 
     /**
@@ -67,7 +68,13 @@ class ClientController extends Controller
     {
         return Inertia::render('Clients/Detail/Profile', [
 			'breadcrumb' => BreadcrumbHelper::clientProfile($client->id),
-            'client' => $client,
+            'client' => [
+                'id' => $client->id,
+                'name' => $client->name,
+                'type' => $client->type,
+                'parent_id' => $client->parent_id,
+                'address' => $client->addresses->where('is_primary', true)->first()->address ?? '',
+            ],
 			'subClients' => ClientResource::collection($getSubClientAction->execute($client->id)),
             'addresses' => $client->addresses()->orderBy('created_at', 'desc')->get(),
             'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),
@@ -88,5 +95,27 @@ class ClientController extends Controller
             'address' => $address
         ];
     }
+
+    /**
+     * Get Clients
+     */
+    public function clientsList(): JsonResponse
+    {
+        return response()->json([
+            'clients' => Client::all()
+        ]);
+    }
+
+    /**
+     * Get Sub Clients
+     */
+    public function subClients(Client $client): JsonResponse
+    {
+        return response()->json([
+            'subClients' => ClientResource::collection($client->subClients()->get()),
+        ]);
+    }
+
+
 
 }

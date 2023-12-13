@@ -6,8 +6,14 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\ContractTemplateController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceTemplateController;
+use App\Http\Controllers\TaskTemplateController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -56,6 +62,8 @@ Route::middleware('auth')->group(function () {
 
     // Store Address
     Route::post('addresses', [AddressController::class, 'store'])->name('addresses.store');
+	// Delete Address
+	Route::delete('addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
 
     Route::get('/client-details', function () {
         return Inertia::render('Clients/ClientDetails');
@@ -72,38 +80,30 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
-    Route::get('contract', function () {
-        return Inertia::render('Contract/List');
-    });
 
-    Route::post('contract', function () {
-        return Inertia::render('Contract/Create');
-    });
+    Route::resource('contracts', ContractController::class)->only(['index', 'create', 'store', 'update']);
+    Route::resource('services', ServiceController::class)->only(['index']);
+    Route::get('services/export', [ServiceController::class, 'export'])->name('services.export');
 
-    Route::get('employee', function () {
-        return Inertia::render('Employee/List');
-    });
+    Route::get('employee', [EmployeeController::class, 'index'])->name('employee.index');
+	Route::get('employee/create', [EmployeeController::class, 'create'])->name('employee.create');
+	Route::post('employee', [EmployeeController::class, 'store'])->name('employee.store');
 
-    Route::get('employee/edit', function () {
-        return Inertia::render('Employee/Create');
-    });
+    Route::get('admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('admin/create', [AdminController::class, 'create'])->name('admin.create');
+	Route::get('admin/{user}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+	Route::patch('admin/{user}', [AdminController::class, 'update'])->name('admin.update');
+    Route::post('admin', [AdminController::class, 'store'])->name('admin.store');
+    Route::delete('admin/{user}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
-    Route::get('admin', function () {
-        return Inertia::render('Admin/List');
-    });
-    Route::get('admin/create', function () {
-        return Inertia::render('Admin/Create');
-    });
+	Route::post('apply-leave', [AdminController::class, 'storeLeave'])->name('leave.store');
 
-    Route::get('template-task', function () {
-        return Inertia::render('Template/Task/List');
-    });
-    Route::get('template-contract', function () {
-        return Inertia::render('Template/Contract/List');
-    });
-    Route::get('template-service', function () {
-        return Inertia::render('Template/Service/List');
-    });
+    Route::resource('task-templates', TaskTemplateController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('contract-templates', ContractTemplateController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
+
+    Route::resource('service-templates', ServiceTemplateController::class)
+	    ->only(['index', 'store', 'update', 'destroy']);
 
     Route::get('manage-gst', function () {
         return Inertia::render('ManageGST');
@@ -114,3 +114,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/json.php';

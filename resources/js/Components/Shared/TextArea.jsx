@@ -7,9 +7,10 @@ function TextArea({
   onChange,
   showLabel = true,
   value,
+  className = '',
 }) {
   return (
-    <div>
+    <div className={className}>
       <label
         htmlFor={id}
         className={`block text-sm font-medium text-gray-700 ${
@@ -32,7 +33,7 @@ function TextArea({
 
 TextArea.propTypes = {
   id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   placeholder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };

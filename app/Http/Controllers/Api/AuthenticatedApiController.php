@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Resources\ProfileResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -91,6 +93,27 @@ class AuthenticatedApiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Password reset successfully'
+        ]);
+    }
+
+    public function profile(Request $request): JsonResponse
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile fetched successfully',
+            'user' => new ProfileResource($request->user())
+        ]);
+    }
+
+    public function updateProfile(UpdateProfileRequest $request): JsonResponse
+    {
+        $user = $request->user();
+        $user->update($request->validated());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile updated successfully',
+            'user' => new ProfileResource($user)
         ]);
     }
 }

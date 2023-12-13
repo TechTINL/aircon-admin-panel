@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('phone', 15)->nullable();
             $table->string('postal_code')->nullable();
             $table->string('address')->nullable();
+            $table->boolean('is_primary')->default(false);
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
             $table->timestamps();
         });
