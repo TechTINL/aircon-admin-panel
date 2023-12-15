@@ -36,6 +36,7 @@ function useCreateContract(templates, clients, contract = {}) {
   const [serviceData, setServiceData] = useState([]);
 
   // Edit Values
+  const [isEdit, setIsEdit] = useState(!!contract);
   const [defaultTitle, setDefaultTitle] = useState({
     label: contract?.title,
     value: contract?.title,
@@ -222,6 +223,8 @@ function useCreateContract(templates, clients, contract = {}) {
     handleAddTask,
     handleRemoveTask,
     createContract,
+    isEdit,
+    setIsEdit,
   };
 }
 

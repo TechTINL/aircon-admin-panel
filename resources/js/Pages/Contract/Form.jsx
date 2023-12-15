@@ -53,6 +53,8 @@ function Form({ auth, contractTemplates: templates, clients }) {
     handleAddTask,
     handleRemoveTask,
     createContract,
+    isEdit,
+    setIsEdit,
   } = useCreateContract(templates, clients, contract);
 
   return (
@@ -97,6 +99,8 @@ function Form({ auth, contractTemplates: templates, clients }) {
         setServiceData,
         handleAddTask,
         handleRemoveTask,
+        isEdit,
+        setIsEdit,
       }}
     >
       <AuthenticatedLayout user={auth.user}>
@@ -109,7 +113,7 @@ function Form({ auth, contractTemplates: templates, clients }) {
               </IconButton>
             </Link>
             <div className="text-zinc-800 text-3xl font-bold leading-10">
-              New Contract
+              {isEdit ? 'Edit' : 'Create'} Contract
             </div>
           </div>
           <ContractDetails />
