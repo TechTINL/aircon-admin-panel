@@ -42,7 +42,7 @@ class ContractController extends Controller
 		GetServiceTemplatesAction $getServiceTemplatesAction,
         GetTaskTemplatesAction $getTaskTemplatesAction): Response
     {
-        return Inertia::render('Contract/Create', [
+        return Inertia::render('Contract/Form', [
             'contractTemplates' => $action->execute(),
             'clients' => $getClientsAction->getClients(),
 	        'leaders' => $employeesAction->leader(),
@@ -107,17 +107,42 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Contract $contract)
+    public function show(): Response
     {
-        //
+        return Inertia::render('Contract/Form', [
+            'contract' => $contract,
+            'contractTemplates' => $action->execute(),
+            'clients' => $getClientsAction->getClients(),
+            'leaders' => $employeesAction->leader(),
+            'employees' => $employeesAction->get(),
+            'serviceTemplates' => $getServiceTemplatesAction->execute(),
+            'taskTemplates' => $getTaskTemplatesAction->execute(),
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Contract $contract)
+    public function edit(
+         Contract $contract,
+         GetContractTemplatesAction $action,
+         GetClientsAction $getClientsAction,
+         GetEmployeesAction $employeesAction,
+         GetServiceTemplatesAction $getServiceTemplatesAction,
+         GetTaskTemplatesAction $getTaskTemplatesAction
+    )
     {
-        //
+        $contract->load('client', 'subClient', 'services', 'services.tasks', 'services.users');
+
+        return Inertia::render('Contract/Form', [
+            'contract' => $contract,
+            'contractTemplates' => $action->execute(),
+            'clients' => $getClientsAction->getClients(),
+            'leaders' => $employeesAction->leader(),
+            'employees' => $employeesAction->get(),
+            'serviceTemplates' => $getServiceTemplatesAction->execute(),
+            'taskTemplates' => $getTaskTemplatesAction->execute(),
+        ]);
     }
 
     /**

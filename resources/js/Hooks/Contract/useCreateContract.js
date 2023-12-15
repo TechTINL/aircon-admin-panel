@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getTimes } from '@/Utils/utils';
 import { router } from '@inertiajs/react';
 
-function useCreateContract(templates, clients) {
+function useCreateContract(templates, clients, contract = {}) {
   const [title, setTitle] = useState('');
   const [templateOptions, setTemplateOptions] = useState([]);
   const [clientOptions, setClientOptions] = useState([]);
@@ -34,6 +34,26 @@ function useCreateContract(templates, clients) {
   }));
   const [time, setTime] = useState(timeOptions[0]);
   const [serviceData, setServiceData] = useState([]);
+
+  // Edit Values
+  const [defaultTitle, setDefaultTitle] = useState({
+    label: contract?.title,
+    value: contract?.title,
+  });
+  const [defaultClient, setDefaultClient] = useState({
+    label: contract?.client?.name,
+    value: contract?.client?.id,
+  });
+  const [defaultSubClient, setDefaultSubClient] = useState({
+    label: contract?.sub_client?.name,
+    value: contract?.sub_client?.id,
+  });
+
+  useEffect(() => {
+    if (contract) {
+      setTitle(contract.title);
+    }
+  }, []);
 
   useEffect(() => {
     if (templates) {
@@ -162,6 +182,12 @@ function useCreateContract(templates, clients) {
   return {
     title,
     setTitle,
+    defaultTitle,
+    setDefaultTitle,
+    defaultClient,
+    setDefaultClient,
+    defaultSubClient,
+    setDefaultSubClient,
     templateOptions,
     clientOptions,
     subClientOptions,

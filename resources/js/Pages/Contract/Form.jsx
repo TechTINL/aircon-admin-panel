@@ -1,5 +1,5 @@
 import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { AiOutlineLeftCircle } from 'react-icons/ai';
 import { IconButton } from '@material-tailwind/react';
@@ -9,10 +9,18 @@ import ServiceDetail from '@/Components/Contract/Create/ServiceDetail';
 import Summary from '@/Components/Contract/Create/Summary/Summary';
 import ContractDetails from '../../Components/Contract/Create/ContractDetails';
 
-function Create({ auth, contractTemplates: templates, clients }) {
+function Form({ auth, contractTemplates: templates, clients }) {
+  const contract = usePage().props?.contract;
+
   const {
     title,
     setTitle,
+    defaultTitle,
+    setDefaultTitle,
+    defaultClient,
+    setDefaultClient,
+    defaultSubClient,
+    setDefaultSubClient,
     templateOptions,
     serviceCount,
     setServiceCount,
@@ -45,13 +53,19 @@ function Create({ auth, contractTemplates: templates, clients }) {
     handleAddTask,
     handleRemoveTask,
     createContract,
-  } = useCreateContract(templates, clients);
+  } = useCreateContract(templates, clients, contract);
 
   return (
     <CreateContractContext.Provider
       value={{
         title,
         setTitle,
+        defaultTitle,
+        setDefaultTitle,
+        defaultClient,
+        setDefaultClient,
+        defaultSubClient,
+        setDefaultSubClient,
         templateOptions,
         serviceCount,
         setServiceCount,
@@ -115,4 +129,4 @@ function Create({ auth, contractTemplates: templates, clients }) {
   );
 }
 
-export default Create;
+export default Form;

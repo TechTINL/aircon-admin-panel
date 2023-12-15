@@ -9,7 +9,12 @@ import DatePicker from '../../Common/DatePicker';
 
 function ContractDetails() {
   const {
+    title,
     setTitle,
+    defaultTitle,
+    setDefaultTitle,
+    defaultClient,
+    setDefaultClient,
     templateOptions,
     serviceCount,
     setServiceCount,
@@ -59,6 +64,7 @@ function ContractDetails() {
           <ContractCreatableSelect
             isClearable
             options={templateOptions}
+            defaultValue={defaultTitle}
             handleChange={onContractTitleChange}
           />
         </div>
@@ -82,6 +88,7 @@ function ContractDetails() {
         <Select
           isClearable
           isSearchable
+          defaultValue={defaultClient}
           options={clientOptions}
           onChange={option => setSelectedClient(option)}
         />

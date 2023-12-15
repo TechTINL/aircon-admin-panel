@@ -63,10 +63,8 @@ Route::middleware('auth')->group(function () {
     Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
     Route::get('clients/{client}/contracts', [ClientController::class, 'contracts'])->name('clients.contracts');
     Route::get('/clients/{client}/services', [ClientController::class, 'services'])->name('clients.services');
-    Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
 
-    // Delete Contact
-    Route::delete('contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::resource('contracts', ContractController::class);
 
 	Route::resource('general-notes', GeneralNoteController::class);
 
@@ -91,7 +89,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
 
-    Route::resource('contracts', ContractController::class)->only(['index', 'create', 'store', 'update']);
     Route::resource('services', ServiceController::class)->only(['index', 'show']);
     Route::get('services/export', [ServiceController::class, 'export'])->name('services.export');
 

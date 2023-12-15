@@ -11,6 +11,7 @@ function useSummary() {
   const [tasksCost, setTasksCost] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalGST, setTotalGST] = useState(0);
+  const [finalAmount, setFinalAmount] = useState(0);
 
   useEffect(() => {
     const _contractGST = Number(contractAmount) * 0.08;
@@ -33,13 +34,14 @@ function useSummary() {
       _tasksCost += sumTaskCosts(service.tasks);
     });
 
-    const _totalContractAmount = Number(contractAmount) + Number(_tasksCost);
-    setTotalGST(_totalContractAmount * 0.08);
+    const _totalContractAmount = Number(_tasksCost);
+    setTotalGST(_tasksCost * 0.08);
     _totalAmount = Number(_totalContractAmount) + Number(totalGST);
 
     setTotalTechnicians(_totalTechnicians);
     setTasksCost(_tasksCost);
     setTotalAmount(_totalAmount);
+    setFinalAmount(Number(_totalAmount) + Number(totalContractAmount));
   }, [contractAmount, serviceData]);
 
   return {
@@ -50,6 +52,7 @@ function useSummary() {
     totalGST,
     tasksCost,
     totalAmount,
+    finalAmount,
   };
 }
 

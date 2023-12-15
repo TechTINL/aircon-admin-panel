@@ -10,6 +10,7 @@ function Summary() {
     totalGST,
     tasksCost,
     totalAmount,
+    finalAmount,
   } = useSummary();
 
   return (
@@ -35,15 +36,17 @@ function Summary() {
             <b>Task Cost</b>
             <span className="text-[14px]">$ {tasksCost}</span>
           </div>
-          <div className="flex flex-col">
-            <div className="flex justify-between italic">
-              <b>Including GST 8%</b>
-              <span className="">$ 8.00</span>
-            </div>
-            <div className="flex justify-between text-primary font-bold">
-              <b>Total Amount</b>
-              <span>$ {totalContractAmount}</span>
-            </div>
+          <div className="flex justify-between">
+            <b>Including GST 8%</b>
+            <span className="">$ {totalGST}</span>
+          </div>
+          <div className="flex justify-between">
+            <b>Total Task Amount</b>
+            <span>$ {totalAmount}</span>
+          </div>
+          <div className="flex justify-between">
+            <b>Final Amount</b>
+            <span>$ {finalAmount}</span>
           </div>
         </div>
       </div>

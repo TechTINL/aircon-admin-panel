@@ -175,7 +175,7 @@ function List({ auth, contracts, breadcrumb }) {
                       </td>
                       <td className="px-4 py-4 my-1">
                         <Link
-                          href="/client-details"
+                          href={`/contracts/${item.id}/edit`}
                           method="get"
                           as="button"
                           type="button"
