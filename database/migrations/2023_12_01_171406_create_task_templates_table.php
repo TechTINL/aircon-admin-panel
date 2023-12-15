@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('task_templates', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('service_template_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

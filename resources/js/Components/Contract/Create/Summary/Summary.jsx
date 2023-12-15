@@ -2,8 +2,15 @@ import React from 'react';
 import useSummary from '@/Hooks/Contract/useSummary';
 
 function Summary() {
-  const { contractAmount, totalTechnicians, tasksCost, totalAmount } =
-    useSummary();
+  const {
+    contractAmount,
+    contractGST,
+    totalContractAmount,
+    totalTechnicians,
+    totalGST,
+    tasksCost,
+    totalAmount,
+  } = useSummary();
 
   return (
     <div className="bg-white rounded-xl p-6 flex flex-col gap-6">
@@ -15,8 +22,12 @@ function Summary() {
             <span className="">$ {contractAmount}</span>
           </div>
           <div className="flex justify-between">
-            <b>Total Technicians</b>
-            <span>{totalTechnicians}</span>
+            <b>Including GST 8%</b>
+            <span>$ {contractGST}</span>
+          </div>
+          <div className="flex justify-between">
+            <b>Total Contract Value</b>
+            <span>$ {totalContractAmount}</span>
           </div>
         </div>
         <div className="flex flex-col gap-2">
@@ -31,7 +42,7 @@ function Summary() {
             </div>
             <div className="flex justify-between text-primary font-bold">
               <b>Total Amount</b>
-              <span>$ {totalAmount}</span>
+              <span>$ {totalContractAmount}</span>
             </div>
           </div>
         </div>

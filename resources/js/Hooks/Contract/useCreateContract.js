@@ -18,23 +18,16 @@ function useCreateContract(templates, clients) {
   const [contractAmount, setContractAmount] = useState(0);
   const [serviceRepeatOptions, setServiceRepeatOptions] = useState([
     {
-      value: 'monthly',
+      value: '1',
       label: 'Monthly',
     },
     {
-      value: 'quarterly',
+      value: '3',
       label: 'Quarterly',
     },
-    {
-      value: 'semi-annually',
-      label: 'Semi-Annually',
-    },
-    {
-      value: 'annually',
-      label: 'Annually',
-    },
   ]);
-  const [selectedServiceRepeat, setSelectedServiceRepeat] = useState('monthly');
+  const [selectedServiceRepeat, setSelectedServiceRepeat] = useState(1);
+  const [dateOption, setDateOption] = useState('');
   const timeOptions = getTimes().map(time => ({
     label: time,
     value: time,
@@ -193,6 +186,8 @@ function useCreateContract(templates, clients) {
     serviceRepeatOptions,
     selectedServiceRepeat,
     setSelectedServiceRepeat,
+    dateOption,
+    setDateOption,
     timeOptions,
     time,
     setTime,

@@ -8,6 +8,7 @@ use App\Actions\GetEmployeesAction;
 use App\Actions\Template\Contract\GetContractTemplatesAction;
 use App\Actions\Template\GetServiceTemplatesAction;
 use App\Actions\Template\GetTaskTemplatesAction;
+use App\Helpers\BreadcrumbHelper;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
 use App\Http\Resources\ContractResource;
@@ -26,6 +27,7 @@ class ContractController extends Controller
     public function index(GetContractAction $action): Response
     {
         return Inertia::render('Contract/List', [
+            'breadcrumb' => BreadcrumbHelper::contracts(),
 			'contracts' => ContractResource::collection($action->execute()),
 		]);
     }

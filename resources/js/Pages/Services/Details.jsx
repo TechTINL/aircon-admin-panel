@@ -3,37 +3,28 @@ import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { VscFilePdf } from 'react-icons/vsc';
 import { BsSendFill } from 'react-icons/bs';
-import ServiceDetailTop from '../../Components/ServiceDetail/ServiceDetailTop';
-import ServiceDetailBody from '../../Components/ServiceDetail/ServiceDetailBody';
+import ServiceDetailHead from '@/Components/ServiceDetail/ServiceDetailHead';
+import ServiceDetailBody from '@/Components/ServiceDetail/ServiceDetailBody';
+import useDownloadReport from '@/Hooks/Service/useDownloadReport';
 
-function ServiceDetails({ auth }) {
+function Details({ auth, service: { data } }) {
+  const { handleDownloadReport } = useDownloadReport();
+
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Service Detail" />
       <div className="flex flex-auto flex-col m-6 max-w-full gap-6">
-        <ServiceDetailTop />
+        <ServiceDetailHead />
         <ServiceDetailBody />
         <div className="bg-[#DADADA] h-[1.5px] w-full" />
         <div className="flex flex-row justify-between">
-          <div className="text-[16px]">
-            <div>Job Activities</div>
-            <div>
-              <b>Admin Macy</b> notified job <b>Cleaning and Washing</b> of
-              Client <b>Casuarina Curry</b>. 3 May 2023, 9:30 AM
-            </div>
-            <div>
-              <b>Admin Macy</b> notified job <b>Cleaning and Washing</b> of
-              Client <b>Casuarina Curry</b>. 3 May 2023, 9:30 AM
-            </div>
-            <div>
-              <b>Admin Macy</b> notified job <b>Cleaning and Washing</b> of
-              Client <b>Casuarina Curry</b>. 3 May 2023, 9:30 AM
-            </div>
-            <button className="font-extrabold">See More Activities</button>
-          </div>
+          <div className="text-[16px]" />
           <div className="flex flex-col items-end gap-4">
             <div className="flex flex-row gap-6">
-              <button className="font-extrabold text-[16px] gap-2 bg-secondary text-white flex items-center py-2 px-4 rounded-lg">
+              <button
+                className="font-extrabold text-[16px] gap-2 bg-secondary text-white flex items-center py-2 px-4 rounded-lg"
+                onClick={() => handleDownloadReport(data.service_number)}
+              >
                 <VscFilePdf size={24} />
                 <span>Download Report</span>
               </button>
@@ -73,4 +64,4 @@ function ServiceDetails({ auth }) {
   );
 }
 
-export default ServiceDetails;
+export default Details;

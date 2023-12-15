@@ -6,8 +6,14 @@ use App\Models\Service;
 
 class GetServicesAction
 {
-    public function execute()
+    public function execute($client = null)
     {
+        if ($client) {
+            if ($client->isSubClient()) {
+                return Service::where('subClient_id', $client->id)->latest()->paginate(10);
+            }
+            return Service::where('client_id', $client->id)->latest()->paginate(10);
+        }
         return Service::latest()->paginate(10);
     }
 

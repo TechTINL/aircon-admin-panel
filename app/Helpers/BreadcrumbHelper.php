@@ -49,6 +49,39 @@ class BreadcrumbHelper
 		return $breadcrumbs;
 	}
 
+    public static function clientContact($id = null): array
+    {
+        $breadcrumbs = self::clients();
+
+        if ($id) {
+            $breadcrumbs[] = ['name' => 'Client Contact', 'url' => route('clients.contracts', $id)];
+        }
+
+        return $breadcrumbs;
+    }
+
+    public static function contracts(): array
+    {
+        $breadcrumbs = [
+            self::home(),
+        ];
+
+        $breadcrumbs[] = ['name' => 'Contracts', 'url' => route('contracts.index')];
+
+        return $breadcrumbs;
+    }
+
+    public static function services(): array
+    {
+        $breadcrumbs = [
+            self::home(),
+        ];
+
+        $breadcrumbs[] = ['name' => 'Services', 'url' => route('services.index')];
+
+        return $breadcrumbs;
+    }
+
 	// Employee Tab
 	public static function employee(): array
 	{

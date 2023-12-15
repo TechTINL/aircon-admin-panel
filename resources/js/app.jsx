@@ -1,6 +1,7 @@
 import './bootstrap';
 import '../css/app.css';
 import 'primereact/resources/themes/lara-light-teal/theme.css';
+import 'yet-another-react-lightbox/styles.css';
 
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';

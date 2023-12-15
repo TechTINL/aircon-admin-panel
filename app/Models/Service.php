@@ -26,6 +26,7 @@ class Service extends Model
         'billing_address',
         'client_id',
         'sub_client_id',
+        'service_number',
     ];
 
     public function contract(): BelongsTo

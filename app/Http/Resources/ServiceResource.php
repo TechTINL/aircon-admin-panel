@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class ServiceResource extends JsonResource
 {
@@ -20,6 +21,7 @@ class ServiceResource extends JsonResource
             'sub_client' => $this->subClient,
             'service_number' => $this->service_number,
             'contract_number' => $this->contract->contract_number,
+            'contract' => $this->contract,
             'name' => $this->name,
             'type' => $this->type,
             'technician_count' => $this->technician_count,
@@ -28,9 +30,10 @@ class ServiceResource extends JsonResource
             'service_time' => $this->service_time,
             'service_at' => $this->service_at,
             'service_address' => $this->service_address,
-            'status' => $this->status,
+            'status' => Str::headline($this->status),
             'leaders' => $this->leaders,
             'technicians' => $this->technicians,
+            'tasks' => $this->tasks,
         ];
     }
 }

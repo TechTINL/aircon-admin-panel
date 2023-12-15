@@ -29,7 +29,9 @@ function Service({ index }) {
   const updateServiceName = value => {
     setServiceData(
       produce(draft => {
-        draft[index].name = value;
+        draft.forEach(service => {
+          service.name = value;
+        });
       })
     );
   };
