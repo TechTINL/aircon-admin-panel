@@ -15,6 +15,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceTemplateController;
 use App\Http\Controllers\TaskTemplateController;
+use App\Models\Service;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -78,8 +79,24 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/services-time-line', function () {
-        return Inertia::render('Services/Timeline');
+        return Inertia::render('Services/Timeline', [
+            'breadcrumb' => [
+                [
+                    'text' => 'Services',
+                    'href' => route('services.index'),
+                ],
+                [
+                    'text' => 'Service Details',
+                    'href' => route('services.show', 1),
+                ],
+                [
+                    'text' => 'Timeline',
+                ],
+            ],
+            'services' => Service::with('client')->get(),
+        ]);
     });
+    
     Route::get('/services-report-detail', function () {
         return Inertia::render('Services/ServiceDetails');
     });
