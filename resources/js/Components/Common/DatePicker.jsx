@@ -3,7 +3,15 @@ import { MdOutlineDateRange } from 'react-icons/md';
 import Dropdown from '../Dropdown';
 import './CalendarStyles.css';
 
-function DatePicker({ label, value, onChange, prefixIcon, classes, isRange }) {
+function DatePicker({
+  label,
+  value,
+  onChange,
+  prefixIcon,
+  classes,
+  isRange,
+  align = 'right',
+}) {
   const formatDateRange = dateArr => {
     const [start, end] = dateArr;
     return `${new Date(start).toLocaleDateString()} - ${new Date(
@@ -30,7 +38,11 @@ function DatePicker({ label, value, onChange, prefixIcon, classes, isRange }) {
           <MdOutlineDateRange size={20} fontWeight={800} />
         </button>
       </Dropdown.Trigger>
-      <Dropdown.Content width="full" contentClasses="bg-white min-w-[300px]">
+      <Dropdown.Content
+        width="full"
+        contentClasses="bg-white min-w-[300px]"
+        align={align}
+      >
         <div className="p-4 min-w-[300px]">
           <Calendar
             onChange={onChange}

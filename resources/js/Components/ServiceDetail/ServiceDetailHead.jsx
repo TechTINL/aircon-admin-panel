@@ -1,11 +1,14 @@
 import React from 'react';
-import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { PiClipboardTextLight } from 'react-icons/pi';
 import { usePage } from '@inertiajs/react';
+import ServiceStatus from '@/Components/Services/ServiceStatus';
+import CreateServiceButton from '@/Components/Services/CreateServiceButton';
+import EditServiceButton from '@/Components/Services/EditServiceButton';
 
 function ServiceDetailHead() {
   const {
     service: { data },
+    clients,
   } = usePage().props;
   return (
     <div className="flex flex-row w-full justify-between rounded-xl bg-white p-4">
@@ -14,9 +17,7 @@ function ServiceDetailHead() {
           <div className="text-2xl font-bold text-black">
             {data?.client?.name}
           </div>
-          <div className="py-1 px-[30px] text-primary bg-[#BFFAF8] font-bold text-[16px] rounded-full">
-            {data?.status}
-          </div>
+          <ServiceStatus status={data?.status} />
         </div>
         <div className="flex gap-4">
           <span className="text-[12px] text-border-gray">
@@ -33,10 +34,16 @@ function ServiceDetailHead() {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <button className="bg-white border flex flex-row items-center text-primary border-primary rounded-xl px-4 py-2">
-          <AiOutlineEdit className="text-2xl font-bold" />
-          <span className="text-lg font-extrabold pl-2">Edit Report</span>
-        </button>
+        {data?.status === 'Requires Follow Up' && (
+          <CreateServiceButton clients={clients}>
+            Create New Service Report (Ad-Hoc)
+          </CreateServiceButton>
+        )}
+        <div className="flex justify-end">
+          <EditServiceButton service={data} clients={clients}>
+            Edit Service Report
+          </EditServiceButton>
+        </div>
       </div>
     </div>
   );

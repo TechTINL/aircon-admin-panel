@@ -55,4 +55,9 @@ class GetClientsAction
     {
         return Client::with('addresses')->get();
     }
+
+    public function getClientsWithSubClients(): Collection|array
+    {
+        return Client::with('subClients', 'subClients.addresses', 'addresses')->whereNull('parent_id')->get();
+    }
 }

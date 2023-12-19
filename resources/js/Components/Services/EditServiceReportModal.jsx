@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import Modal from '../Modal';
 import { AiFillCaretDown, AiFillCloseCircle } from 'react-icons/ai';
 import { GrAdd } from 'react-icons/gr';
+import { Switch } from '@headlessui/react';
+import Modal from '../Modal';
 import TextInput from '../TextInput';
 import Dropdown from '../Dropdown';
-import { Switch } from '@headlessui/react';
 import MDropDown from './MDropDown';
 import { getTimes } from '../../Utils/utils';
 import TextArea from '../Shared/TextArea';
 import AirconImg from '../../assets/images/aircon-sample.png';
 import SignatureImg from '../../assets/images/signature.png';
 
-const EditServiceReportModal = ({ openModal, setOpenModal }) => {
+function EditServiceReportModal({ openModal, setOpenModal }) {
   const times = getTimes()?.map(time => {
     return {
       label: time,
@@ -23,7 +23,6 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
   const [selectedServiceName, setSelectedServiceName] = useState('Service-1');
   const [selectedTime, setSelectedTime] = useState(null);
   const [serviceDate, setServiceDate] = useState('13-09-2023');
-  const [serviceTime, setServiceTime] = useState('9:00 AM');
   const [swichOn, setSwichOn] = useState(false);
   const [asPrivate, setAsPrivate] = useState(false);
   const [requireFollowUp, setRequireFollowUp] = useState(false);
@@ -139,7 +138,7 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
           </Switch>
         </div>
 
-        <div className="bg-bg-input-gray min-h-[2px] w-full"></div>
+        <div className="bg-bg-input-gray min-h-[2px] w-full" />
 
         <div className="flex flex-col gap-4">
           <span className="text-[20px] font-bold text-black">
@@ -209,7 +208,7 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
               <MDropDown
                 items={times}
                 selectedItem={selectedTime}
-                placeholder={'Select Time'}
+                placeholder="Select Time"
                 handleOnSelect={item => setSelectedTime(item)}
               />
             </div>
@@ -237,7 +236,7 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
           </div>
         </div>
 
-        <div className="bg-bg-input-gray min-h-[2px] w-full"></div>
+        <div className="bg-bg-input-gray min-h-[2px] w-full" />
 
         <div className="flex flex-col gap-4">
           <span className="text-[20px] font-bold text-black">Task Detail</span>
@@ -248,7 +247,7 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
                 Team Leader / Sub-Contractor
               </span>
               <button className="rounded-xl h-[40px] bg-white border border-border-gray justify-between items-center px-4 flex">
-                <div>{'Cleaning and washing'}</div>
+                <div>Cleaning and washing</div>
                 <AiFillCaretDown size={20} fontWeight={800} />
               </button>
             </div>
@@ -258,7 +257,7 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
                 Technician Count
               </span>
               <button className="rounded-xl h-[40px] bg-white border border-border-gray justify-between items-center px-4 flex">
-                <div>{'2'}</div>
+                <div>2</div>
                 <AiFillCaretDown size={20} fontWeight={800} />
               </button>
             </div>
@@ -280,7 +279,7 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
               Task 1
             </span>
             <button className="rounded-xl h-[40px] bg-white border border-border-gray justify-between items-center px-4 flex">
-              <div>{'Cleaning and washing'}</div>
+              <div>Cleaning and washing</div>
               <AiFillCaretDown size={20} fontWeight={800} />
             </button>
           </div>
@@ -319,7 +318,7 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
           </div>
         </div>
 
-        <div className="bg-bg-input-gray min-h-[2px] w-full"></div>
+        <div className="bg-bg-input-gray min-h-[2px] w-full" />
 
         <div className="flex flex-col gap-4">
           <div className="flex flex-1 flex-col gap-2">
@@ -327,7 +326,7 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
               Task 2
             </span>
             <button className="rounded-xl h-[40px] bg-white border border-border-gray justify-between items-center px-4 flex">
-              <div>{'Cleaning and washing'}</div>
+              <div>Cleaning and washing</div>
               <AiFillCaretDown size={20} fontWeight={800} />
             </button>
 
@@ -424,7 +423,7 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
           />
         </div>
 
-        <div className="bg-bg-input-gray min-h-[2px] w-full"></div>
+        <div className="bg-bg-input-gray min-h-[2px] w-full" />
 
         <div className="flex flex-row gap-4 text-[16px] text-black">
           <div className="flex flex-col flex-1 gap-4">
@@ -476,6 +475,6 @@ const EditServiceReportModal = ({ openModal, setOpenModal }) => {
       </div>
     </Modal>
   );
-};
+}
 
 export default EditServiceReportModal;

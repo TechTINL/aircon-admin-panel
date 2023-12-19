@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\GetClientsAction;
+use App\Actions\GetEmployeesAction;
 use App\Actions\GetServicesAction;
 use App\Exports\ServicesExport;
 use App\Helpers\BreadcrumbHelper;
@@ -28,10 +30,13 @@ class ServiceController extends Controller
          return Excel::download(new ServicesExport, 'services.xlsx');
     }
 
-    public function show(Service $service): Response
+    public function show(Service $service, GetClientsAction $getClientsAction, GetEmployeesAction $employeesAction): Response
     {
         return Inertia::render('Services/Details', [
             'service' => new ServiceResource($service),
+            'clients' => $getClientsAction->getClientsWithSubClients(),
+            'leaders' => $employeesAction->leader(),
+            'employees' => $employeesAction->get(),
         ]);
     }
 }

@@ -1,5 +1,4 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
 
 const withMT = require('@material-tailwind/react/utils/withMT');
 
@@ -34,6 +33,4 @@ export default withMT({
       },
     },
   },
-
-  plugins: [forms],
 });
