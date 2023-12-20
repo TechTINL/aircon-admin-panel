@@ -4,7 +4,6 @@ use App\Actions\ActivityAction\GetActivitiesAction;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractTemplateController;
 use App\Http\Controllers\EmployeeController;
@@ -96,7 +95,7 @@ Route::middleware('auth')->group(function () {
             'services' => Service::with('client')->get(),
         ]);
     });
-    
+
     Route::get('/services-report-detail', function () {
         return Inertia::render('Services/ServiceDetails');
     });

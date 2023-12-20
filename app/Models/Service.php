@@ -27,6 +27,10 @@ class Service extends Model
         'client_id',
         'sub_client_id',
         'service_number',
+        'report_status',
+        'technician_report',
+        'task_visitation_note',
+        'client_signature',
     ];
 
     public function contract(): BelongsTo
@@ -70,6 +74,11 @@ class Service extends Model
     public function subClient(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'subClient_id');
+    }
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany(Photo::class);
     }
 
 

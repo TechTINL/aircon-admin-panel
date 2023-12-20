@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { produce } from 'immer';
 
 const getAddresses = (clients, client_id, sub_client_id) => {
@@ -25,7 +25,7 @@ const getAddresses = (clients, client_id, sub_client_id) => {
   );
 };
 
-function useServiceFormModel({ clients, service }) {
+function useServiceFormModel({ clients, service, leaders, employees }) {
   const [form, dispatch] = useReducer(
     produce((draft, action) => {
       switch (action.type) {
@@ -71,11 +71,55 @@ function useServiceFormModel({ clients, service }) {
         case 'SET_NAME':
           draft.name = action.payload;
           break;
+        case 'SET_SELECTED_LEADERS':
+          draft.selected_leaders = action.payload;
+          break;
+        case 'SET_TECHNICIAN_COUNT':
+          draft.technician_count = action.payload;
+        case 'SET_SELECTED_EMPLOYEES':
+          draft.selected_employees = action.payload;
+          break;
+        case 'SET_SERVICE_DATE':
+          draft.service_date = action.payload;
+          break;
+        case 'SET_SERVICE_TIME':
+          draft.service_time = action.payload;
+          break;
+        case 'SET_TASK_NAME':
+          draft.tasks[action.index].name = action.payload;
+          break;
+        case 'SET_TASK_HOURS':
+          draft.tasks[action.index].hours = action.payload;
+          break;
+        case 'SET_TASK_MINUTES':
+          draft.tasks[action.index].minutes = action.payload;
+          break;
+        case 'SET_TASK_COST':
+          draft.tasks[action.index].cost = action.payload;
+          break;
+        case 'ADD_TASK':
+          draft.tasks.push({
+            name: '',
+            hours: '',
+            minutes: '',
+            cost: '',
+          });
+          break;
+        case 'REMOVE_TASK':
+          draft.tasks.splice(action.index, 1);
+          break;
+        case 'SET_TECHNICIAN_REPORT':
+          draft.technician_report = action.payload;
+          break;
+        case 'SET_TASK_VISITATION_NOTES':
+          draft.task_visitation_notes = action.payload;
+          break;
         default:
           break;
       }
     }),
     {
+      is_edit_form: !!service,
       service_number: service?.service_number || '',
       contract_number: service?.contract_number || '',
       client_options:
@@ -127,19 +171,83 @@ function useServiceFormModel({ clients, service }) {
           }
         : null,
       name: service?.name || '',
+      leaders:
+        leaders?.map(leader => ({
+          ...leader,
+          label: leader.name,
+          value: leader.id,
+        })) || [],
+      selected_leaders:
+        service?.leaders?.map(leader => ({
+          ...leader,
+          label: leader.name,
+          value: leader.id,
+        })) || [],
+      technician_count: service?.technician_count || '',
+      employees:
+        employees?.map(employee => ({
+          ...employee,
+          label: employee.name,
+          value: employee.id,
+        })) || [],
+      selected_employees:
+        service?.technicians?.map(employee => ({
+          ...employee,
+          label: employee.name,
+          value: employee.id,
+        })) || [],
       service_date: service?.service_date || '',
-      description: '',
-      leader: '',
-      employees: [],
-      startDate: '',
-      endDate: '',
-      startTime: '',
-      endTime: '',
-      tasks: [],
+      service_time: service?.service_time
+        ? {
+            label: service?.service_time,
+            value: service?.service_time,
+          }
+        : '',
+      tasks: service?.tasks.map(task => ({
+        ...task,
+        name: task.name,
+        hours: task.duration_hours,
+        minutes: task.duration_minutes,
+        cost: task.cost,
+      })) || [
+        {
+          name: '',
+          hours: '',
+          minutes: '',
+          cost: '',
+        },
+      ],
+      technician_report: service?.technician_report || '',
+      task_visitation_notes: service?.task_visitation_notes || '',
+      client_signature: service?.client_signature || '',
     }
   );
 
-  return { form, dispatch };
+  const totalTasksCost = () => {
+    let total = 0;
+    form?.tasks.forEach(task => {
+      total += parseInt(task?.cost, 10) || 0;
+    });
+    return total;
+  };
+
+  const [tasksCost, setTasksCost] = useState(0);
+  const [gst, setGst] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    const result = totalTasksCost();
+    const calculatedGst = result * 0.08;
+
+    setTasksCost(result);
+    setGst(calculatedGst);
+
+    // Calculate totalAmount using the latest values of result and calculatedGst
+    const newTotalAmount = result + calculatedGst;
+    setTotalAmount(newTotalAmount);
+  }, [form]); // Dependency on form.tasks
+
+  return { form, dispatch, tasksCost, gst, totalAmount };
 }
 
 export default useServiceFormModel;

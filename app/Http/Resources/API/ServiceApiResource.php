@@ -30,7 +30,12 @@ class ServiceApiResource extends JsonResource
             'service_address' => $this->service_address,
             'status' => $this->status,
             'leaders' => $this->leaders->pluck('name'),
-            'technicians' => $this->technicians->pluck('name')
+            'technicians' => $this->technicians->pluck('name'),
+            'report_status' => $this->report_status,
+            'technician_report' => $this->technician_report,
+            'photos' => PhotoApiResource::collection($this->photos),
+            'task_visitation_note' => $this->task_visitation_note,
+            'client_signature' => url($this->client_signature),
         ];
     }
 }

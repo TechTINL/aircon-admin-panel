@@ -9,6 +9,8 @@ function ServiceDetailHead() {
   const {
     service: { data },
     clients,
+    leaders,
+    employees,
   } = usePage().props;
   return (
     <div className="flex flex-row w-full justify-between rounded-xl bg-white p-4">
@@ -35,12 +37,21 @@ function ServiceDetailHead() {
       </div>
       <div className="flex flex-col gap-4">
         {data?.status === 'Requires Follow Up' && (
-          <CreateServiceButton clients={clients}>
+          <CreateServiceButton
+            clients={clients}
+            leaders={leaders}
+            employees={employees}
+          >
             Create New Service Report (Ad-Hoc)
           </CreateServiceButton>
         )}
         <div className="flex justify-end">
-          <EditServiceButton service={data} clients={clients}>
+          <EditServiceButton
+            service={data}
+            clients={clients}
+            leaders={leaders}
+            employees={employees}
+          >
             Edit Service Report
           </EditServiceButton>
         </div>

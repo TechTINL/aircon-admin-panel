@@ -24,6 +24,10 @@ return new class extends Migration
             $table->string('service_address');
             $table->string('billing_address');
             $table->string('status');
+            $table->enum('report_status', ['private', 'public'])->nullable();
+            $table->string('technician_report')->nullable();
+            $table->text('task_visitation_note')->nullable();
+            $table->string('client_signature')->nullable();
             $table->unsignedBigInteger('contract_id')->nullable();
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->unsignedBigInteger('client_id')->nullable();

@@ -34,6 +34,11 @@ class ServiceResource extends JsonResource
             'leaders' => $this->leaders,
             'technicians' => $this->technicians,
             'tasks' => $this->tasks,
+            'report_status' => $this->report_status,
+            'technician_report' => $this->technician_report,
+            'photos' => $this->photos,
+            'task_visitation_note' => $this->task_visitation_note,
+            'client_signature' => url($this->client_signature),
         ];
     }
 }

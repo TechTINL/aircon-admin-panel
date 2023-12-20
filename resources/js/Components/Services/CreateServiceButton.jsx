@@ -3,7 +3,7 @@ import { Button } from '@material-tailwind/react';
 import { useState } from 'react';
 import ServiceFormModal from '@/Components/Services/ServiceFormModal';
 
-function CreateServiceButton({ clients, children }) {
+function CreateServiceButton({ clients, leaders, employees, children }) {
   const [openModel, setOpenModel] = useState(false);
 
   return (
@@ -21,6 +21,8 @@ function CreateServiceButton({ clients, children }) {
         openModal={openModel}
         setOpenModal={setOpenModel}
         clients={clients}
+        leaders={leaders}
+        employees={employees}
       />
     </div>
   );
