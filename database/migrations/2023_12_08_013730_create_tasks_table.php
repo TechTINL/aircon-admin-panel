@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('duration_hours');
-            $table->string('duration_minutes');
-            $table->string('cost');
-            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+//            $table->string('duration_hours');
+//            $table->string('duration_minutes');
+//            $table->string('cost');
+//            $table->foreignId('service_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
