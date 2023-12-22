@@ -57,7 +57,7 @@ function ServiceDetail() {
           <span className="">Signature</span>
           <div className="bg-bg-light-gray w-full min-h-[250px] rounded-xl flex justify-center items-center">
             <img
-              src={data?.client_signature}
+              src={app_url(data?.client_signature)}
               className="max-w-[80%] max-h-[80%] object-contain"
             />
           </div>
