@@ -11,8 +11,8 @@ import Card from '@/Components/Shared/Auth/Card';
 
 export default function Login({ status }) {
   const { data, setData, post, processing, errors, reset } = useForm({
-    phone: '+95 978 780 045 5',
-    password: 'password',
+    phone: '',
+    password: '',
     remember: true,
   });
 
