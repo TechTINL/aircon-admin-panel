@@ -109,7 +109,7 @@ function CreateSubClientModal() {
                       name="type"
                       data={CLIENT_TYPES}
                       onChange={item => setData('type', item)}
-                      placeholder="Clinic Type"
+                      placeholder="Property Type"
                     />
 
                     <InputError message={errors.type} className="mt-2" />

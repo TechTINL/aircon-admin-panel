@@ -71,7 +71,7 @@ function EditClientModal() {
                 <div>
                   <InputLabel
                     htmlFor="type"
-                    value="Client Type *"
+                    value="Property Type *"
                     className="text-zinc-800 text-base font-bold my-1"
                   />
 
@@ -80,7 +80,7 @@ function EditClientModal() {
                     name="type"
                     data={CLIENT_TYPES}
                     onChange={item => setData('type', item)}
-                    placeholder="Clinic Type"
+                    placeholder="Property Type"
                   />
 
                   <InputError message={errors.type} className="mt-2" />
