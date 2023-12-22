@@ -36,6 +36,7 @@ class ServiceApiResource extends JsonResource
             'photos' => PhotoApiResource::collection($this->photos),
             'task_visitation_note' => $this->task_visitation_note,
             'client_signature' => url($this->client_signature),
+            'tasks' => $this->tasks
         ];
     }
 }
