@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/clients/{client}/services', [ClientController::class, 'services'])->name('clients.services');
 
     Route::resource('contracts', ContractController::class);
+    Route::resource('contacts', ContactController::class)->only(['store', 'destroy']);
 
 	Route::resource('general-notes', GeneralNoteController::class);
 
