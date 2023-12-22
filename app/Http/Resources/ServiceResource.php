@@ -20,7 +20,7 @@ class ServiceResource extends JsonResource
             'client' => $this->client,
             'sub_client' => $this->subClient,
             'service_number' => $this->service_number,
-            'contract_number' => $this->contract->contract_number,
+            'contract_number' => $this->contract?->contract_number,
             'contract' => $this->contract,
             'name' => $this->name,
             'type' => $this->type,

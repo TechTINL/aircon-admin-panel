@@ -1,6 +1,7 @@
 import React from 'react';
 import { PiClipboardTextLight } from 'react-icons/pi';
 import { usePage } from '@inertiajs/react';
+import { Chip } from '@material-tailwind/react';
 import ServiceStatus from '@/Components/Services/ServiceStatus';
 import CreateServiceButton from '@/Components/Services/CreateServiceButton';
 import EditServiceButton from '@/Components/Services/EditServiceButton';
@@ -19,20 +20,28 @@ function ServiceDetailHead() {
           <div className="text-2xl font-bold text-black">
             {data?.client?.name}
           </div>
+          <Chip
+            value={data?.type}
+            color={data?.type === 'contract' ? 'teal' : 'indigo'}
+          />
           <ServiceStatus status={data?.status} />
         </div>
         <div className="flex gap-4">
-          <span className="text-[12px] text-border-gray">
-            Contract ID: <b>{data?.contract_number}</b>
-          </span>
+          {data?.contract_number && (
+            <span className="text-[12px] text-border-gray">
+              Contract ID: <b>{data?.contract_number}</b>
+            </span>
+          )}
           <span className="text-[12px] text-border-gray">
             Service Report ID: <b>{data?.service_number}</b>
           </span>
         </div>
-        <div className="flex text-primary font-bold text-[16px]">
+        <div className="flex gap-4 text-primary font-bold text-[16px]">
           <span>{data?.contract?.title}</span>
-          <PiClipboardTextLight className="self-center ml-4 mr-1" />
-          <span>{data?.service_no_of_time}</span>
+          <span className="flex items-center">
+            <PiClipboardTextLight className="self-center ml-4 mr-1" />
+            <span>{data?.service_no_of_time}</span>
+          </span>
         </div>
       </div>
       <div className="flex flex-col gap-4">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePage } from '@inertiajs/react';
+import { app_url } from '@/Helpers/utils.js';
 import SignatureImg from '../../../assets/images/signature.png';
 
 function ServiceDetail() {
@@ -15,8 +16,14 @@ function ServiceDetail() {
           <span className="text-secondary text-[16px]">{data?.name}</span>
         </div>
         <div className="flex flex-col gap-1 font-extrabold">
-          <span className="">Service Time</span>
-          <span className="text-secondary">{data?.service_time}</span>
+          <div>
+            <span className="">Service Date: </span>
+            <span className="text-secondary">{data?.service_date}</span>
+          </div>
+          <div>
+            <span className="">Service Time: </span>
+            <span className="text-secondary">{data?.service_time}</span>
+          </div>
         </div>
       </div>
 
@@ -36,26 +43,21 @@ function ServiceDetail() {
 
       <div>
         <div className="font-extrabold">Technician Service Report</div>
-        <div className="pr-6">
-          All 3 air cons are cleaned and washed successfully. Gas are also
-          refilled without any issue. No need for any follow up.
-        </div>
+        <div className="pr-6">{data?.technician_report}</div>
       </div>
 
       <div className="grid grid-cols-2 w-full gap-4">
         <div className="flex flex-col gap-3 font-extrabold">
           <span className="">Task Visitation Notes</span>
           <div className="bg-bg-light-gray w-full font-[500] min-h-[250px] rounded-xl flex flex-col justify-between p-4">
-            <span className="">
-              Client said to reach 11 AM not 9 AM to look out for spoilt part
-            </span>
+            <span className="">{data?.task_visitation_notes}</span>
           </div>
         </div>
         <div className="flex flex-col gap-3 font-extrabold">
           <span className="">Signature</span>
           <div className="bg-bg-light-gray w-full min-h-[250px] rounded-xl flex justify-center items-center">
             <img
-              src={SignatureImg}
+              src={data?.client_signature}
               className="max-w-[80%] max-h-[80%] object-contain"
             />
           </div>

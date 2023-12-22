@@ -105,7 +105,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
 
-    Route::resource('services', ServiceController::class)->only(['index', 'show']);
+    Route::resource('services', ServiceController::class)->only(['index', 'show', 'store', 'update']);
     Route::get('services/export', [ServiceController::class, 'export'])->name('services.export');
 
     Route::get('employee', [EmployeeController::class, 'index'])->name('employee.index');

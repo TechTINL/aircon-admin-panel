@@ -120,6 +120,7 @@ function useServiceFormModel({ clients, service, leaders, employees }) {
     }),
     {
       is_edit_form: !!service,
+      id: service?.id || '',
       service_number: service?.service_number || '',
       contract_number: service?.contract_number || '',
       client_options:

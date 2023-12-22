@@ -27,6 +27,7 @@ function ServiceFormModal({
   service,
   leaders,
   employees,
+  onSubmit,
 }) {
   const handleOpen = () => setOpenModal(!openModal);
   const { form, dispatch, tasksCost, gst, totalAmount } = useServiceFormModel({
@@ -35,6 +36,10 @@ function ServiceFormModal({
     leaders,
     employees,
   });
+
+  const handleSaveServiceReport = () => {
+    onSubmit(form);
+  };
 
   return (
     <Dialog
@@ -164,10 +169,10 @@ function ServiceFormModal({
                   id="service-name"
                   placeholder="Name of Service"
                   value={form?.name}
-                  onChange={e => {
+                  onChange={value => {
                     dispatch({
                       type: 'SET_NAME',
-                      payload: e.target.value,
+                      payload: value,
                     });
                   }}
                 />
@@ -260,10 +265,10 @@ function ServiceFormModal({
                         id="task-name"
                         placeholder="Task Name"
                         value={task?.name}
-                        onChange={e => {
+                        onChange={value => {
                           dispatch({
                             type: 'SET_TASK_NAME',
-                            payload: e.target.value,
+                            payload: value,
                             index,
                           });
                         }}
@@ -386,7 +391,7 @@ function ServiceFormModal({
                     className="h-20 rounded-lg object-cover object-center bg-gray-100 my-4"
                   />
                 </div>
-                <div className="w-full">
+                <div className="w-full mx-4">
                   <div className="flex items-center justify-between">
                     <span className="text-black font-semibold mb-4">
                       Set as Private
@@ -456,7 +461,11 @@ function ServiceFormModal({
         </div>
       </DialogBody>
       <DialogFooter>
-        <Button className="w-full" color="teal">
+        <Button
+          className="w-full"
+          color="teal"
+          onClick={handleSaveServiceReport}
+        >
           Save Service Report
         </Button>
       </DialogFooter>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { usePage } from '@inertiajs/react';
 import Lightbox from 'yet-another-react-lightbox';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import { app_url } from '@/Helpers/utils.js';
 import AirconImg from '../../../assets/images/aircon-sample.png';
 
 function TeamDetail() {
@@ -43,51 +44,25 @@ function TeamDetail() {
 
       <div className="flex flex-row overflow-x-scroll py-4 max-h-[350px]">
         <div className="flex flex-col flex-wrap gap-4">
-          <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]">
-            <img
-              src={AirconImg}
-              className="w-full h-full object-cover rounded-xl"
-              onClick={() => setOpen(true)}
-            />
-          </div>
-          <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]">
-            <img
-              src={AirconImg}
-              className="w-full h-full object-cover rounded-xl"
-              onClick={() => setOpen(true)}
-            />
-          </div>
-          <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]">
-            <img
-              src={AirconImg}
-              className="w-full h-full object-cover rounded-xl"
-              onClick={() => setOpen(true)}
-            />
-          </div>
-          <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]">
-            <img
-              src={AirconImg}
-              className="w-full h-full object-cover rounded-xl"
-              onClick={() => setOpen(true)}
-            />
-          </div>
-          <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]">
-            <img
-              src={AirconImg}
-              className="w-full h-full object-cover rounded-xl"
-              onClick={() => setOpen(true)}
-            />
-          </div>
+          {data?.photos.map((photo, index) => (
+            <div
+              className="h-[140px] rounded-xl bg-gray-300 w-[140px]"
+              key={index}
+            >
+              <img
+                src={app_url(photo.url)}
+                className="w-full h-full object-cover rounded-xl"
+                onClick={() => setOpen(true)}
+                alt="service-photo"
+              />
+            </div>
+          ))}
           <Lightbox
             open={open}
             close={() => setOpen(false)}
-            slides={[
-              { src: AirconImg },
-              { src: AirconImg },
-              { src: AirconImg },
-              { src: AirconImg },
-              { src: AirconImg },
-            ]}
+            slides={data?.photos.map(photo => ({
+              src: app_url(photo.url),
+            }))}
             plugins={[Zoom]}
           />
         </div>

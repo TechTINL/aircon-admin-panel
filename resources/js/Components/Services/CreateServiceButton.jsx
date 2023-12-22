@@ -2,9 +2,11 @@ import { BsPencilSquare } from 'react-icons/bs';
 import { Button } from '@material-tailwind/react';
 import { useState } from 'react';
 import ServiceFormModal from '@/Components/Services/ServiceFormModal';
+import useCreateService from '@/Hooks/Service/useCreateService.js';
 
 function CreateServiceButton({ clients, leaders, employees, children }) {
   const [openModel, setOpenModel] = useState(false);
+  const { createService } = useCreateService();
 
   return (
     <div>
@@ -23,6 +25,7 @@ function CreateServiceButton({ clients, leaders, employees, children }) {
         clients={clients}
         leaders={leaders}
         employees={employees}
+        onSubmit={data => createService(data)}
       />
     </div>
   );
