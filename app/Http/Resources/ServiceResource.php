@@ -38,7 +38,7 @@ class ServiceResource extends JsonResource
             'technician_report' => $this->technician_report,
             'photos' => $this->photos,
             'task_visitation_note' => $this->task_visitation_note,
-            'client_signature' => url($this->client_signature),
+            'client_signature' => $this->client_signature,
         ];
     }
 }
