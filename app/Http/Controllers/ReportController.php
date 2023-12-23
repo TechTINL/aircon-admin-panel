@@ -31,6 +31,7 @@ class ReportController extends Controller
 
         // Use Browsershot to capture the webpage and save it as a PDF
         Browsershot::url(route('report.preview', ['service_number' => $service_number]))
+            ->noSandbox()
             ->showBackground()
             ->format('A4')
             ->save($pathToFile);
