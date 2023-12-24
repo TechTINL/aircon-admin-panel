@@ -114,6 +114,17 @@ function useServiceFormModel({ clients, service, leaders, employees }) {
         case 'SET_TASK_VISITATION_NOTES':
           draft.task_visitation_notes = action.payload;
           break;
+        case 'SET_REPORT_STATUS':
+          draft.report_status = action.payload;
+          break;
+        case 'SET_REQUIRED_FOLLOW_UP':
+          draft.required_follow_up = action.payload;
+          draft.mark_as_completed = !action.payload;
+          break;
+        case 'SET_MARK_AS_COMPLETED':
+          draft.mark_as_completed = action.payload;
+          draft.required_follow_up = !action.payload;
+          break;
         default:
           break;
       }
@@ -221,6 +232,9 @@ function useServiceFormModel({ clients, service, leaders, employees }) {
       technician_report: service?.technician_report || '',
       task_visitation_notes: service?.task_visitation_notes || '',
       client_signature: service?.client_signature || '',
+      report_status: service?.report_status || '',
+      required_follow_up: service?.status === 'required_follow_up' || false,
+      mark_as_completed: service?.status === 'completed' || false,
     }
   );
 

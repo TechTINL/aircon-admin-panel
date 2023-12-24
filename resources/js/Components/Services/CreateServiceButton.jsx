@@ -2,7 +2,7 @@ import { BsPencilSquare } from 'react-icons/bs';
 import { Button } from '@material-tailwind/react';
 import { useState } from 'react';
 import ServiceFormModal from '@/Components/Services/ServiceFormModal';
-import useCreateService from '@/Hooks/Service/useCreateService.js';
+import useCreateService from '@/Hooks/Service/useCreateService';
 
 function CreateServiceButton({ clients, leaders, employees, children }) {
   const [openModel, setOpenModel] = useState(false);

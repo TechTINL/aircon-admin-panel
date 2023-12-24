@@ -30,8 +30,8 @@ function Sidebar({ children }) {
   const isServiceTimelineActive = url.includes('/services-time-line');
   const isServiceReportActive = url.includes('/service-report');
 
-  const [open, setOpen] = useState(0);
-  const [templateOpen, setTemplateOpen] = useState(0);
+  const [open, setOpen] = useState(1);
+  const [templateOpen, setTemplateOpen] = useState(1);
 
   const handleOpen = value => {
     setOpen(open === value ? 0 : value);

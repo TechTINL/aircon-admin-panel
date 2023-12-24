@@ -11,6 +11,7 @@ import { VscFilePdf } from 'react-icons/vsc';
 import { Chip } from '@material-tailwind/react';
 import useDownloadReport from '@/Hooks/Service/useDownloadReport';
 import Breadcrumb from '@/Components/Common/Breadcrumb';
+import ServiceStatus from '@/Components/Services/ServiceStatus.jsx';
 
 function List({ auth, services, breadcrumb }) {
   const [checkedStatusFilters, setCheckedStatusFilters] = useState([]);
@@ -196,31 +197,26 @@ function List({ auth, services, breadcrumb }) {
                       </td>
 
                       <td className="px-4 py-2 max-w-[200px]">
-                        {service?.leaders?.map(leader => (
-                          <Chip
-                            key={leader?.id}
-                            value={leader?.name}
-                            color="amber"
-                          />
-                        ))}
-                        {service?.technicians?.map(technician => (
-                          <Chip
-                            key={technician?.id}
-                            value={technician?.name}
-                            color="green"
-                          />
-                        ))}
+                        <div className="flex flex-col gap-1">
+                          {service?.leaders?.map(leader => (
+                            <Chip
+                              key={leader?.id}
+                              value={leader?.name}
+                              color="amber"
+                            />
+                          ))}
+                          {service?.technicians?.map(technician => (
+                            <Chip
+                              key={technician?.id}
+                              value={technician?.name}
+                              color="green"
+                            />
+                          ))}
+                        </div>
                       </td>
 
                       <td className="px-4 py-2 max-w-[200px]">
-                        <div
-                          className="rounded-full max-h-max py-2 text-center text-[14px]"
-                          style={{
-                            ...getStatusStyles(service.status),
-                          }}
-                        >
-                          {service.status}
-                        </div>
+                        <ServiceStatus status={service.status} />
                       </td>
 
                       <td className="px-4 py-2 max-w-[200px] gap-4">

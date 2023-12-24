@@ -356,28 +356,26 @@ function ServiceFormModal({
                   id="technician-service-report"
                   placeholder="Technician Service Report"
                   value={form?.technician_report}
-                  onChange={e => {
+                  onChange={value => {
                     dispatch({
                       type: 'SET_TECHNICIAN_REPORT',
-                      payload: e.target.value,
+                      payload: value,
                     });
                   }}
                 />
               </div>
               <div className="flex flex-col">
                 <div className="flex justify-between items-center">
-                  <span className="text-black mb-4">
-                    Technician Service Report
-                  </span>
+                  <span className="text-black mb-4">Task Visitation Notes</span>
                 </div>
                 <TextArea
                   id="task-visitation-notes"
                   placeholder="Task Visitation Note"
                   value={form?.task_visitation_notes}
-                  onChange={e => {
+                  onChange={value => {
                     dispatch({
                       type: 'SET_TASK_VISITATION_NOTES',
-                      payload: e.target.value,
+                      payload: value,
                     });
                   }}
                 />
@@ -397,7 +395,16 @@ function ServiceFormModal({
                       Set as Private
                     </span>
                     <div>
-                      <Switch color="indigo" defaultChecked />
+                      <Switch
+                        color="indigo"
+                        checked={form?.report_status === 'private'}
+                        onChange={e => {
+                          dispatch({
+                            type: 'SET_REPORT_STATUS',
+                            payload: e.target.checked ? 'private' : 'public',
+                          });
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
@@ -405,7 +412,16 @@ function ServiceFormModal({
                       Requires follow-up
                     </span>
                     <div>
-                      <Switch color="indigo" defaultChecked />
+                      <Switch
+                        color="indigo"
+                        checked={form?.required_follow_up}
+                        onChange={e => {
+                          dispatch({
+                            type: 'SET_REQUIRED_FOLLOW_UP',
+                            payload: e.target.checked,
+                          });
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
@@ -413,7 +429,16 @@ function ServiceFormModal({
                       Mark as Completed
                     </span>
                     <div>
-                      <Switch color="indigo" defaultChecked />
+                      <Switch
+                        color="indigo"
+                        checked={form?.mark_as_completed}
+                        onChange={e => {
+                          dispatch({
+                            type: 'SET_MARK_AS_COMPLETED',
+                            payload: e.target.checked,
+                          });
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
