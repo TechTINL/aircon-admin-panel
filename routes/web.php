@@ -9,6 +9,7 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractTemplateController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralNoteController;
+use App\Http\Controllers\GstAmountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReportController;
@@ -130,9 +131,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('service-templates', ServiceTemplateController::class)
 	    ->only(['index', 'store', 'update', 'destroy']);
 
-    Route::get('manage-gst', function () {
-        return Inertia::render('ManageGST');
-    });
+    Route::resource('gst', GstAmountController::class)->only(['show', 'update']);
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
 
     Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');

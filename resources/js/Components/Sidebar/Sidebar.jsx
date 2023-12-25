@@ -191,8 +191,8 @@ function Sidebar({ children }) {
         </List>
         <NavItem
           text="Manage GST"
-          isActive={url.includes('/manage-gst')}
-          url="/manage-gst"
+          isActive={url.includes('/gst')}
+          url="/gst/1"
           icon={<FiTrendingUp size={22} className="lg:mx-4 md:mx-1" />}
         />
       </div>

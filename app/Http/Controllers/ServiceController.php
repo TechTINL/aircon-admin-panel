@@ -73,7 +73,7 @@ class ServiceController extends Controller
             'service_at' => $service_at,
             'service_address' => $request->service_address,
             'billing_address' => $request->billing_address,
-            'status' => 'scheduled',
+            'status' => $request->status ?? 'scheduled',
             'client_id' => $request->client_id,
             'subClient_id' => $request->sub_client_id,
         ]);

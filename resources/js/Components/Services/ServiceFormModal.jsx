@@ -317,7 +317,15 @@ function ServiceFormModal({
                               }}
                             />
                             <div className="w-full">
-                              <IconButton variant="text">
+                              <IconButton
+                                variant="text"
+                                onClick={() => {
+                                  dispatch({
+                                    type: 'REMOVE_TASK',
+                                    index,
+                                  });
+                                }}
+                              >
                                 <RiDeleteBin6Line color="red" size={22} />
                               </IconButton>
                             </div>
@@ -435,6 +443,23 @@ function ServiceFormModal({
                         onChange={e => {
                           dispatch({
                             type: 'SET_MARK_AS_COMPLETED',
+                            payload: e.target.checked,
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-black font-semibold mb-4">
+                      On Hold
+                    </span>
+                    <div>
+                      <Switch
+                        color="indigo"
+                        checked={form?.on_hold}
+                        onChange={e => {
+                          dispatch({
+                            type: 'SET_ON_HOLD',
                             payload: e.target.checked,
                           });
                         }}

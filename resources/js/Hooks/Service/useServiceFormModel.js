@@ -118,12 +118,37 @@ function useServiceFormModel({ clients, service, leaders, employees }) {
           draft.report_status = action.payload;
           break;
         case 'SET_REQUIRED_FOLLOW_UP':
-          draft.required_follow_up = action.payload;
-          draft.mark_as_completed = !action.payload;
+          if (action.payload) {
+            draft.required_follow_up = action.payload;
+            draft.mark_as_completed = false;
+            draft.on_hold = false;
+          } else {
+            draft.required_follow_up = action.payload;
+            draft.mark_as_completed = true;
+            draft.on_hold = false;
+          }
           break;
         case 'SET_MARK_AS_COMPLETED':
-          draft.mark_as_completed = action.payload;
-          draft.required_follow_up = !action.payload;
+          if (action.payload) {
+            draft.mark_as_completed = action.payload;
+            draft.required_follow_up = false;
+            draft.on_hold = false;
+          } else {
+            draft.mark_as_completed = action.payload;
+            draft.required_follow_up = true;
+            draft.on_hold = false;
+          }
+          break;
+        case 'SET_ON_HOLD':
+          if (action.payload) {
+            draft.on_hold = action.payload;
+            draft.required_follow_up = false;
+            draft.mark_as_completed = false;
+          } else {
+            draft.on_hold = action.payload;
+            draft.required_follow_up = true;
+            draft.mark_as_completed = false;
+          }
           break;
         default:
           break;
@@ -233,8 +258,9 @@ function useServiceFormModel({ clients, service, leaders, employees }) {
       task_visitation_notes: service?.task_visitation_notes || '',
       client_signature: service?.client_signature || '',
       report_status: service?.report_status || '',
-      required_follow_up: service?.status === 'required_follow_up' || false,
-      mark_as_completed: service?.status === 'completed' || false,
+      required_follow_up: service?.status === 'Requires Follow Up' || false,
+      mark_as_completed: service?.status === 'Completed' || false,
+      on_hold: service?.status === 'On Hold' || false,
     }
   );
 

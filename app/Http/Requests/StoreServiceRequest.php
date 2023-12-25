@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreServiceRequest extends FormRequest
 {
@@ -28,14 +29,24 @@ class StoreServiceRequest extends FormRequest
             'service_address' => 'required|string',
             'billing_address' => 'required|string',
             'name' => 'required|string',
-            'leaders_id' => 'required|array',
-            'leaders_id.*' => 'required|exists:users,id',
+            'leaders_id' => 'nullable|array',
+            'leaders_id.*' => 'nullable|exists:users,id',
             'technician_count' => 'required|integer',
-            'employees_id' => 'required|array',
-            'employees_id.*' => 'required|exists:users,id',
+            'employees_id' => 'nullable|array',
+            'employees_id.*' => 'nullable|exists:users,id',
             'service_date' => 'required|date',
             'service_time' => 'required|string',
             'tasks' => 'required|array',
+            'tasks.*.name' => 'required|string',
+            'status' => ['required', Rule::in([
+                'unassigned',
+                'requires-follow-up',
+                'on-hold',
+                'completed',
+                'scheduled',
+                'follow-up-completed',
+                'scheduled']
+            )],
         ];
     }
 }
