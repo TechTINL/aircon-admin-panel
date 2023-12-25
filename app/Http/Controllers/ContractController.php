@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Contract\GetContractAction;
 use App\Actions\GetClientsAction;
 use App\Actions\GetEmployeesAction;
+use App\Actions\GetGstAction;
 use App\Actions\Template\Contract\GetContractTemplatesAction;
 use App\Actions\Template\GetServiceTemplatesAction;
 use App\Actions\Template\GetTaskTemplatesAction;
@@ -14,7 +15,6 @@ use App\Http\Requests\UpdateContractRequest;
 use App\Http\Resources\ContractResource;
 use App\Models\Contract;
 use App\Models\Service;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -40,7 +40,9 @@ class ContractController extends Controller
 		GetClientsAction $getClientsAction,
 		GetEmployeesAction $employeesAction,
 		GetServiceTemplatesAction $getServiceTemplatesAction,
-        GetTaskTemplatesAction $getTaskTemplatesAction): Response
+        GetTaskTemplatesAction $getTaskTemplatesAction,
+        GetGstAction $getGstAction,
+        ): Response
     {
         return Inertia::render('Contract/Form', [
             'contractTemplates' => $action->execute(),
@@ -49,6 +51,7 @@ class ContractController extends Controller
 	        'employees' => $employeesAction->get(),
 	        'serviceTemplates' => $getServiceTemplatesAction->execute(),
 	        'taskTemplates' => $getTaskTemplatesAction->execute(),
+            'gst' => $getGstAction->execute(),
         ]);
     }
 

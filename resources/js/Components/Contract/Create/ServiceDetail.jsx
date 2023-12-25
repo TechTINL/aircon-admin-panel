@@ -2,6 +2,7 @@ import Service from '@/Components/Contract/Create/ServiceRequest/Service';
 import Select from 'react-select';
 import DatePicker from '@/Components/Common/DatePicker';
 import useServiceDetail from '@/Hooks/useServiceDetail';
+import TextInput from '@/Components/TextInput.jsx';
 
 function ServiceDetail() {
   const {
@@ -32,7 +33,7 @@ function ServiceDetail() {
           <span className="font-bold text-[16px]">Every</span>
           <div className="flex items-center gap-1">
             <div className="flex-1 w-full">
-              <input
+              <TextInput
                 type="number"
                 value={selectedServiceRepeat}
                 className="w-full h-full pl-8 rounded-xl"
