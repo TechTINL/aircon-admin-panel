@@ -23,8 +23,8 @@ class ServiceApiController extends Controller
     public function update(Request $request, Service $service): JsonResponse
     {
         $request->validate([
-            'report_status' => 'required|in:private,public',
-            'status' => 'required|in:requires-follow-up,completed,follow-up-completed',
+            'report_status' => 'nullable|in:private,public',
+            'status' => 'nullable|in:requires-follow-up,completed,follow-up-completed',
             'technician_report' => 'nullable|string'
         ]);
 
