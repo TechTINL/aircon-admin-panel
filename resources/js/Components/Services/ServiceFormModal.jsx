@@ -19,6 +19,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import { BiDollar } from 'react-icons/bi';
 import useServiceFormModel from '@/Hooks/Service/useServiceFormModel';
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
+import { usePage } from '@inertiajs/react';
 
 function ServiceFormModal({
   openModal,
@@ -29,12 +30,17 @@ function ServiceFormModal({
   employees,
   onSubmit,
 }) {
+  const { gst: gstPercentage } = usePage().props;
+
+  const gstValue = gstPercentage / 100;
+
   const handleOpen = () => setOpenModal(!openModal);
   const { form, dispatch, tasksCost, gst, totalAmount } = useServiceFormModel({
     clients,
     service,
     leaders,
     employees,
+    gstValue,
   });
 
   const handleSaveServiceReport = () => {
@@ -493,7 +499,7 @@ function ServiceFormModal({
                 </div>
                 <div className="flex flex-row justify-between">
                   <span className="text-black font-extralight text-sm">
-                    GST 9%
+                    GST {gstPercentage}%
                   </span>
                   <span className="text-black font-light text-sm">$ {gst}</span>
                 </div>

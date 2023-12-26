@@ -1,7 +1,8 @@
 import React from 'react';
 import useSummary from '@/Hooks/Contract/useSummary';
 
-function Summary() {
+function Summary({ gst }) {
+  const gstValue = gst / 100;
   const {
     contractAmount,
     contractGST,
@@ -11,7 +12,9 @@ function Summary() {
     tasksCost,
     totalAmount,
     finalAmount,
-  } = useSummary();
+  } = useSummary({
+    gst: gstValue,
+  });
 
   return (
     <div className="bg-white rounded-xl p-6 flex flex-col gap-6">
@@ -23,7 +26,7 @@ function Summary() {
             <span className="">$ {contractAmount}</span>
           </div>
           <div className="flex justify-between">
-            <b>Including GST 9%</b>
+            <b>GST {gst}%</b>
             <span>$ {contractGST}</span>
           </div>
           <div className="flex justify-between">
@@ -37,7 +40,7 @@ function Summary() {
             <span className="text-[14px]">$ {tasksCost}</span>
           </div>
           <div className="flex justify-between">
-            <b>Including GST 9%</b>
+            <b>GST {gst}%</b>
             <span className="">$ {totalGST}</span>
           </div>
           <div className="flex justify-between">

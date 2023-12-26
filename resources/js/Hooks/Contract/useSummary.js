@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import CreateContractContext from '@/Context/CreateContractContext';
 
-function useSummary() {
+function useSummary({ gst = 0.09 }) {
   const { contractAmount, serviceData } = useContext(CreateContractContext);
 
   const [contractGST, setContractGST] = useState(0);
@@ -14,7 +14,7 @@ function useSummary() {
   const [finalAmount, setFinalAmount] = useState(0);
 
   useEffect(() => {
-    const _contractGST = Number(contractAmount) * 0.09;
+    const _contractGST = Number(contractAmount) * gst;
     setContractGST(_contractGST);
     setTotalContractAmount(Number(contractAmount) + _contractGST);
   }, [contractAmount]);
@@ -34,9 +34,9 @@ function useSummary() {
       _tasksCost += sumTaskCosts(service.tasks);
     });
 
-    const _totalContractAmount = Number(_tasksCost);
-    setTotalGST(_tasksCost * 0.09);
-    _totalAmount = Number(_totalContractAmount) + Number(totalGST);
+    const _totalGST = _tasksCost * gst;
+    setTotalGST(_totalGST);
+    _totalAmount = Number(_tasksCost) + Number(_totalGST);
 
     setTotalTechnicians(_totalTechnicians);
     setTasksCost(_tasksCost);

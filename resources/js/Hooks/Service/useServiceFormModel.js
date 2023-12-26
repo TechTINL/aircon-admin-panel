@@ -25,7 +25,13 @@ const getAddresses = (clients, client_id, sub_client_id) => {
   );
 };
 
-function useServiceFormModel({ clients, service, leaders, employees }) {
+function useServiceFormModel({
+  clients,
+  service,
+  leaders,
+  employees,
+  gstValue,
+}) {
   const [form, dispatch] = useReducer(
     produce((draft, action) => {
       switch (action.type) {
@@ -278,7 +284,7 @@ function useServiceFormModel({ clients, service, leaders, employees }) {
 
   useEffect(() => {
     const result = totalTasksCost();
-    const calculatedGst = result * 0.09;
+    const calculatedGst = result * gstValue;
 
     setTasksCost(result);
     setGst(calculatedGst);
