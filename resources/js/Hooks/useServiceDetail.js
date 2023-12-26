@@ -24,17 +24,6 @@ function useServiceDetail() {
   };
 
   useEffect(() => {
-    // const _serviceData = serviceData.map((service, index) => {
-    //   return {
-    //     ...service,
-    //     date: dayjs(dateOption)
-    //       .add(index * selectedServiceRepeat, 'month')
-    //       .format('YYYY-MM-DD'),
-    //     time: timeOptions[index].value,
-    //   };
-    // });
-    // setServiceData(_serviceData);
-
     setServiceData(
       produce(serviceData, draft => {
         draft.forEach((service, index) => {

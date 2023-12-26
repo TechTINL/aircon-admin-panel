@@ -493,7 +493,7 @@ function ServiceFormModal({
                 </div>
                 <div className="flex flex-row justify-between">
                   <span className="text-black font-extralight text-sm">
-                    GST 8%
+                    GST 9%
                   </span>
                   <span className="text-black font-light text-sm">$ {gst}</span>
                 </div>

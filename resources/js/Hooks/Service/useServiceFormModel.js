@@ -278,7 +278,7 @@ function useServiceFormModel({ clients, service, leaders, employees }) {
 
   useEffect(() => {
     const result = totalTasksCost();
-    const calculatedGst = result * 0.08;
+    const calculatedGst = result * 0.09;
 
     setTasksCost(result);
     setGst(calculatedGst);

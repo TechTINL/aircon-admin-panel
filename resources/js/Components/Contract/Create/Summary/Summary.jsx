@@ -23,7 +23,7 @@ function Summary() {
             <span className="">$ {contractAmount}</span>
           </div>
           <div className="flex justify-between">
-            <b>Including GST 8%</b>
+            <b>Including GST 9%</b>
             <span>$ {contractGST}</span>
           </div>
           <div className="flex justify-between">
@@ -37,7 +37,7 @@ function Summary() {
             <span className="text-[14px]">$ {tasksCost}</span>
           </div>
           <div className="flex justify-between">
-            <b>Including GST 8%</b>
+            <b>Including GST 9%</b>
             <span className="">$ {totalGST}</span>
           </div>
           <div className="flex justify-between">

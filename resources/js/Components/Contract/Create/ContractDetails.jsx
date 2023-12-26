@@ -9,12 +9,9 @@ import DatePicker from '../../Common/DatePicker';
 
 function ContractDetails() {
   const {
-    title,
     setTitle,
     defaultTitle,
-    setDefaultTitle,
     defaultClient,
-    setDefaultClient,
     templateOptions,
     serviceCount,
     setServiceCount,
@@ -30,7 +27,7 @@ function ContractDetails() {
     setContractAmount,
   } = useContext(CreateContractContext);
 
-  const { addressOptions, setServiceAddress, SetBillingAddress } = useAddress();
+  const { addressOptions, setServiceAddress } = useAddress();
 
   const onContractTitleChange = value => {
     setTitle(value?.label);
@@ -80,7 +77,6 @@ function ContractDetails() {
           />
         </div>
       </div>
-
       <div className="flex flex-col gap-3">
         <span className="text-black font-bold text-[16px]">
           Client <span className="text-red">*</span>

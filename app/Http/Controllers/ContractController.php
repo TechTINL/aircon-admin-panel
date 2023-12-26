@@ -46,7 +46,7 @@ class ContractController extends Controller
     {
         return Inertia::render('Contract/Form', [
             'contractTemplates' => $action->execute(),
-            'clients' => $getClientsAction->getClients(),
+            'clients' => $getClientsAction->getClientsWithSubClients(),
 	        'leaders' => $employeesAction->leader(),
 	        'employees' => $employeesAction->get(),
 	        'serviceTemplates' => $getServiceTemplatesAction->execute(),

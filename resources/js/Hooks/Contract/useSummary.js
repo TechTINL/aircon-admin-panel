@@ -14,7 +14,7 @@ function useSummary() {
   const [finalAmount, setFinalAmount] = useState(0);
 
   useEffect(() => {
-    const _contractGST = Number(contractAmount) * 0.08;
+    const _contractGST = Number(contractAmount) * 0.09;
     setContractGST(_contractGST);
     setTotalContractAmount(Number(contractAmount) + _contractGST);
   }, [contractAmount]);
@@ -35,7 +35,7 @@ function useSummary() {
     });
 
     const _totalContractAmount = Number(_tasksCost);
-    setTotalGST(_tasksCost * 0.08);
+    setTotalGST(_tasksCost * 0.09);
     _totalAmount = Number(_totalContractAmount) + Number(totalGST);
 
     setTotalTechnicians(_totalTechnicians);
