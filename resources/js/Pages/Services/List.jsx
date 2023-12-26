@@ -12,8 +12,10 @@ import { Chip } from '@material-tailwind/react';
 import useDownloadReport from '@/Hooks/Service/useDownloadReport';
 import Breadcrumb from '@/Components/Common/Breadcrumb';
 import ServiceStatus from '@/Components/Services/ServiceStatus.jsx';
+import Pagination from '@/Components/Shared/Pagination.jsx';
 
 function List({ auth, services, breadcrumb }) {
+  const { data, links, meta } = services;
   const [checkedStatusFilters, setCheckedStatusFilters] = useState([]);
 
   const { handleDownloadReport } = useDownloadReport();
@@ -249,7 +251,9 @@ function List({ auth, services, breadcrumb }) {
             </div>
           </div>
           <div className="bg-bg-input-gray min-h-[2px] w-full" />
-          {/* Pagination */}
+          <div className="flex flex-initial justify-between items-center mt-4">
+            <Pagination links={links} meta={meta} />
+          </div>
         </div>
       </div>
     </AuthenticatedLayout>
