@@ -16,6 +16,8 @@ class ServiceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $this->load('client.contacts', 'subClient.contacts', 'contract', 'leaders', 'technicians', 'tasks', 'photos');
+
         return [
             'id' => $this->id,
             'client' => $this->client,

@@ -132,10 +132,13 @@ class ContractController extends Controller
          GetClientsAction $getClientsAction,
          GetEmployeesAction $employeesAction,
          GetServiceTemplatesAction $getServiceTemplatesAction,
-         GetTaskTemplatesAction $getTaskTemplatesAction
+         GetTaskTemplatesAction $getTaskTemplatesAction,
+        GetGstAction $gstAction
     )
     {
-        $contract->load('client', 'subClient', 'services', 'services.tasks', 'services.users');
+        $contract->load(
+            'client', 'subClient', 'services', 'services.tasks',
+            'services.users', 'services.leaders', 'services.technicians');
 
         return Inertia::render('Contract/EditForm', [
             'contract' => $contract,
@@ -145,6 +148,7 @@ class ContractController extends Controller
             'employees' => $employeesAction->get(),
             'serviceTemplates' => $getServiceTemplatesAction->execute(),
             'taskTemplates' => $getTaskTemplatesAction->execute(),
+            'gst' => $gstAction->execute(),
         ]);
     }
 

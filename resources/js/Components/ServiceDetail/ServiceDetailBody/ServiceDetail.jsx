@@ -55,7 +55,7 @@ function ServiceDetail() {
         <div className="flex flex-col gap-3 font-extrabold">
           <span className="">Task Visitation Notes</span>
           <div className="bg-bg-light-gray w-full font-[500] min-h-[250px] rounded-xl flex flex-col justify-between p-4">
-            <span className="">{data?.task_visitation_notes}</span>
+            <span className="">{data?.task_visitation_note}</span>
           </div>
         </div>
         <div className="flex flex-col gap-3 font-extrabold">

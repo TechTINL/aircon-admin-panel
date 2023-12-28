@@ -11,8 +11,8 @@ import { VscFilePdf } from 'react-icons/vsc';
 import { Chip } from '@material-tailwind/react';
 import useDownloadReport from '@/Hooks/Service/useDownloadReport';
 import Breadcrumb from '@/Components/Common/Breadcrumb';
-import ServiceStatus from '@/Components/Services/ServiceStatus.jsx';
-import Pagination from '@/Components/Shared/Pagination.jsx';
+import ServiceStatus from '@/Components/Services/ServiceStatus';
+import Pagination from '@/Components/Shared/Pagination';
 
 function List({ auth, services, breadcrumb }) {
   const { data, links, meta } = services;
@@ -159,7 +159,7 @@ function List({ auth, services, breadcrumb }) {
                   </tr>
                 </thead>
                 <tbody className="relative">
-                  {services.data.map((service, i) => (
+                  {data.map((service, i) => (
                     <tr
                       className={`text-[#455361] ${
                         i % 2 === 1 && 'bg-white rounded-full'

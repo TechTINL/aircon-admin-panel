@@ -15,7 +15,11 @@ class ReportController extends Controller
     public function preview(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $service_number = $request->input('service_number');
-        $service = Service::where('service_number', $service_number)->firstOrFail();
+        $service = Service::with(['tasks', 'leaders', 'technicians', 'photos'])
+            ->where('service_number', $service_number)
+            ->first();
+
+//        dd($service);
 
         return view('report', [
             'service' => $service,

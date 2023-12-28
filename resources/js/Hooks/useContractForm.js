@@ -2,7 +2,7 @@ import { produce } from 'immer';
 import { useReducer } from 'react';
 import { getAddresses, getTimes } from '@/Utils/utils';
 
-function useContractForm({ contractTemplates, clients, contract }) {
+function useContractForm({ contractTemplates, clients, contract, gstValue }) {
   const [form, dispatch] = useReducer(
     produce((draft, action) => {
       switch (action.type) {
@@ -128,7 +128,11 @@ function useContractForm({ contractTemplates, clients, contract }) {
     }),
     {
       isEdit: !!contract,
-      selected_title: contract?.title || '',
+      selected_title:
+        {
+          label: contract?.title || '',
+          value: contract?.title || '',
+        } || '',
       service_count: contract?.service_count || '',
       title_options: contractTemplates.map(template => {
         return {
@@ -146,28 +150,50 @@ function useContractForm({ contractTemplates, clients, contract }) {
             label: client.name,
           };
         }),
-      selected_client: contract?.client || null,
+      selected_client: contract?.client
+        ? {
+            ...contract?.client,
+            value: contract?.client?.id,
+            label: contract?.client?.name,
+          }
+        : null,
       sub_clients:
-        contract?.client?.sub_clients.map(sub_client => {
-          return {
+        clients
+          ?.find(client => client.id === contract?.client?.id)
+          ?.sub_clients.map(sub_client => ({
             ...sub_client,
-            value: sub_client.id,
             label: sub_client.name,
-          };
-        }) || [],
-      selected_sub_client: contract?.sub_client || null,
+            value: sub_client.id,
+          })) || [],
+      selected_sub_client: contract?.sub_client
+        ? {
+            ...contract?.sub_client,
+            value: contract?.sub_client?.id,
+            label: contract?.sub_client?.name,
+          }
+        : null,
       service_addresses: getAddresses(
         clients,
         contract?.client?.id,
         contract?.sub_client?.id
       ),
-      selected_service_address: contract?.service_address || null,
+      selected_service_address: contract?.service_address
+        ? {
+            label: contract?.service_address,
+            value: contract?.service_address,
+          }
+        : null,
       billing_addresses: getAddresses(
         clients,
         contract?.client?.id,
         contract?.sub_client?.id
       ),
-      selected_billing_address: contract?.billing_address || null,
+      selected_billing_address: contract?.billing_address
+        ? {
+            label: contract?.billing_address,
+            value: contract?.billing_address,
+          }
+        : null,
       start_date: contract?.start_date || null,
       end_date: contract?.end_date || null,
       amount: contract?.amount || '',
@@ -190,7 +216,7 @@ function useContractForm({ contractTemplates, clients, contract }) {
         value: time,
       })),
       selected_start_time: contract?.start_time || getTimes()[0],
-      services: [
+      services: contract?.services || [
         {
           name: '',
           leaders: [],
@@ -208,6 +234,7 @@ function useContractForm({ contractTemplates, clients, contract }) {
           ],
         },
       ],
+      contract_gst_amount: contract?.amount * gstValue || 0,
     }
   );
 
