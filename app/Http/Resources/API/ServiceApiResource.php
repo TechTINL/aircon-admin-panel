@@ -35,7 +35,7 @@ class ServiceApiResource extends JsonResource
             'technician_report' => $this->technician_report,
             'photos' => PhotoApiResource::collection($this->photos),
             'task_visitation_note' => $this->task_visitation_note,
-            'client_signature' => $this->client_signature ? url($this->client_signature) : null,
+            'client_signature' => $this->client_signature ? url('storage/' . $this->client_signature) : null,
             'tasks' => $this->tasks
         ];
     }
