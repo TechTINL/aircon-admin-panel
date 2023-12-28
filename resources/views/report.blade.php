@@ -87,6 +87,7 @@
             <img src="/storage/{{ $service->client_signature }}" alt="Signature" class="h-12">
         </div>
     </div>
+    <img src="/storage/report_banner.jpeg" alt="Service Image" class="rounded my-8">
 </div>
 </body>
 </html>
