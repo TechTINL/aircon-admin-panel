@@ -84,7 +84,7 @@
         <div>
             <div class="font-semibold">Client's Signature</div>
             <!-- Signature Image -->
-            <img src="{{ $service->client_signature }}" alt="Signature" class="h-12">
+            <img src="/storage/{{ $service->client_signature }}" alt="Signature" class="h-12">
         </div>
     </div>
 </div>
