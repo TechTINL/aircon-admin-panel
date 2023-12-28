@@ -15,7 +15,7 @@ class ServiceApiResource extends JsonResource
     public function toArray(Request $request): array
     {
         $this->load('client.contacts', 'subClient.contacts', 'contract', 'leaders', 'technicians', 'photos', 'tasks');
-        
+
         return [
             'id' => $this->id,
             'client' => $this->client,
