@@ -28,7 +28,7 @@
                 {{ $service->service_number }} | {{ $service->service_date }} | {{ $service->service_time }}
             </div>
         </div>
-        <div class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded">AdHoc</div>
+        <div class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded">{{ $service->type }}</div>
     </div>
     <div class="mb-6">
         <div class="text-lg font-semibold mb-2">{{ $service->client->name }}</div>
