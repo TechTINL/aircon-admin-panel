@@ -24,7 +24,7 @@ class ServiceApiController extends Controller
     {
         $request->validate([
             'report_status' => 'nullable|in:private,public',
-            'status' => 'nullable|in:requires-follow-up,completed,follow-up-completed',
+            'status' => 'nullable|in:requires-follow-up,completed,follow-up-completed,complete',
             'technician_report' => 'nullable|string'
         ]);
 
