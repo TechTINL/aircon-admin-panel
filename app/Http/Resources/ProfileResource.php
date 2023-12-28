@@ -19,7 +19,7 @@ class ProfileResource extends JsonResource
             'name' => $this->name,
             'profile_photo_url' => "https://ui-avatars.com/api/?name=" . urlencode($this->name) . "&color=7F9CF5&background=EBF4FF",
             'phone_number' => $this->phone,
-            'role' => $this->getRoleNames()->first()->name,
+            'role' => $this->getRoleNames()->first()->name ?? 'N/A',
             'team' => $this->team()->first()?->name,
             'joined_at' => $this->created_at,
             'created_at' => $this->created_at,
