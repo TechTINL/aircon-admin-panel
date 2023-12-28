@@ -19,7 +19,7 @@ class ServiceApiResource extends JsonResource
             'client' => $this->client,
             'sub_client' => $this->subClient,
             'service_number' => $this->service_number,
-            'contract_number' => $this->contract->contract_number,
+            'contract_number' => $this->contract->contract_number ?? 'N/A',
             'name' => $this->name,
             'type' => $this->type,
             'technician_count' => $this->technician_count,
