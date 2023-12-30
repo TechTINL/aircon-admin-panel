@@ -8,7 +8,7 @@ import Repair2 from '../assets/images/repair2.png';
 
 export default function Dashboard({ auth, services }) {
   const totalServices = services
-    .map(service => {
+    ?.map(service => {
       switch (service.status) {
         case 'requires-follow-up':
           return ['Requires Follow Up', service.count];
@@ -26,7 +26,7 @@ export default function Dashboard({ auth, services }) {
           return null; // Add a case for unmatched statuses, returning null
       }
     })
-    .filter(item => item !== null);
+    ?.filter(item => item !== null);
   let data = [['name', 'count']];
   data = [...data, ...totalServices];
   const colors = [
