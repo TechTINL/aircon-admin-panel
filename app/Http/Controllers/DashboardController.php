@@ -15,6 +15,7 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard', [
             'activities' => $getActivitiesAction->execute(),
             'services' => $getServicesAction->getCountsByStatus(),
+            'total' => $getServicesAction->getCounts(),
         ]);
     }
 }

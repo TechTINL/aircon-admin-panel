@@ -37,4 +37,10 @@ class GetServicesAction
             ->groupBy('status')
             ->get();
     }
+
+    // Get All services of counts for today
+    public function getCounts()
+    {
+        return Service::whereDate('service_date', now()->format('Y-m-d'))->count();
+    }
 }
