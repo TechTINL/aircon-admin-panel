@@ -6,7 +6,13 @@ import Repair1 from '../assets/images/repair1.png';
 import Badge from '../assets/images/badge.png';
 import Repair2 from '../assets/images/repair2.png';
 
-export default function Dashboard({ auth, services, total, totalMonthly }) {
+export default function Dashboard({
+  auth,
+  services,
+  total,
+  totalMonthly,
+  countsByMonthly,
+}) {
   const totalServices = services
     ?.map(service => {
       switch (service.status) {
@@ -38,21 +44,8 @@ export default function Dashboard({ auth, services, total, totalMonthly }) {
     '#454FA2',
   ];
 
-  const barData = [
-    ['Year', 'Contract', 'Hoc'],
-    ['Oct 2023', 500, 2300],
-    ['Nov 2023', 1300, 3000],
-    ['Dec 2023', 1500, 2500],
-    ['Jan 2024', 2200, 1700],
-    ['Feb 2024', 2500, 2800],
-    ['Mar 2024', 3000, 3200],
-    ['Apr 2024', 3100, 2800],
-    ['May 2024', 3100, 1300],
-    ['Jun 2024', 3100, 3300],
-    ['Jul 2024', 3500, 2200],
-    ['Aug 2024', 3700, 3300],
-    ['Sep 2024', 4100, 4300],
-  ];
+  const barData = countsByMonthly;
+
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Dashboard" />

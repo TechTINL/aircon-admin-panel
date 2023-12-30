@@ -49,4 +49,47 @@ class GetServicesAction
     {
         return Service::whereMonth('service_date', now()->format('m'))->count();
     }
+
+    // Get All services of counts by monthly according to type (contract or adhoc)
+    // return as follows:
+    // [
+    //    ['Month', 'Contract', 'Hoc'],
+    //    ['Oct 2023', 500, 2300],
+    //    ['Nov 2023', 1300, 3000],
+    //    ['Dec 2023', 1500, 2500],
+    //  ];
+
+    public function getCountsByMonthly()
+    {
+        $services = Service::selectRaw('MONTH(service_date) as month, type, count(*) as count')
+            ->groupBy('month', 'type')
+            ->get();
+
+        // Temporary storage for counts
+        $monthlyCounts = [];
+
+        foreach ($services as $service) {
+            // Initialize month in $monthlyCounts if not already set
+            if (!isset($monthlyCounts[$service->month])) {
+                $monthlyCounts[$service->month] = ['month' => $service->month, 'contract' => 0, 'adhoc' => 0];
+            }
+
+            // Increment the count based on the type
+            if ($service->type === 'contract') {
+                $monthlyCounts[$service->month]['contract'] += $service->count;
+            } elseif ($service->type === 'adhoc') {
+                $monthlyCounts[$service->month]['adhoc'] += $service->count;
+            }
+        }
+
+        // Initialize the final data array with headers
+        $data = [['Month', 'Contract', 'Hoc']];
+
+        // Populate the final data array
+        foreach ($monthlyCounts as $month => $counts) {
+            $data[] = [$counts['month'], $counts['contract'], $counts['adhoc']];
+        }
+
+        return $data;
+    }
 }
