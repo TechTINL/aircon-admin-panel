@@ -16,6 +16,7 @@ class DashboardController extends Controller
             'activities' => $getActivitiesAction->execute(),
             'services' => $getServicesAction->getCountsByStatus(),
             'total' => $getServicesAction->getCounts(),
+            'totalMonthly' => $getServicesAction->getCountsByCurrentMonth()
         ]);
     }
 }

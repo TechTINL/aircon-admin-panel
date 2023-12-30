@@ -43,4 +43,10 @@ class GetServicesAction
     {
         return Service::whereDate('service_date', now()->format('Y-m-d'))->count();
     }
+
+    // Get All services of counts by current month
+    public function getCountsByCurrentMonth()
+    {
+        return Service::whereMonth('service_date', now()->format('m'))->count();
+    }
 }

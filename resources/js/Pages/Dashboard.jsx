@@ -6,7 +6,7 @@ import Repair1 from '../assets/images/repair1.png';
 import Badge from '../assets/images/badge.png';
 import Repair2 from '../assets/images/repair2.png';
 
-export default function Dashboard({ auth, services, total }) {
+export default function Dashboard({ auth, services, total, totalMonthly }) {
   const totalServices = services
     ?.map(service => {
       switch (service.status) {
@@ -89,7 +89,9 @@ export default function Dashboard({ auth, services, total }) {
               <span className="text-[16px] font-bold text-[#808081]">
                 This Month's Total Jobs
               </span>
-              <span className="text-[36px] font-extrabold text-black">160</span>
+              <span className="text-[36px] font-extrabold text-black">
+                {totalMonthly}
+              </span>
             </div>
           </div>
         </div>
