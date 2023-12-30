@@ -19,6 +19,7 @@ function useCreateService() {
         duration_minutes: task?.minutes,
         cost: task?.cost,
       })),
+      status: 'scheduled',
     };
 
     router.post(route('services.store'), data, {

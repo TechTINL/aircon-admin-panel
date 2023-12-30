@@ -58,6 +58,21 @@ class ServiceApiController extends Controller
         ]);
     }
 
+    public function deletePhoto(Request $request, Service $service): JsonResponse
+    {
+        $request->validate([
+            'photo_id' => 'required|exists:photos,id',
+        ]);
+
+        $service->photos()->where('id', $request->photo_id)->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Photo deleted successfully',
+            'data' => new ServiceApiResource($service),
+        ]);
+    }
+
     public function sign(Request $request, Service $service): JsonResponse
     {
         $request->validate([

@@ -80,24 +80,7 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Clients/ClientDetails');
     });
 
-    Route::get('/services-time-line', function () {
-        return Inertia::render('Services/Timeline', [
-            'breadcrumb' => [
-                [
-                    'text' => 'Services',
-                    'href' => route('services.index'),
-                ],
-                [
-                    'text' => 'Service Details',
-                    'href' => route('services.show', 1),
-                ],
-                [
-                    'text' => 'Timeline',
-                ],
-            ],
-            'services' => Service::with('client')->get(),
-        ]);
-    });
+    Route::get('/services-time-line', [ServiceController::class, 'timeline'])->name('services.timeline');
 
     Route::get('/services-report-detail', function () {
         return Inertia::render('Services/ServiceDetails');
