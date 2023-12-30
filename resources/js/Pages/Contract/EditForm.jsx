@@ -14,12 +14,21 @@ import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import React from 'react';
 import { BiDollar } from 'react-icons/bi';
 
-function EditForm({ auth, contractTemplates: templates, clients, gst }) {
+function EditForm({
+  auth,
+  contractTemplates: templates,
+  clients,
+  leaders,
+  technicians,
+  gst,
+}) {
   const contract = usePage().props?.contract;
   const { form, dispatch } = useContractForm({
     contractTemplates: templates,
     clients,
     contract,
+    leaders,
+    technicians,
     gstValue: gst / 100,
   });
 
@@ -203,71 +212,6 @@ function EditForm({ auth, contractTemplates: templates, clients, gst }) {
         </div>
         <div className="bg-white rounded-xl p-6 flex flex-col gap-2">
           <span className="font-bold text-[14px]">Service Detail</span>
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 2xl:gap-4">
-            <div className="flex flex-1 flex-col gap-2">
-              <span className="font-bold text-[16px]">Repeats</span>
-              <Select
-                isClearable
-                isSearchable
-                options={form?.repeat_options}
-                onChange={option => {
-                  dispatch({
-                    type: 'SET_SELECTED_REPEAT',
-                    payload: option,
-                  });
-                }}
-              />
-            </div>
-            <div className="flex flex-1 flex-col gap-2">
-              <span className="font-bold text-[16px]">Every</span>
-              <div className="flex items-center gap-1">
-                <div className="flex-1 w-full">
-                  <Input
-                    type="number"
-                    label="Months"
-                    placeholder="months"
-                    value={form?.months}
-                    onChange={e => {
-                      dispatch({
-                        type: 'SET_MONTHS',
-                        payload: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col flex-1 gap-2">
-              <span className="text-black font-bold text-[16px]">
-                Start Date
-              </span>
-              <DatePicker
-                classes="rounded-xl"
-                value={form?.start_date}
-                onChange={value => {
-                  dispatch({
-                    type: 'SET_START_DATE',
-                    payload: value,
-                  });
-                }}
-              />
-            </div>
-            <div className="flex flex-1 flex-col gap-2">
-              <span className="font-bold text-[16px]">Time</span>
-              <Select
-                isClearable
-                isSearchable
-                value={form?.start_time}
-                options={form?.start_times}
-                onChange={value => {
-                  dispatch({
-                    type: 'SET_START_TIME',
-                    payload: value,
-                  });
-                }}
-              />
-            </div>
-          </div>
           <span className="font-bold text-[16px]">Service Request</span>
           {form?.services.map((service, index) => (
             <div
@@ -299,6 +243,7 @@ function EditForm({ auth, contractTemplates: templates, clients, gst }) {
                   <Select
                     isMulti
                     isSearchable
+                    options={form?.leader_options}
                     value={
                       service.leaders?.map(leader => ({
                         label: leader.name,
@@ -320,6 +265,7 @@ function EditForm({ auth, contractTemplates: templates, clients, gst }) {
                   <Select
                     isMulti
                     isSearchable
+                    options={form?.technician_options}
                     value={
                       service.technicians?.map(technician => ({
                         label: technician.name,

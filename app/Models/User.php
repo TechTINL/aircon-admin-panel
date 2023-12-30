@@ -74,4 +74,10 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'service_user')
+            ->withPivot('assigned_as')
+            ->withTimestamps();
+    }
 }

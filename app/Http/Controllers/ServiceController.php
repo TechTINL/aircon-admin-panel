@@ -104,7 +104,7 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function timeline(): Response
+    public function timeline(GetEmployeesAction $employeesAction): Response
     {
         return Inertia::render('Services/Timeline', [
             'breadcrumb' => [

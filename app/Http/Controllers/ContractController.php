@@ -111,7 +111,7 @@ class ContractController extends Controller
             'contractTemplates' => $action->execute(),
             'clients' => $getClientsAction->getClientsWithSubClients(),
             'leaders' => $employeesAction->leader(),
-            'employees' => $employeesAction->get(),
+            'technicians' => $employeesAction->get(),
             'serviceTemplates' => $getServiceTemplatesAction->execute(),
             'taskTemplates' => $getTaskTemplatesAction->execute(),
             'gst' => $gstAction->execute(),

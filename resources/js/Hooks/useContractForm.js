@@ -2,7 +2,14 @@ import { produce } from 'immer';
 import { useReducer } from 'react';
 import { getAddresses, getTimes } from '@/Utils/utils';
 
-function useContractForm({ contractTemplates, clients, contract, gstValue }) {
+function useContractForm({
+  contractTemplates,
+  clients,
+  contract,
+  leaders,
+  technicians,
+  gstValue,
+}) {
   const [form, dispatch] = useReducer(
     produce((draft, action) => {
       switch (action.type) {
@@ -234,6 +241,18 @@ function useContractForm({ contractTemplates, clients, contract, gstValue }) {
           ],
         },
       ],
+      leader_options:
+        leaders?.map(leader => ({
+          ...leader,
+          label: leader.name,
+          value: leader.id,
+        })) || [],
+      technician_options:
+        technicians?.map(technician => ({
+          ...technician,
+          label: technician.name,
+          value: technician.id,
+        })) || [],
       contract_gst_amount: contract?.amount * gstValue || 0,
     }
   );
