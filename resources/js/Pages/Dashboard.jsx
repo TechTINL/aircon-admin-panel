@@ -6,13 +6,36 @@ import Repair1 from '../assets/images/repair1.png';
 import Badge from '../assets/images/badge.png';
 import Repair2 from '../assets/images/repair2.png';
 
-export default function Dashboard({ auth }) {
-  const data = [
-    ['name', 'count'],
-    ['Unassigned', 200],
-    ['Assigned', 104],
-    ['On-Hold', 100],
-    ['Completed', 310],
+export default function Dashboard({ auth, services }) {
+  const totalServices = services
+    .map(service => {
+      switch (service.status) {
+        case 'requires-follow-up':
+          return ['Requires Follow Up', service.count];
+        case 'assigned':
+          return ['Assigned', service.count];
+        case 'on-hold':
+          return ['On Hold', service.count];
+        case 'completed':
+          return ['Completed', service.count];
+        case 'follow-up-completed':
+          return ['Follow Up Completed', service.count];
+        case 'unassigned':
+          return ['Unassigned', service.count];
+        default:
+          return null; // Add a case for unmatched statuses, returning null
+      }
+    })
+    .filter(item => item !== null);
+  let data = [['name', 'count']];
+  data = [...data, ...totalServices];
+  const colors = [
+    '#BCBDC0',
+    '#8C9EFF',
+    '#FFAD7C',
+    '#6CC294',
+    '#00B4AD',
+    '#454FA2',
   ];
 
   const barData = [
@@ -76,22 +99,17 @@ export default function Dashboard({ auth }) {
             </span>
             <div className="flex gap-6 items-center">
               <div className="flex flex-col gap-2 flex-initial min-w-[200px]">
-                <div className="flex gap-2 items-center">
-                  <div className="bg-[#BCBDC0] w-2 h-2 rounded-full" />
-                  <span>Unassigned (200)</span>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <div className="bg-[#8C9EFF] w-2 h-2 rounded-full" />
-                  <span>Assigned (104)</span>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <div className="bg-[#FFAD7C] w-2 h-2 rounded-full" />
-                  <span>On-Hold (100)</span>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <div className="bg-[#6CC294] w-2 h-2 rounded-full" />
-                  <span>Completed (310)</span>
-                </div>
+                {totalServices.map((service, index) => (
+                  <div className="flex items-center gap-2" key={index}>
+                    <div
+                      className="w-4 h-4 rounded-full"
+                      style={{ backgroundColor: colors[index] }}
+                    />
+                    <span className="text-[14px] text-black font-bold">
+                      {service[0]} ({service[1]})
+                    </span>
+                  </div>
+                ))}
               </div>
               <div className="relative flex-1">
                 <Chart
@@ -101,7 +119,7 @@ export default function Dashboard({ auth }) {
                     legend: 'none',
                     pieHole: 0.4,
                     is3D: false,
-                    colors: ['#BCBDC0', '#8C9EFF', '#FFAD7C', '#6CC294'],
+                    colors,
                     chartArea: { left: 0, top: 0, right: 0, bottom: 0 },
                   }}
                   height="300px"

@@ -28,4 +28,13 @@ class GetServicesAction
             })
             ->get();
     }
+
+    // Get All services of counts by status for a given date
+    public function getCountsByStatus()
+    {
+        return Service::whereDate('service_date', now()->format('Y-m-d'))
+            ->selectRaw('status, count(*) as count')
+            ->groupBy('status')
+            ->get();
+    }
 }

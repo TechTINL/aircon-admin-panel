@@ -26,7 +26,7 @@ class GetEmployeesAction
         if (!$date) {
             return [];
         }
-        
+
         return User::role([
             'leader',
             'sub-contractor',

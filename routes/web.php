@@ -1,12 +1,14 @@
 <?php
 
 use App\Actions\ActivityAction\GetActivitiesAction;
+use App\Actions\GetServicesAction;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractTemplateController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralNoteController;
 use App\Http\Controllers\GstAmountController;
@@ -50,11 +52,7 @@ Route::get('/confirm-password', function () {
     return Inertia::render('Auth/ConfirmPassword');
 });
 
-Route::get('/dashboard', function (GetActivitiesAction $getActivitiesAction) {
-    return Inertia::render('Dashboard', [
-        'activities' => $getActivitiesAction->execute(),
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
