@@ -21,8 +21,12 @@ class GetEmployeesAction
 	}
 
     // Get all employees with services details for job table, for a given date
-    public function getEmployeesWithServices($date)
+    public function getWithServices($date)
     {
+        if (!$date) {
+            return [];
+        }
+        
         return User::role([
             'leader',
             'sub-contractor',

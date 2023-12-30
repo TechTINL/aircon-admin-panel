@@ -14,6 +14,7 @@ use App\Http\Resources\ServiceResource;
 use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Maatwebsite\Excel\Facades\Excel;
@@ -104,7 +105,7 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function timeline(GetEmployeesAction $employeesAction): Response
+    public function timeline(Request $request, GetEmployeesAction $employeesAction): Response
     {
         return Inertia::render('Services/Timeline', [
             'breadcrumb' => [
@@ -120,7 +121,7 @@ class ServiceController extends Controller
                     'text' => 'Timeline',
                 ],
             ],
-            'users' => []
+            'users' => $employeesAction->getWithServices($request->input('date', today()->format('Y-m-d'))),
         ]);
     }
 }
