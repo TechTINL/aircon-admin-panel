@@ -62,4 +62,9 @@ class Client extends Model
         return LogOptions::defaults()
             ->logOnly(['name', 'type', 'postal_code', 'address', 'billing_address', 'parent_id']);
     }
+
+    public function isSubClient(): bool
+    {
+        return $this->parent_id !== null;
+    }
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getTimes } from '@/Utils/utils';
 import { router } from '@inertiajs/react';
 
-function useCreateContract(templates, clients) {
+function useCreateContract(templates, clients, contract = {}) {
   const [title, setTitle] = useState('');
   const [templateOptions, setTemplateOptions] = useState([]);
   const [clientOptions, setClientOptions] = useState([]);
@@ -18,29 +18,43 @@ function useCreateContract(templates, clients) {
   const [contractAmount, setContractAmount] = useState(0);
   const [serviceRepeatOptions, setServiceRepeatOptions] = useState([
     {
-      value: 'monthly',
+      value: '1',
       label: 'Monthly',
     },
     {
-      value: 'quarterly',
+      value: '3',
       label: 'Quarterly',
     },
-    {
-      value: 'semi-annually',
-      label: 'Semi-Annually',
-    },
-    {
-      value: 'annually',
-      label: 'Annually',
-    },
   ]);
-  const [selectedServiceRepeat, setSelectedServiceRepeat] = useState('monthly');
+  const [selectedServiceRepeat, setSelectedServiceRepeat] = useState(1);
+  const [dateOption, setDateOption] = useState('');
   const timeOptions = getTimes().map(time => ({
     label: time,
     value: time,
   }));
   const [time, setTime] = useState(timeOptions[0]);
   const [serviceData, setServiceData] = useState([]);
+
+  // Edit Values
+  const [isEdit, setIsEdit] = useState(!!contract);
+  const [defaultTitle, setDefaultTitle] = useState({
+    label: contract?.title,
+    value: contract?.title,
+  });
+  const [defaultClient, setDefaultClient] = useState({
+    label: contract?.client?.name,
+    value: contract?.client?.id,
+  });
+  const [defaultSubClient, setDefaultSubClient] = useState({
+    label: contract?.sub_client?.name,
+    value: contract?.sub_client?.id,
+  });
+
+  useEffect(() => {
+    if (contract) {
+      setTitle(contract.title);
+    }
+  }, []);
 
   useEffect(() => {
     if (templates) {
@@ -169,6 +183,12 @@ function useCreateContract(templates, clients) {
   return {
     title,
     setTitle,
+    defaultTitle,
+    setDefaultTitle,
+    defaultClient,
+    setDefaultClient,
+    defaultSubClient,
+    setDefaultSubClient,
     templateOptions,
     clientOptions,
     subClientOptions,
@@ -193,6 +213,8 @@ function useCreateContract(templates, clients) {
     serviceRepeatOptions,
     selectedServiceRepeat,
     setSelectedServiceRepeat,
+    dateOption,
+    setDateOption,
     timeOptions,
     time,
     setTime,
@@ -201,6 +223,8 @@ function useCreateContract(templates, clients) {
     handleAddTask,
     handleRemoveTask,
     createContract,
+    isEdit,
+    setIsEdit,
   };
 }
 

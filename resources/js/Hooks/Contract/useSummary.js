@@ -1,12 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
-import CreateContractContext from '@/Context/CreateContractContext.js';
+import CreateContractContext from '@/Context/CreateContractContext';
 
-function useSummary() {
+function useSummary({ gst = 0.09 }) {
   const { contractAmount, serviceData } = useContext(CreateContractContext);
+
+  const [contractGST, setContractGST] = useState(0);
+  const [totalContractAmount, setTotalContractAmount] = useState(0);
 
   const [totalTechnicians, setTotalTechnicians] = useState(0);
   const [tasksCost, setTasksCost] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [totalGST, setTotalGST] = useState(0);
+  const [finalAmount, setFinalAmount] = useState(0);
+
+  useEffect(() => {
+    const _contractGST = Number(contractAmount) * gst;
+    setContractGST(_contractGST);
+    setTotalContractAmount(Number(contractAmount) + _contractGST);
+  }, [contractAmount]);
 
   useEffect(() => {
     let _totalTechnicians = 0;
@@ -23,20 +34,25 @@ function useSummary() {
       _tasksCost += sumTaskCosts(service.tasks);
     });
 
-    const totalContractAmount = Number(contractAmount) + Number(_tasksCost);
-    const totalGST = totalContractAmount * 0.08;
-    _totalAmount = Number(totalContractAmount) + Number(totalGST);
+    const _totalGST = _tasksCost * gst;
+    setTotalGST(_totalGST);
+    _totalAmount = Number(_tasksCost) + Number(_totalGST);
 
     setTotalTechnicians(_totalTechnicians);
     setTasksCost(_tasksCost);
     setTotalAmount(_totalAmount);
+    setFinalAmount(Number(_totalAmount) + Number(totalContractAmount));
   }, [contractAmount, serviceData]);
 
   return {
     contractAmount,
+    contractGST,
+    totalContractAmount,
     totalTechnicians,
+    totalGST,
     tasksCost,
     totalAmount,
+    finalAmount,
   };
 }
 

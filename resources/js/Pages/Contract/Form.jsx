@@ -1,5 +1,4 @@
-import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { AiOutlineLeftCircle } from 'react-icons/ai';
 import { IconButton } from '@material-tailwind/react';
@@ -7,12 +6,25 @@ import useCreateContract from '@/Hooks/Contract/useCreateContract';
 import CreateContractContext from '@/Context/CreateContractContext';
 import ServiceDetail from '@/Components/Contract/Create/ServiceDetail';
 import Summary from '@/Components/Contract/Create/Summary/Summary';
+import useContractForm from '@/Hooks/useContractForm';
 import ContractDetails from '../../Components/Contract/Create/ContractDetails';
 
-function Create({ auth, contractTemplates: templates, clients }) {
+function Form({ auth, contractTemplates: templates, clients, gst }) {
+  const contract = usePage().props?.contract;
+  const { form, dispatch } = useContractForm({
+    contractTemplates: templates,
+    clients,
+  });
+
   const {
     title,
     setTitle,
+    defaultTitle,
+    setDefaultTitle,
+    defaultClient,
+    setDefaultClient,
+    defaultSubClient,
+    setDefaultSubClient,
     templateOptions,
     serviceCount,
     setServiceCount,
@@ -35,6 +47,8 @@ function Create({ auth, contractTemplates: templates, clients }) {
     serviceRepeatOptions,
     selectedServiceRepeat,
     setSelectedServiceRepeat,
+    dateOption,
+    setDateOption,
     timeOptions,
     time,
     setTime,
@@ -43,13 +57,21 @@ function Create({ auth, contractTemplates: templates, clients }) {
     handleAddTask,
     handleRemoveTask,
     createContract,
-  } = useCreateContract(templates, clients);
+    isEdit,
+    setIsEdit,
+  } = useCreateContract(templates, clients, contract);
 
   return (
     <CreateContractContext.Provider
       value={{
         title,
         setTitle,
+        defaultTitle,
+        setDefaultTitle,
+        defaultClient,
+        setDefaultClient,
+        defaultSubClient,
+        setDefaultSubClient,
         templateOptions,
         serviceCount,
         setServiceCount,
@@ -73,12 +95,16 @@ function Create({ auth, contractTemplates: templates, clients }) {
         selectedServiceRepeat,
         setSelectedServiceRepeat,
         timeOptions,
+        dateOption,
+        setDateOption,
         time,
         setTime,
         serviceData,
         setServiceData,
         handleAddTask,
         handleRemoveTask,
+        isEdit,
+        setIsEdit,
       }}
     >
       <AuthenticatedLayout user={auth.user}>
@@ -91,12 +117,12 @@ function Create({ auth, contractTemplates: templates, clients }) {
               </IconButton>
             </Link>
             <div className="text-zinc-800 text-3xl font-bold leading-10">
-              New Contract
+              {form?.isEdit ? 'Edit' : 'Create'} Contract
             </div>
           </div>
           <ContractDetails />
           <ServiceDetail />
-          <Summary />
+          <Summary gst={gst} />
           <button
             className="bg-primary text-white rounded-xl py-2 font-bold"
             onClick={() => {
@@ -111,4 +137,4 @@ function Create({ auth, contractTemplates: templates, clients }) {
   );
 }
 
-export default Create;
+export default Form;

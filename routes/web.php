@@ -1,21 +1,28 @@
 <?php
 
 use App\Actions\ActivityAction\GetActivitiesAction;
+use App\Actions\GetServicesAction;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractTemplateController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralNoteController;
+use App\Http\Controllers\GstAmountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceTemplateController;
 use App\Http\Controllers\TaskTemplateController;
+use App\Models\Service;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Spatie\Browsershot\Browsershot;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +39,11 @@ Route::get('/', function () {
     // redirect to login page
     return redirect('/login');
 });
+
+Route::get('/report-preview', [ReportController::class, 'preview'])->name('report.preview');
+
+Route::get('/report/download', [ReportController::class, 'download']);
+
 Route::get('/otp', function () {
     return Inertia::render('Auth/Otp');
 });
@@ -40,11 +52,7 @@ Route::get('/confirm-password', function () {
     return Inertia::render('Auth/ConfirmPassword');
 });
 
-Route::get('/dashboard', function (GetActivitiesAction $getActivitiesAction) {
-    return Inertia::render('Dashboard', [
-        'activities' => $getActivitiesAction->execute(),
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -53,10 +61,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('clients', ClientController::class)->only(['index', 'create', 'store', 'update']);
     Route::get('clients/{client}/profile', [ClientController::class, 'profile'])->name('clients.profile');
-    Route::post('contacts', [ContactController::class, 'store'])->name('contacts.store');
+    Route::get('clients/{client}/contracts', [ClientController::class, 'contracts'])->name('clients.contracts');
+    Route::get('/clients/{client}/services', [ClientController::class, 'services'])->name('clients.services');
 
-    // Delete Contact
-    Route::delete('contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::resource('contracts', ContractController::class);
+    Route::resource('contacts', ContactController::class)->only(['store', 'destroy']);
 
 	Route::resource('general-notes', GeneralNoteController::class);
 
@@ -69,9 +78,8 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Clients/ClientDetails');
     });
 
-    Route::get('/services-time-line', function () {
-        return Inertia::render('Services/Timeline');
-    });
+    Route::get('/services-time-line', [ServiceController::class, 'timeline'])->name('services.timeline');
+
     Route::get('/services-report-detail', function () {
         return Inertia::render('Services/ServiceDetails');
     });
@@ -81,8 +89,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
 
-    Route::resource('contracts', ContractController::class)->only(['index', 'create', 'store', 'update']);
-    Route::resource('services', ServiceController::class)->only(['index']);
+    Route::resource('services', ServiceController::class)->only(['index', 'show', 'store', 'update']);
     Route::get('services/export', [ServiceController::class, 'export'])->name('services.export');
 
     Route::get('employee', [EmployeeController::class, 'index'])->name('employee.index');
@@ -105,9 +112,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('service-templates', ServiceTemplateController::class)
 	    ->only(['index', 'store', 'update', 'destroy']);
 
-    Route::get('manage-gst', function () {
-        return Inertia::render('ManageGST');
-    });
+    Route::resource('gst', GstAmountController::class)->only(['show', 'update']);
     Route::get('/postal-code/{code}', [ClientController::class, 'getAddress']);
 
     Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');

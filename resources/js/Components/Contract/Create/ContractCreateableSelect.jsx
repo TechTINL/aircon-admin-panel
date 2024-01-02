@@ -1,8 +1,13 @@
 import CreatableSelect from 'react-select/creatable';
 
-function ContractCreatableSelect({ options, handleChange }) {
+function ContractCreatableSelect({ options, handleChange, defaultValue }) {
   return (
-    <CreatableSelect isClearable onChange={handleChange} options={options} />
+    <CreatableSelect
+      isClearable
+      onChange={handleChange}
+      options={options}
+      defaultValue={defaultValue}
+    />
   );
 }
 

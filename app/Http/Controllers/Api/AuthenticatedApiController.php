@@ -116,4 +116,16 @@ class AuthenticatedApiController extends Controller
             'user' => new ProfileResource($user)
         ]);
     }
+
+    // notifications
+    public function notifications(): JsonResponse
+    {
+        $notifications = auth()->user()->notifications()->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notifications fetched successfully',
+            'notifications' => $notifications
+        ]);
+    }
 }

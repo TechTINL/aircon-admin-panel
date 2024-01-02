@@ -24,7 +24,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile', [AuthenticatedApiController::class, 'updateProfile']);
     Route::post('/logout', [AuthenticatedApiController::class, 'logout']);
     Route::get('/services', [ServiceApiController::class, 'index']);
+    Route::post('/services/{service}', [ServiceApiController::class, 'update']);
+    Route::post('/services/{service}/photo', [ServiceApiController::class, 'uploadPhoto']);
+    Route::delete('/services/{service}/photo', [ServiceApiController::class, 'deletePhoto']);
+    Route::post('/services/{service}/sign', [ServiceApiController::class, 'sign']);
     Route::get('/clients/{client}', [ClientApiController::class, 'show']);
+    Route::get('/notifications', [AuthenticatedApiController::class, 'notifications']);
 });
 
 Route::post('/login', [AuthenticatedApiController::class, 'login']);

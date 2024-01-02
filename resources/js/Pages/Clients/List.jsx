@@ -44,13 +44,6 @@ function List({ auth, clients }) {
           <div className="flex flex-row justify-between">
             <Searchbar url="clients.index" />
             <div className="flex gap-4 items-end">
-              <FilterDropdown
-                name="clients"
-                label="Clients"
-                data={CLIENTS_FILTERS}
-                checkedData={checkedClientsFilters}
-                handleChecked={handleClientsChecked}
-              />
               <NewClientModal />
             </div>
           </div>

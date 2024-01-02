@@ -1,14 +1,13 @@
 import React from 'react';
-import LeftComponent from './LeftComponent';
-import RightComponent from './RightComponent';
+import TeamDetail from './TeamDetail';
+import ServiceDetail from './ServiceDetail';
 
-const ServiceDetailBody = () => {
+function ServiceDetailBody() {
   return (
     <div className="flex flex-row gap-6">
-      <LeftComponent />
-      <RightComponent />
+      <TeamDetail />
+      <ServiceDetail />
     </div>
   );
-};
-
+}
 export default ServiceDetailBody;

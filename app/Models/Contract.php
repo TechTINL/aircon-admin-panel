@@ -34,7 +34,7 @@ class Contract extends Model
 
 	public function subClient(): BelongsTo
 	{
-		return $this->belongsTo(Client::class, 'client_id', 'id');
+		return $this->belongsTo(Client::class, 'subClient_id', 'id');
 	}
 
     public function services(): HasMany

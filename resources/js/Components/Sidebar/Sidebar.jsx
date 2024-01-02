@@ -30,8 +30,8 @@ function Sidebar({ children }) {
   const isServiceTimelineActive = url.includes('/services-time-line');
   const isServiceReportActive = url.includes('/service-report');
 
-  const [open, setOpen] = useState(0);
-  const [templateOpen, setTemplateOpen] = useState(0);
+  const [open, setOpen] = useState(1);
+  const [templateOpen, setTemplateOpen] = useState(1);
 
   const handleOpen = value => {
     setOpen(open === value ? 0 : value);
@@ -191,8 +191,8 @@ function Sidebar({ children }) {
         </List>
         <NavItem
           text="Manage GST"
-          isActive={url.includes('/manage-gst')}
-          url="/manage-gst"
+          isActive={url.includes('/gst')}
+          url="/gst/1"
           icon={<FiTrendingUp size={22} className="lg:mx-4 md:mx-1" />}
         />
       </div>

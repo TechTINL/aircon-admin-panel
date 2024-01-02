@@ -10,6 +10,8 @@ import DatePicker from '../../Common/DatePicker';
 function ContractDetails() {
   const {
     setTitle,
+    defaultTitle,
+    defaultClient,
     templateOptions,
     serviceCount,
     setServiceCount,
@@ -25,7 +27,7 @@ function ContractDetails() {
     setContractAmount,
   } = useContext(CreateContractContext);
 
-  const { addressOptions, setServiceAddress, SetBillingAddress } = useAddress();
+  const { addressOptions, setServiceAddress } = useAddress();
 
   const onContractTitleChange = value => {
     setTitle(value?.label);
@@ -59,6 +61,7 @@ function ContractDetails() {
           <ContractCreatableSelect
             isClearable
             options={templateOptions}
+            defaultValue={defaultTitle}
             handleChange={onContractTitleChange}
           />
         </div>
@@ -74,7 +77,6 @@ function ContractDetails() {
           />
         </div>
       </div>
-
       <div className="flex flex-col gap-3">
         <span className="text-black font-bold text-[16px]">
           Client <span className="text-red">*</span>
@@ -82,6 +84,7 @@ function ContractDetails() {
         <Select
           isClearable
           isSearchable
+          defaultValue={defaultClient}
           options={clientOptions}
           onChange={option => setSelectedClient(option)}
         />

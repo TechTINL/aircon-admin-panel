@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Contract\GetContractAction;
 use App\Actions\CreateClientAction;
 use App\Actions\GetClientsAction;
+use App\Actions\GetServicesAction;
 use App\Actions\GetSubClientAction;
 use App\Helpers\BreadcrumbHelper;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
+use App\Http\Resources\ContractResource;
+use App\Http\Resources\ServiceResource;
 use App\Models\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -79,6 +83,42 @@ class ClientController extends Controller
             'addresses' => $client->addresses()->orderBy('created_at', 'desc')->get(),
             'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),
 	        'generalNotes' => $client->generalNotes()->orderBy('created_at', 'desc')->get(),
+        ]);
+    }
+
+    /**
+     * Display Client Contact
+     */
+    public function contracts(Client $client, GetContractAction $action): Response
+    {
+        return Inertia::render('Contract/List', [
+            'breadcrumb' => BreadcrumbHelper::clientContact($client->id),
+            'client' => [
+                'id' => $client->id,
+                'name' => $client->name,
+                'type' => $client->type,
+                'parent_id' => $client->parent_id,
+                'address' => $client->addresses->where('is_primary', true)->first()->address ?? '',
+            ],
+            'contracts' => ContractResource::collection($action->execute($client)),
+        ]);
+    }
+
+    /**
+     * Display Client Services
+     */
+    public function services(Client $client, GetServicesAction $action)
+    {
+        return Inertia::render('Services/List', [
+            'breadcrumb' => BreadcrumbHelper::clientContact($client->id),
+            'client' => [
+                'id' => $client->id,
+                'name' => $client->name,
+                'type' => $client->type,
+                'parent_id' => $client->parent_id,
+                'address' => $client->addresses->where('is_primary', true)->first()->address ?? '',
+            ],
+            'services' => ServiceResource::collection($action->execute($client)),
         ]);
     }
 

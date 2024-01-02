@@ -86,3 +86,7 @@ export const getServiceStatusStyles = status => {
       };
   }
 };
+
+export const app_url = data => {
+  return `${import.meta.env.VITE_STORAGE_URL}/${data}`;
+};

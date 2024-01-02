@@ -16,6 +16,7 @@ import TableRow from '@/Components/Ui/Table/TableRow';
 import ClientTypeChip from '@/Components/Clients/ClientTypeChip';
 import ClientHeader from '@/Components/Clients/ClientDetails/ClientHeader';
 import Breadcrumb from '@/Components/Common/Breadcrumb';
+import ClientDetailNavigation from '@/Components/Clients/ClientDetails/ClientDetailNavigation.jsx';
 
 function Profile({ auth, client, contacts, subClients, breadcrumb }) {
   return (
@@ -28,24 +29,7 @@ function Profile({ auth, client, contacts, subClients, breadcrumb }) {
             <EditClientModal />
           </div>
           <Breadcrumb breadcrumbs={breadcrumb} />
-          <div className="flex gap-4 pb-4 border-b-2">
-            <div className="flex gap-2 border bg-[#454FA23D] px-4 py-2 rounded-full">
-              <BiUserCircle size={20} />
-              <span>Client Profile</span>
-            </div>
-            <div className="flex gap-2 border border-[#455361] px-4 py-2 rounded-full">
-              <BiUserCircle size={20} />
-              <span>Contract</span>
-            </div>
-            <div className="flex gap-2 border border-[#455361] px-4 py-2 rounded-full">
-              <BiUserCircle size={20} />
-              <span>Service History</span>
-            </div>
-            <div className="flex gap-2 border border-[#455361] px-4 py-2 rounded-full">
-              <BiUserCircle size={20} />
-              <span>Notification Setting</span>
-            </div>
-          </div>
+          <ClientDetailNavigation id={client?.id} />
           <div className="grid grid-cols-3 my-4 gap-6">
             <ClientInfo
               name={client.name}

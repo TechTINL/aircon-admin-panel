@@ -2,6 +2,7 @@ import Modal from '@/Components/Modal';
 import { useEffect } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useForm } from '@inertiajs/react';
+import Select from 'react-select';
 import TextInput from '../../../TextInput';
 
 function ServiceTemplateModal({ service, openModal, setOpenModal }) {

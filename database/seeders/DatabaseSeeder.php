@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\GstAmount;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -54,5 +55,9 @@ class DatabaseSeeder extends Seeder
         ]);
         $part_time_technician_role = Role::findByName('part-time-technician', 'api');
         $part_time_technician->assignRole($part_time_technician_role);
+
+        GstAmount::create([
+            'value' => 8,
+        ]);
     }
 }

@@ -17,3 +17,27 @@ export const getTimesForTimePicker = () => {
   }
   return times;
 };
+
+export const getAddresses = (clients, client_id, sub_client_id) => {
+  if (sub_client_id) {
+    return (
+      clients
+        ?.find(client => client.id === client_id)
+        ?.sub_clients.find(sub_client => sub_client.id === sub_client_id)
+        ?.addresses.map(address => ({
+          ...address,
+          label: address.address,
+          value: address.id,
+        })) || []
+    );
+  }
+  return (
+    clients
+      ?.find(client => client.id === client_id)
+      ?.addresses.map(address => ({
+        ...address,
+        label: address.address,
+        value: address.id,
+      })) || []
+  );
+};

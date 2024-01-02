@@ -10,8 +10,9 @@ import TextInput from '@/Components/TextInput';
 import Dropdown from '@/Components/Dropdown';
 import { MdAdd } from 'react-icons/md';
 import Pagination from '@/Components/Shared/Pagination';
+import Breadcrumb from '@/Components/Common/Breadcrumb';
 
-function List({ auth, contracts }) {
+function List({ auth, contracts, breadcrumb }) {
   const { data, links, meta } = contracts;
 
   const [checkedClientFilter, setCheckedClientFilter] = useState(
@@ -22,6 +23,7 @@ function List({ auth, contracts }) {
     <AuthenticatedLayout user={auth.user}>
       <Head title="Client List" />
       <div className="flex-auto flex flex-col m-6">
+        <Breadcrumb breadcrumbs={breadcrumb} />
         <div className="text-zinc-800 text-3xl font-bold leading-10">
           Contract List
         </div>
@@ -173,7 +175,7 @@ function List({ auth, contracts }) {
                       </td>
                       <td className="px-4 py-4 my-1">
                         <Link
-                          href="/client-details"
+                          href={`/contracts/${item.id}/edit`}
                           method="get"
                           as="button"
                           type="button"

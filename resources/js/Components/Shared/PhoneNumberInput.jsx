@@ -9,7 +9,7 @@ function PhoneNumberInput({ value, onChange, onlyCountries = [] }) {
       preferredCountries={['sg', 'my', 'mm']}
       onChange={onChange}
       value={value}
-      inputClass="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block !w-full !h-auto"
+      inputClass="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2 !w-full !h-auto"
       buttonClass="!bg-zinc-900"
       dropdownClass="!w-max"
     />

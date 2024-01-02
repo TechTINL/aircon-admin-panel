@@ -1,9 +1,14 @@
-import { Head, Link } from '@inertiajs/react';
-import React, { useState } from 'react';
+import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import TextInput from '@/Components/TextInput';
+import useUpdateGst from '@/Hooks/useUpdateGst';
+import { Button } from '@material-tailwind/react';
 
-function ManageGST({ auth }) {
+function ManageGST({ auth, gst, flash }) {
+  const { data, setData, errors, submit, processing } = useUpdateGst({
+    value: gst.value,
+  });
+
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Job Table" />
@@ -13,19 +18,33 @@ function ManageGST({ auth }) {
         </div>
 
         <div className="bg-white rounded-xl flex flex-col p-6 md:w-1/2 gap-4 mt-6">
-          <span className="font-bold">
-            GST Amount <span className="text-red-600">*</span>
-          </span>
+          <span className="font-bold">GST Amount</span>
           <div className="relative flex items-center">
-            <TextInput placeholder="GST" className="pr-8 w-full" />
+            <TextInput
+              type="number"
+              placeholder="GST"
+              className="pr-8 w-full"
+              value={data?.value}
+              onChange={e => setData('value', e.target.value)}
+            />
             <span className="ml-[-26px] text-[16px]"> % </span>
           </div>
-          <button className="bg-primary px-6 py-2 max-w-max text-white rounded-xl font-bold">
+          {errors.value && (
+            <span className="text-red-500 text-sm">{errors.value}</span>
+          )}
+          {flash.success && (
+            <span className="text-green-500 text-sm">{flash.success}</span>
+          )}
+          <Button
+            type="button"
+            className="bg-primary max-w-max"
+            onClick={submit}
+          >
             Update GST
-          </button>
+          </Button>
         </div>
-        <span className="text-[#53616C] text-[13px] mt-1">
-          Last Updated on 20 September 2023, 9:30 AM
+        <span className="text-[#53616C] text-[13px] my-2">
+          Last Updated: {new Date(gst.updated_at).toLocaleString()}
         </span>
       </div>
     </AuthenticatedLayout>
