@@ -1,6 +1,16 @@
 import { produce } from 'immer';
 import { useReducer } from 'react';
 import { getAddresses, getTimes } from '@/Utils/utils';
+import dayjs from 'dayjs';
+
+function generateServiceDate(date, months, serviceIndex) {
+  if (!date) {
+    return null;
+  }
+  return dayjs(date)
+    .add(serviceIndex * months, 'month')
+    .toDate();
+}
 
 function useContractForm({
   contractTemplates,
@@ -109,6 +119,18 @@ function useContractForm({
           break;
         case 'SET_START_DATE':
           draft.start_date = action.payload;
+          if (!draft.isEdit) {
+            draft.services = draft.services.map((service, index) => {
+              return {
+                ...service,
+                service_date: generateServiceDate(
+                  action.payload,
+                  draft.months,
+                  index
+                ),
+              };
+            });
+          }
           break;
         case 'SET_END_DATE':
           draft.end_date = action.payload;
@@ -125,9 +147,72 @@ function useContractForm({
           break;
         case 'SET_START_TIME':
           draft.selected_start_time = action.payload;
+          draft.services = draft.services.map(service => {
+            return {
+              ...service,
+              service_time: action.payload,
+            };
+          });
+          break;
+        case 'SET_ALL_SERVICE_NAMES':
+          draft.services = draft.services.map(service => {
+            return {
+              ...service,
+              name: action.payload,
+            };
+          });
           break;
         case 'SET_SERVICE_NAME':
           draft.services[action.index].name = action.payload;
+          break;
+        case 'SET_SELECTED_LEADERS':
+          draft.services[action.index].leaders = action.payload;
+          break;
+        case 'SET_TECHNICIAN_COUNT':
+          draft.services[action.index].technician_count = action.payload;
+          break;
+        case 'SET_SELECTED_TECHNICIANS':
+          draft.services[action.index].technicians = action.payload;
+          break;
+        case 'ADD_TASK':
+          draft.services[action.index].tasks.push({
+            name: '',
+            hours: '',
+            minutes: '',
+            cost: '',
+          });
+          break;
+        case 'SET_ALL_TASK_NAMES':
+          draft.services = draft.services.map(service => {
+            return {
+              ...service,
+              tasks: service?.tasks?.map(task => {
+                return {
+                  ...task,
+                  name: action.payload,
+                };
+              }),
+            };
+          });
+          break;
+        case 'SET_TASK_NAME':
+          draft.services[action.index].tasks[action.taskIndex].name =
+            action.payload;
+          break;
+        case 'SET_TASK_HOURS':
+          draft.services[action.index].tasks[action.taskIndex].hours =
+            action.payload;
+          break;
+        case 'SET_TASK_MINUTES':
+          draft.services[action.index].tasks[action.taskIndex].minutes =
+            action.payload;
+          break;
+        case 'SET_TASK_COST':
+          draft.services[action.index].tasks[action.taskIndex].cost =
+            action.payload;
+          break;
+        case 'REMOVE_TASK':
+          draft.services[action.serviceIndex].tasks.splice(action.index, 1);
           break;
         default:
           break;

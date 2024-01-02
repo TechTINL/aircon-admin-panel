@@ -1,9 +1,9 @@
-import { Head, usePage } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React from 'react';
 import ContractForm from '@/Components/Contract/ContractForm';
 
-function EditForm({
+function CreateForm({
   auth,
   contractTemplates: templates,
   serviceTemplates,
@@ -13,14 +13,11 @@ function EditForm({
   technicians,
   gst,
 }) {
-  const contract = usePage().props?.contract;
-
   return (
     <AuthenticatedLayout user={auth.user}>
-      <Head title="Edit Contract" />
+      <Head title="Create Contract" />
       <ContractForm
         gst={gst}
-        contract={contract}
         contractTemplates={templates}
         serviceTemplates={serviceTemplates}
         taskTemplates={taskTemplates}
@@ -32,4 +29,4 @@ function EditForm({
   );
 }
 
-export default EditForm;
+export default CreateForm;
