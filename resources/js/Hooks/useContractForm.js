@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { getAddresses, getTimes } from '@/Utils/utils';
 import dayjs from 'dayjs';
 
@@ -10,6 +10,17 @@ function generateServiceDate(date, months, serviceIndex) {
   return dayjs(date)
     .add(serviceIndex * months, 'month')
     .toDate();
+}
+
+function getTasksCost(services) {
+  return services?.reduce((total, service) => {
+    return (
+      total +
+      service.tasks.reduce((total, task) => {
+        return total + Number(task.cost);
+      }, 0)
+    );
+  });
 }
 
 function useContractForm({
@@ -120,6 +131,7 @@ function useContractForm({
         case 'SET_START_DATE':
           draft.start_date = action.payload;
           if (!draft.isEdit) {
+            console.log('isEdit', draft.isEdit);
             draft.services = draft.services.map((service, index) => {
               return {
                 ...service,
@@ -141,6 +153,9 @@ function useContractForm({
           break;
         case 'SET_AMOUNT':
           draft.amount = action.payload;
+          draft.contract_gst_amount = action.payload * gstValue;
+          draft.total_contract_amount =
+            Number(action.payload) + Number(action.payload) * gstValue;
           break;
         case 'SET_MONTHS':
           draft.months = action.payload;
@@ -210,6 +225,18 @@ function useContractForm({
         case 'SET_TASK_COST':
           draft.services[action.index].tasks[action.taskIndex].cost =
             action.payload;
+          break;
+        case 'SET_TASKS_COST':
+          draft.tasks_cost = action.payload;
+          break;
+        case 'SET_TASKS_GST':
+          draft.tasks_gst = action.payload;
+          break;
+        case 'SET_TOTAL_TASKS_AMOUNT':
+          draft.total_tasks_amount = action.payload;
+          break;
+        case 'SET_TOTAL_AMOUNT':
+          draft.total_amount = action.payload;
           break;
         case 'REMOVE_TASK':
           draft.services[action.serviceIndex].tasks.splice(action.index, 1);
@@ -339,8 +366,57 @@ function useContractForm({
           value: technician.id,
         })) || [],
       contract_gst_amount: contract?.amount * gstValue || 0,
+      total_contract_amount:
+        contract?.amount + contract?.amount * gstValue || 0,
+      tasks_cost: getTasksCost(contract?.services) || 0,
+      tasks_gst: getTasksCost(contract?.services) * gstValue || 0,
+      total_tasks_amount:
+        getTasksCost(contract?.services) +
+          getTasksCost(contract?.services) * gstValue || 0,
+      total_amount:
+        contract?.amount +
+          contract?.amount * gstValue +
+          (getTasksCost(contract?.services) +
+            getTasksCost(contract?.services) * gstValue) || 0,
     }
   );
+
+  useEffect(() => {
+    let _tasksCost = 0;
+    let _totalTasksAmount = 0;
+    let _totalAmount = 0;
+
+    const sumTaskCosts = tasks =>
+      tasks.reduce((total, task) => total + (Number(task.cost) || 0), 0);
+
+    form?.services?.forEach(service => {
+      _tasksCost += sumTaskCosts(service.tasks);
+    });
+
+    dispatch({
+      type: 'SET_TASKS_COST',
+      payload: _tasksCost,
+    });
+
+    const _tasksGST = _tasksCost * gstValue;
+    dispatch({
+      type: 'SET_TASKS_GST',
+      payload: _tasksGST,
+    });
+
+    _totalTasksAmount = Number(_tasksCost) + Number(_tasksGST);
+    dispatch({
+      type: 'SET_TOTAL_TASKS_AMOUNT',
+      payload: _totalTasksAmount,
+    });
+
+    _totalAmount =
+      Number(form.total_contract_amount) + Number(form.total_tasks_amount);
+    dispatch({
+      type: 'SET_TOTAL_AMOUNT',
+      payload: _totalAmount,
+    });
+  }, [form.services, form.amount]);
 
   return {
     form,

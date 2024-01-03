@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const getTimes = () => {
   const times = [];
   for (let i = 8; i <= 20; i++) {
@@ -40,4 +42,40 @@ export const getAddresses = (clients, client_id, sub_client_id) => {
         value: address.id,
       })) || []
   );
+};
+
+export const prepareContractData = form => {
+  const unassignedServiceCount = form.services
+    ?.map(service => service.technicians.length)
+    .filter(count => count === 0).length;
+
+  const assignedServiceCount = form.services
+    ?.map(service => service.technicians.length)
+    .filter(count => count > 0).length;
+
+  const data = {
+    title: form?.selected_title?.label,
+    service_address: form?.selected_service_address?.label,
+    billing_address: form?.selected_billing_address?.label,
+    service_count: form?.service_count,
+    unassigned_service_count: unassignedServiceCount,
+    assigned_service_count: assignedServiceCount,
+    start_date: form?.start_date,
+    end_date: form?.end_date,
+    amount: form?.amount,
+    client_id: form?.selected_client?.value,
+    sub_client_id: form?.selected_sub_client?.value,
+    contract_amount: form?.amount,
+    service_repeat: form?.selected_repeat?.value,
+    date_option: form?.dateOption,
+    time: form?.time,
+    serviceData: form?.services.map(service => ({
+      ...service,
+      teamLeaderIds: service?.leaders?.map(leader => leader?.value),
+      technicianIds: service?.technicians?.map(technician => technician?.value),
+      service_date: dayjs(service?.service_date).format('YYYY-MM-DD'),
+    })),
+  };
+
+  return data;
 };

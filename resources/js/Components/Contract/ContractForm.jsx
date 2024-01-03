@@ -23,7 +23,7 @@ function ContractForm({
   technicians,
   gst,
   contract,
-  createContract,
+  saveContract,
 }) {
   const { form, dispatch } = useContractForm({
     contractTemplates: templates,
@@ -566,29 +566,29 @@ function ContractForm({
             </div>
             <div className="flex justify-between">
               <b>GST {gst}%</b>
-              <span>$ {form?.contract_gst_amount}</span>
+              <span>$ {Number(form?.contract_gst_amount).toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <b>Total Contract Value</b>
-              <span>$ {form?.totalContractAmount}</span>
+              <span>$ {Number(form?.total_contract_amount).toFixed(2)}</span>
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
               <b>Task Cost</b>
-              <span className="text-[14px]">$ {form?.tasksCost}</span>
+              <span className="text-[14px]">$ {form?.tasks_cost}</span>
             </div>
             <div className="flex justify-between">
               <b>GST {gst}%</b>
-              <span className="">$ {form?.totalGST}</span>
+              <span className="">$ {form?.tasks_gst}</span>
             </div>
             <div className="flex justify-between">
               <b>Total Task Amount</b>
-              <span>$ {form?.totalAmount}</span>
+              <span>$ {form?.total_tasks_amount}</span>
             </div>
             <div className="flex justify-between">
               <b>Final Amount</b>
-              <span>$ {form?.finalAmount}</span>
+              <span>$ {form?.total_amount}</span>
             </div>
           </div>
         </div>
@@ -612,7 +612,7 @@ function ContractForm({
       <button
         className="bg-primary text-white rounded-xl py-2 font-bold"
         onClick={() => {
-          createContract();
+          saveContract(form);
         }}
       >
         Confirm

@@ -1,7 +1,8 @@
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React from 'react';
 import ContractForm from '@/Components/Contract/ContractForm';
+import { prepareContractData } from '@/Utils/utils';
 
 function CreateForm({
   auth,
@@ -13,6 +14,16 @@ function CreateForm({
   technicians,
   gst,
 }) {
+  const createContract = form => {
+    const formData = prepareContractData(form);
+    router.post(route('contracts.store'), formData, {
+      preserveScroll: true,
+      onError: errors => {
+        console.log(errors);
+      },
+    });
+  };
+
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Create Contract" />
@@ -24,6 +35,7 @@ function CreateForm({
         clients={clients}
         leaders={leaders}
         technicians={technicians}
+        saveContract={createContract}
       />
     </AuthenticatedLayout>
   );

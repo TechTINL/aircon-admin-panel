@@ -18,8 +18,8 @@ class SaveServiceAction
         foreach ($tasks as $task) {
             $data = [
                 'name' => $task['name'],
-                'duration_hours' => $task['durationHr'],
-                'duration_minutes' => $task['durationMin'],
+                'duration_hours' => $task['hours'],
+                'duration_minutes' => $task['minutes'],
                 'cost' => $task['cost'],
                 'service_id' => $service->id
             ];

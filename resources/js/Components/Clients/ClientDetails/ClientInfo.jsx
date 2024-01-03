@@ -2,8 +2,7 @@ import { BiUserCircle } from 'react-icons/bi';
 import Mailto from '@/Components/Shared/Mailto';
 import * as PropTypes from 'prop-types';
 import React from 'react';
-import { FaRegMap } from 'react-icons/fa';
-import { CiMail } from 'react-icons/ci';
+import { CiMail, CiMap } from 'react-icons/ci';
 
 function ClientInfo({ name, type, contacts, address }) {
   return (
@@ -19,7 +18,7 @@ function ClientInfo({ name, type, contacts, address }) {
         <span>{address ?? 'No Address yet'}</span>
       </div>
       <div className="flex items-center gap-3 border border-[#00B4AD] px-6 py-2 mb-4 rounded-lg">
-        <FaRegMap size={20} />
+        <CiMap size={20} />
         <span className="text-[#00B4AD]">Location</span>
       </div>
       <div className="flex items-center gap-2 border border-[#00B4AD] px-14 py-2 rounded-lg">
