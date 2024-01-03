@@ -1,9 +1,9 @@
 import { router, useForm, usePage } from '@inertiajs/react';
 
 function useCreateEmployee() {
-  const { teams, roles } = usePage().props;
+  const { teams, roles, errors } = usePage().props;
 
-  const { data, setData, processing, errors, reset } = useForm({
+  const { data, setData, processing, reset } = useForm({
     name: '',
     phone: '',
     role: '',
@@ -41,7 +41,6 @@ function useCreateEmployee() {
     data,
     setData,
     processing,
-    errors,
     handleSubmit,
   };
 }
