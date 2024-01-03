@@ -27,7 +27,7 @@ function Create({ auth, breadcrumbs, errors }) {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col bg-white rounded-xl p-6 max-w-[800px] gap-4 mt-12">
             <img
-              src={EmployeeImg}
+              src={`https://ui-avatars.com/api/?name=${data.name}&color=7F9CF5&background=EBF4FF`}
               className="object-contain rounded-full h-14 w-14 self-center"
               alt="employee-image"
             />
