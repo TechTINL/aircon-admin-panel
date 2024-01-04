@@ -1,6 +1,13 @@
 import { produce } from 'immer';
 import { useEffect, useReducer } from 'react';
-import { getAddresses, getTimes } from '@/Utils/utils';
+import {
+  calculateTasksGst,
+  calculateTotalContractAmount,
+  calculateTotalTasksAmount,
+  getAddresses,
+  getTimes,
+  getTotalContractAmount,
+} from '@/Utils/utils';
 import dayjs from 'dayjs';
 
 function generateServiceDate(date, months, serviceIndex) {
@@ -10,17 +17,6 @@ function generateServiceDate(date, months, serviceIndex) {
   return dayjs(date)
     .add(serviceIndex * months, 'month')
     .toDate();
-}
-
-function getTasksCost(services) {
-  return services?.reduce((total, service) => {
-    return (
-      total +
-      service.tasks.reduce((total, task) => {
-        return total + Number(task.cost);
-      }, 0)
-    );
-  });
 }
 
 function useContractForm({
@@ -108,6 +104,14 @@ function useContractForm({
               label: sub_client.name,
             };
           });
+          draft.service_addresses = getAddresses(
+            clients,
+            draft.selected_client?.id
+          );
+          draft.billing_addresses = getAddresses(
+            clients,
+            draft.selected_client?.id
+          );
           break;
         case 'SET_SELECTED_SUB_CLIENT':
           draft.selected_sub_client = action.payload;
@@ -168,6 +172,12 @@ function useContractForm({
               service_time: action.payload,
             };
           });
+          break;
+        case 'SET_DATE':
+          draft.services[action.index].service_date = action.payload;
+          break;
+        case 'SET_TIME':
+          draft.services[action.index].service_time = action.payload;
           break;
         case 'SET_ALL_SERVICE_NAMES':
           draft.services = draft.services.map(service => {
@@ -246,7 +256,8 @@ function useContractForm({
       }
     }),
     {
-      isEdit: !!contract,
+      isEdit: !!contract?.id,
+      contract_id: contract?.id || '',
       selected_title:
         {
           label: contract?.title || '',
@@ -365,27 +376,19 @@ function useContractForm({
           label: technician.name,
           value: technician.id,
         })) || [],
-      contract_gst_amount: contract?.amount * gstValue || 0,
+      contract_gst_amount:
+        Number(contract?.amount).toFixed(2) * Number(gstValue).toFixed(2) || 0,
       total_contract_amount:
-        contract?.amount + contract?.amount * gstValue || 0,
-      tasks_cost: getTasksCost(contract?.services) || 0,
-      tasks_gst: getTasksCost(contract?.services) * gstValue || 0,
-      total_tasks_amount:
-        getTasksCost(contract?.services) +
-          getTasksCost(contract?.services) * gstValue || 0,
-      total_amount:
-        contract?.amount +
-          contract?.amount * gstValue +
-          (getTasksCost(contract?.services) +
-            getTasksCost(contract?.services) * gstValue) || 0,
+        getTotalContractAmount(contract?.amount, gstValue) || 0,
+      tasks_cost: 0,
+      tasks_gst: 0,
+      total_tasks_amount: 0,
+      total_amount: 0,
     }
   );
 
   useEffect(() => {
     let _tasksCost = 0;
-    let _totalTasksAmount = 0;
-    let _totalAmount = 0;
-
     const sumTaskCosts = tasks =>
       tasks.reduce((total, task) => total + (Number(task.cost) || 0), 0);
 
@@ -398,23 +401,22 @@ function useContractForm({
       payload: _tasksCost,
     });
 
-    const _tasksGST = _tasksCost * gstValue;
     dispatch({
       type: 'SET_TASKS_GST',
-      payload: _tasksGST,
+      payload: calculateTasksGst(_tasksCost, gstValue) || 0,
     });
 
-    _totalTasksAmount = Number(_tasksCost) + Number(_tasksGST);
     dispatch({
       type: 'SET_TOTAL_TASKS_AMOUNT',
-      payload: _totalTasksAmount,
+      payload: calculateTotalTasksAmount(_tasksCost, gstValue) || 0,
     });
 
-    _totalAmount =
-      Number(form.total_contract_amount) + Number(form.total_tasks_amount);
     dispatch({
       type: 'SET_TOTAL_AMOUNT',
-      payload: _totalAmount,
+      payload: calculateTotalContractAmount(
+        form.total_contract_amount,
+        form.total_tasks_amount
+      ),
     });
   }, [form.services, form.amount]);
 

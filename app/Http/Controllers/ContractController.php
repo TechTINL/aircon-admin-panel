@@ -10,6 +10,7 @@ use App\Actions\GetGstAction;
 use App\Actions\Template\Contract\GetContractTemplatesAction;
 use App\Actions\Template\GetServiceTemplatesAction;
 use App\Actions\Template\GetTaskTemplatesAction;
+use App\Actions\UpdateContractAction;
 use App\Helpers\BreadcrumbHelper;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
@@ -103,9 +104,11 @@ class ContractController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateContractRequest $request, Contract $contract)
+    public function update(UpdateContractRequest $request, Contract $contract, UpdateContractAction $action)
     {
-        //
+        $action->execute($contract, $request->validated());
+
+        return redirect()->route('contracts.index');
     }
 
     /**

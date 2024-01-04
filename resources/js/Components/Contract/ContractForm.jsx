@@ -25,13 +25,14 @@ function ContractForm({
   contract,
   saveContract,
 }) {
+  const gstValue = gst / 100;
   const { form, dispatch } = useContractForm({
     contractTemplates: templates,
     clients,
     contract,
     leaders,
     technicians,
-    gstValue: gst / 100,
+    gstValue,
   });
 
   const [openServiceTemplateModal, setOpenServiceTemplateModal] =
@@ -409,6 +410,13 @@ function ContractForm({
                   value={service.service_date}
                   clearIcon={null}
                   format="dd/MM/y"
+                  onChange={value => {
+                    dispatch({
+                      type: 'SET_DATE',
+                      payload: value,
+                      index,
+                    });
+                  }}
                 />
               </div>
               <div className="flex flex-col gap-1 max-w-max">
@@ -423,6 +431,13 @@ function ContractForm({
                           value: service.service_time,
                         }
                   }
+                  onChange={value => {
+                    dispatch({
+                      type: 'SET_TIME',
+                      payload: value,
+                      index,
+                    });
+                  }}
                 />
               </div>
               <div className="flex gap-1 max-w-max items-center mt-5">

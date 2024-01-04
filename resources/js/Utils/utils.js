@@ -71,11 +71,52 @@ export const prepareContractData = form => {
     time: form?.time,
     serviceData: form?.services.map(service => ({
       ...service,
-      teamLeaderIds: service?.leaders?.map(leader => leader?.value),
-      technicianIds: service?.technicians?.map(technician => technician?.value),
+      teamLeaderIds: service?.leaders?.map(
+        leader => leader?.id || leader?.value
+      ),
+      technicianIds: service?.technicians?.map(
+        technician => technician?.id || technician?.value
+      ),
       service_date: dayjs(service?.service_date).format('YYYY-MM-DD'),
+      service_time:
+        typeof service?.service_time === 'string'
+          ? service?.service_time
+          : service?.service_time?.value,
     })),
   };
 
   return data;
+};
+
+export const getTotalContractAmount = (amount, gst) => {
+  amount = Number(amount).toFixed(2);
+  gst = Number(gst).toFixed(2);
+  return Number(amount) + Number(gst);
+};
+
+export const calculateTasksGst = (tasksCost, gst) => {
+  tasksCost = Number(tasksCost).toFixed(2);
+  gst = Number(gst).toFixed(2);
+
+  const total = Number(tasksCost) * Number(gst);
+  return total.toFixed(2);
+};
+
+export const calculateTotalTasksAmount = (tasksCost, gst) => {
+  tasksCost = Number(tasksCost).toFixed(2);
+  gst = Number(gst).toFixed(2);
+
+  const total = Number(tasksCost) + Number(gst);
+  return total.toFixed(2);
+};
+
+export const calculateTotalContractAmount = (
+  totalContractAmount,
+  totalTasksAmount
+) => {
+  totalContractAmount = Number(totalContractAmount).toFixed(2);
+  totalTasksAmount = Number(totalTasksAmount).toFixed(2);
+
+  const total = Number(totalContractAmount) + Number(totalTasksAmount);
+  return total.toFixed(2);
 };
