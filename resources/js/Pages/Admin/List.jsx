@@ -56,8 +56,8 @@ function List({ auth, breadcrumbs }) {
               <TextInput
                 className="w-full h-full pl-8 rounded-xl"
                 placeholder="Search"
+                icon={<BiSearch size={22} />}
               />
-              <BiSearch className="text-gray-500 absolute text-[20px] left-2" />
             </div>
             {auth.permissions.includes('admin.any') && (
               <div className="flex gap-4 items-end">
