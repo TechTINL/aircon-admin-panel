@@ -28,7 +28,7 @@ class SaveContractAction
                 $service['billing_address'] = $billing_address;
                 $service['status'] = count($service['teamLeaderIds']) > 0 ? 'scheduled' : 'unassigned';
                 $service['service_no_of_time'] = "{$currentNumberOfService} of {$totalNumberOfService}";
-                $service['service_time'] = $service['service_time']['value'];
+                $service['service_time'] = $service['service_time'] ?? $service['service_time']['value'] ;
                 $service['service_at'] = Carbon::parse(
                     Carbon::parse($service['service_date'])->format('Y-m-d') . ' ' . $service['service_time']);
                 $service['client_id'] = $client_id;
