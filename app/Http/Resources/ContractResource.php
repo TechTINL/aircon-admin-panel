@@ -23,12 +23,12 @@ class ContractResource extends JsonResource
             'unassigned_service_count' => $this->unassigned_service_count,
             'assigned_service_count' => $this->assigned_service_count,
             'billing_address' => $this->billing_address,
-            'start_date' => Carbon::create($this->start_date)->format('d-m-Y'),
-            'end_date' => $this->end_date,
+            'start_date' => Carbon::create($this->start_date)->format('Y-m-d'),
+            'end_date' => Carbon::create($this->end_date)->format('Y-m-d'),
             'amount' => $this->amount,
             'client' => $this->client,
             'subClient' => $this->subClient,
-            'created_at' => Carbon::create($this->created_at)->format('d-m-Y'),
+            'created_at' => Carbon::create($this->created_at)->format('Y-m-d'),
             'updated_at' => $this->updated_at
         ];
     }

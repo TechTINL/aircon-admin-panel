@@ -10,13 +10,12 @@ use App\Actions\GetGstAction;
 use App\Actions\Template\Contract\GetContractTemplatesAction;
 use App\Actions\Template\GetServiceTemplatesAction;
 use App\Actions\Template\GetTaskTemplatesAction;
+use App\Actions\UpdateContractAction;
 use App\Helpers\BreadcrumbHelper;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
 use App\Http\Resources\ContractResource;
 use App\Models\Contract;
-use App\Models\Service;
-use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -45,11 +44,11 @@ class ContractController extends Controller
         GetGstAction $getGstAction,
         ): Response
     {
-        return Inertia::render('Contract/Form', [
+        return Inertia::render('Contract/CreateForm', [
             'contractTemplates' => $action->execute(),
-            'clients' => $getClientsAction->getClients(),
+            'clients' => $getClientsAction->getClientsWithSubClients(),
 	        'leaders' => $employeesAction->leader(),
-	        'employees' => $employeesAction->get(),
+	        'technicians' => $employeesAction->get(),
 	        'serviceTemplates' => $getServiceTemplatesAction->execute(),
 	        'taskTemplates' => $getTaskTemplatesAction->execute(),
             'gst' => $getGstAction->execute(),
@@ -71,22 +70,6 @@ class ContractController extends Controller
         );
 
 		return redirect()->route('contracts.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(): Response
-    {
-        return Inertia::render('Contract/Form', [
-            'contract' => $contract,
-            'contractTemplates' => $action->execute(),
-            'clients' => $getClientsAction->getClients(),
-            'leaders' => $employeesAction->leader(),
-            'employees' => $employeesAction->get(),
-            'serviceTemplates' => $getServiceTemplatesAction->execute(),
-            'taskTemplates' => $getTaskTemplatesAction->execute(),
-        ]);
     }
 
     /**
@@ -121,9 +104,11 @@ class ContractController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateContractRequest $request, Contract $contract)
+    public function update(UpdateContractRequest $request, Contract $contract, UpdateContractAction $action)
     {
-        //
+        $action->execute($contract, $request->validated());
+
+        return redirect()->route('contracts.index');
     }
 
     /**

@@ -1,6 +1,23 @@
 import { produce } from 'immer';
-import { useReducer } from 'react';
-import { getAddresses, getTimes } from '@/Utils/utils';
+import { useEffect, useReducer } from 'react';
+import {
+  calculateTasksGst,
+  calculateTotalContractAmount,
+  calculateTotalTasksAmount,
+  getAddresses,
+  getTimes,
+  getTotalContractAmount,
+} from '@/Utils/utils';
+import dayjs from 'dayjs';
+
+function generateServiceDate(date, months, serviceIndex) {
+  if (!date) {
+    return null;
+  }
+  return dayjs(date)
+    .add(serviceIndex * months, 'month')
+    .toDate();
+}
 
 function useContractForm({
   contractTemplates,
@@ -87,6 +104,14 @@ function useContractForm({
               label: sub_client.name,
             };
           });
+          draft.service_addresses = getAddresses(
+            clients,
+            draft.selected_client?.id
+          );
+          draft.billing_addresses = getAddresses(
+            clients,
+            draft.selected_client?.id
+          );
           break;
         case 'SET_SELECTED_SUB_CLIENT':
           draft.selected_sub_client = action.payload;
@@ -109,6 +134,19 @@ function useContractForm({
           break;
         case 'SET_START_DATE':
           draft.start_date = action.payload;
+          if (!draft.isEdit) {
+            console.log('isEdit', draft.isEdit);
+            draft.services = draft.services.map((service, index) => {
+              return {
+                ...service,
+                service_date: generateServiceDate(
+                  action.payload,
+                  draft.months,
+                  index
+                ),
+              };
+            });
+          }
           break;
         case 'SET_END_DATE':
           draft.end_date = action.payload;
@@ -119,22 +157,107 @@ function useContractForm({
           break;
         case 'SET_AMOUNT':
           draft.amount = action.payload;
+          draft.contract_gst_amount = action.payload * gstValue;
+          draft.total_contract_amount =
+            Number(action.payload) + Number(action.payload) * gstValue;
           break;
         case 'SET_MONTHS':
           draft.months = action.payload;
           break;
         case 'SET_START_TIME':
           draft.selected_start_time = action.payload;
+          draft.services = draft.services.map(service => {
+            return {
+              ...service,
+              service_time: action.payload,
+            };
+          });
+          break;
+        case 'SET_DATE':
+          draft.services[action.index].service_date = action.payload;
+          break;
+        case 'SET_TIME':
+          draft.services[action.index].service_time = action.payload;
+          break;
+        case 'SET_ALL_SERVICE_NAMES':
+          draft.services = draft.services.map(service => {
+            return {
+              ...service,
+              name: action.payload,
+            };
+          });
           break;
         case 'SET_SERVICE_NAME':
           draft.services[action.index].name = action.payload;
+          break;
+        case 'SET_SELECTED_LEADERS':
+          draft.services[action.index].leaders = action.payload;
+          break;
+        case 'SET_TECHNICIAN_COUNT':
+          draft.services[action.index].technician_count = action.payload;
+          break;
+        case 'SET_SELECTED_TECHNICIANS':
+          draft.services[action.index].technicians = action.payload;
+          break;
+        case 'ADD_TASK':
+          draft.services[action.index].tasks.push({
+            name: '',
+            hours: '',
+            minutes: '',
+            cost: '',
+          });
+          break;
+        case 'SET_ALL_TASK_NAMES':
+          draft.services = draft.services.map(service => {
+            return {
+              ...service,
+              tasks: service?.tasks?.map(task => {
+                return {
+                  ...task,
+                  name: action.payload,
+                };
+              }),
+            };
+          });
+          break;
+        case 'SET_TASK_NAME':
+          draft.services[action.index].tasks[action.taskIndex].name =
+            action.payload;
+          break;
+        case 'SET_TASK_HOURS':
+          draft.services[action.index].tasks[action.taskIndex].hours =
+            action.payload;
+          break;
+        case 'SET_TASK_MINUTES':
+          draft.services[action.index].tasks[action.taskIndex].minutes =
+            action.payload;
+          break;
+        case 'SET_TASK_COST':
+          draft.services[action.index].tasks[action.taskIndex].cost =
+            action.payload;
+          break;
+        case 'SET_TASKS_COST':
+          draft.tasks_cost = action.payload;
+          break;
+        case 'SET_TASKS_GST':
+          draft.tasks_gst = action.payload;
+          break;
+        case 'SET_TOTAL_TASKS_AMOUNT':
+          draft.total_tasks_amount = action.payload;
+          break;
+        case 'SET_TOTAL_AMOUNT':
+          draft.total_amount = action.payload;
+          break;
+        case 'REMOVE_TASK':
+          draft.services[action.serviceIndex].tasks.splice(action.index, 1);
           break;
         default:
           break;
       }
     }),
     {
-      isEdit: !!contract,
+      isEdit: !!contract?.id,
+      contract_id: contract?.id || '',
       selected_title:
         {
           label: contract?.title || '',
@@ -253,9 +376,49 @@ function useContractForm({
           label: technician.name,
           value: technician.id,
         })) || [],
-      contract_gst_amount: contract?.amount * gstValue || 0,
+      contract_gst_amount:
+        Number(contract?.amount).toFixed(2) * Number(gstValue).toFixed(2) || 0,
+      total_contract_amount:
+        getTotalContractAmount(contract?.amount, gstValue) || 0,
+      tasks_cost: 0,
+      tasks_gst: 0,
+      total_tasks_amount: 0,
+      total_amount: 0,
     }
   );
+
+  useEffect(() => {
+    let _tasksCost = 0;
+    const sumTaskCosts = tasks =>
+      tasks.reduce((total, task) => total + (Number(task.cost) || 0), 0);
+
+    form?.services?.forEach(service => {
+      _tasksCost += sumTaskCosts(service.tasks);
+    });
+
+    dispatch({
+      type: 'SET_TASKS_COST',
+      payload: _tasksCost,
+    });
+
+    dispatch({
+      type: 'SET_TASKS_GST',
+      payload: calculateTasksGst(_tasksCost, gstValue) || 0,
+    });
+
+    dispatch({
+      type: 'SET_TOTAL_TASKS_AMOUNT',
+      payload: calculateTotalTasksAmount(_tasksCost, gstValue) || 0,
+    });
+
+    dispatch({
+      type: 'SET_TOTAL_AMOUNT',
+      payload: calculateTotalContractAmount(
+        form.total_contract_amount,
+        form.total_tasks_amount
+      ),
+    });
+  }, [form.services, form.amount]);
 
   return {
     form,

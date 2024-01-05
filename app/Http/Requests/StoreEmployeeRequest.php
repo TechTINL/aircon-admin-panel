@@ -31,4 +31,16 @@ class StoreEmployeeRequest extends FormRequest
             'vehicle' => 'nullable',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'phone.phone' => 'The phone number is invalid.',
+        ];
+    }
 }

@@ -9,8 +9,8 @@ import PhoneNumberInput from '@/Components/Shared/PhoneNumberInput';
 import useCreateEmployee from '@/Hooks/Employee/useCreateEmployee';
 import InputError from '@/Components/InputError';
 
-function Create({ auth, breadcrumbs }) {
-  const { teams, roles, data, setData, errors, processing, handleSubmit } =
+function Create({ auth, breadcrumbs, errors }) {
+  const { teams, roles, data, setData, processing, handleSubmit } =
     useCreateEmployee();
 
   return (
@@ -27,7 +27,7 @@ function Create({ auth, breadcrumbs }) {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col bg-white rounded-xl p-6 max-w-[800px] gap-4 mt-12">
             <img
-              src={EmployeeImg}
+              src={`https://ui-avatars.com/api/?name=${data.name}&color=7F9CF5&background=EBF4FF`}
               className="object-contain rounded-full h-14 w-14 self-center"
               alt="employee-image"
             />
@@ -41,7 +41,7 @@ function Create({ auth, breadcrumbs }) {
                 value={data.name}
                 onChange={e => setData('name', e.target.value)}
               />
-              <InputError message={errors.name} className="my-2" />
+              <InputError message={errors?.name} className="my-2" />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -53,7 +53,7 @@ function Create({ auth, breadcrumbs }) {
                   selectedItem={data.role}
                   onItemSelect={item => setData('role', item)}
                 />
-                <InputError message={errors.role} className="my-2" />
+                <InputError message={errors?.role} className="my-2" />
               </div>
               <div className="flex flex-col">
                 <b className="text-black text-[16px]">Team</b>
@@ -63,7 +63,7 @@ function Create({ auth, breadcrumbs }) {
                   selectedItem={data.team_id}
                   onItemSelect={item => setData('team_id', item)}
                 />
-                <InputError message={errors.team_id} className="my-2" />
+                <InputError message={errors?.team_id} className="my-2" />
               </div>
             </div>
 
@@ -75,7 +75,7 @@ function Create({ auth, breadcrumbs }) {
                 value={data.organization}
                 onChange={e => setData('organization', e.target.value)}
               />
-              <InputError message={errors.organization} className="my-2" />
+              <InputError message={errors?.organization} className="my-2" />
             </div>
 
             <div>
@@ -92,7 +92,7 @@ function Create({ auth, breadcrumbs }) {
                 value={data.phone}
                 onChange={value => setData('phone', value)}
               />
-              <InputError message={errors.phone} className="my-2" />
+              <InputError message={errors?.phone} className="my-2" />
             </div>
 
             <div className="flex flex-col gap-1">
@@ -103,7 +103,7 @@ function Create({ auth, breadcrumbs }) {
                 value={data.vehicle}
                 onChange={e => setData('vehicle', e.target.value)}
               />
-              <InputError message={errors.vehicle} className="my-2" />
+              <InputError message={errors?.vehicle} className="my-2" />
             </div>
 
             <button
