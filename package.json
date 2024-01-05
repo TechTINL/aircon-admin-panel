@@ -41,6 +41,7 @@
     "dayjs": "^1.11.10",
     "immer": "^10.0.3",
     "laravel-vite-plugin": "^0.8.0",
+    "moment": "^2.30.1",
     "primereact": "^10.1.1",
     "prop-types": "^15.8.1",
     "puppeteer": "^21.6.0",
