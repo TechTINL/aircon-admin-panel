@@ -60,8 +60,8 @@ export const prepareContractData = form => {
     service_count: form?.service_count,
     unassigned_service_count: unassignedServiceCount,
     assigned_service_count: assignedServiceCount,
-    start_date: dayjs(form?.start_date).format('DD-MM-YYYY'),
-    end_date: dayjs(form?.end_date).format('DD-MM-YYYY'),
+    start_date: dayjs(form?.start_date).format('MM/DD/YYYY'),
+    end_date: dayjs(form?.end_date).format('MM/DD/YYYY'),
     amount: form?.amount,
     client_id: form?.selected_client?.value,
     sub_client_id: form?.selected_sub_client?.value,
@@ -77,7 +77,7 @@ export const prepareContractData = form => {
       technicianIds: service?.technicians?.map(
         technician => technician?.id || technician?.value
       ),
-      service_date: dayjs(service?.service_date).format('YYYY-MM-DD'),
+      service_date: dayjs(service?.service_date).format('MM/DD/YYYY'),
       service_time:
         typeof service?.service_time === 'string'
           ? service?.service_time
