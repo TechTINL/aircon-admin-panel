@@ -8,7 +8,7 @@ import {
 import TimelineTable from '../../Components/Services/TimelineTable';
 import JobFilters from '../../Components/Services/JobFilters';
 
-function Timeline({ auth }) {
+function Timeline({ auth, users }) {
   return (
     <AuthenticatedLayout user={auth.user}>
       <Head title="Job Table" />
@@ -36,7 +36,7 @@ function Timeline({ auth }) {
             <span className="text-black font-bold px-4">10 Dec 2023</span>
             <AiOutlineRight />
           </div>
-          <TimelineTable />
+          <TimelineTable data={users} />
         </div>
       </div>
     </AuthenticatedLayout>
