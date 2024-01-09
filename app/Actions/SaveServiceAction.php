@@ -32,7 +32,7 @@ class SaveServiceAction
         return $service;
     }
 
-    function update($service, $data, $teamLeaderIds, $technicianIds, $tasks): void
+    public function update($service, $data, $teamLeaderIds, $technicianIds, $tasks): void
     {
         $service->update($data);
 

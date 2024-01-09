@@ -128,4 +128,28 @@ class AuthenticatedApiController extends Controller
             'notifications' => $notifications
         ]);
     }
+
+    // Users as acting as specific user
+    public function users(): JsonResponse
+    {
+        $users = User::where('id', '!=', auth()->id())->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Users fetched successfully',
+            'users' => $users
+        ]);
+    }
+
+    // Generate token for acting as specific user
+    public function actingAs(User $user): JsonResponse
+    {
+        $token = $user->createToken('api-token');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Token generated successfully for user ' . $user->name,
+            'token' => $token->plainTextToken
+        ]);
+    }
 }
