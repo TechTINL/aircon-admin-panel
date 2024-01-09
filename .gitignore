@@ -17,6 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-
+.scannerwork/
 # Sentry Config File
 .env.sentry-build-plugin

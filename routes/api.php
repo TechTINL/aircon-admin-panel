@@ -30,6 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/services/{service}/sign', [ServiceApiController::class, 'sign']);
     Route::get('/clients/{client}', [ClientApiController::class, 'show']);
     Route::get('/notifications', [AuthenticatedApiController::class, 'notifications']);
+
+    // Routes for Users as acting as specific user
+    Route::get('/users', [AuthenticatedApiController::class, 'users']);
+    Route::get('/users/{user}/acting-as', [AuthenticatedApiController::class, 'actingAs']);
 });
 
 Route::post('/login', [AuthenticatedApiController::class, 'login']);
