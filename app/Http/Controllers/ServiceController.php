@@ -105,8 +105,10 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function timeline(Request $request, GetEmployeesAction $employeesAction): Response
+    public function timeline(Request $request, GetClientsAction $getClientsAction, GetEmployeesAction $employeesAction): Response
     {
+        $date = $request->input('date', today()->format('Y-m-d'));
+
         return Inertia::render('Services/Timeline', [
             'breadcrumb' => [
                 [
@@ -121,7 +123,10 @@ class ServiceController extends Controller
                     'text' => 'Timeline',
                 ],
             ],
-            'users' => $employeesAction->getWithServices($request->input('date', today()->format('Y-m-d'))),
+            'users' => $employeesAction->getWithServices($request->input('date', $date)),
+            'clients' => $getClientsAction->getClientsWithSubClients(),
+            'leaders' => $employeesAction->leader(),
+            'employees' => $employeesAction->get(),
         ]);
     }
 }

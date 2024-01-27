@@ -5,20 +5,17 @@ import { PiClipboardTextLight } from 'react-icons/pi';
 import { FaEdit } from 'react-icons/fa';
 import { Switch } from '@headlessui/react';
 import moment from 'moment';
+import { router } from '@inertiajs/react';
 
-const JobDetailsModal = ({ service, openModal, setOpenModal, handleEdit }) => {
+function JobDetailsModal({ service, openModal, setOpenModal, handleEdit }) {
   const [swichOn, setSwichOn] = useState(false);
 
-  const handleSwitch = (checked) => {
+  const handleSwitch = checked => {
     setSwichOn(!swichOn);
   };
 
   const onRouteDetails = () => {
-    const location = window.location.href.split('/');
-    // services-report-detail
-    location[location.length - 1] = 'services-report-detail';
-    // console.log('location:', location);
-    window.location = location.join('/');
+    router.replace(`/services/${service.id}`);
   };
 
   return (
@@ -33,31 +30,31 @@ const JobDetailsModal = ({ service, openModal, setOpenModal, handleEdit }) => {
               <span className="text-[26px] font-bold text-black">
                 {service?.name}
               </span>
-              <span className="text-[12px] font-bold text-primary bg-[#D4F1F3] h-max px-4 py-1 rounded-full ml-4">
-                {service?.status}
-              </span>
             </div>
-
-            {/* Switch */}
-            <div className="flex">
-              <span className="text-[16px] font-bold text-black px-4">
-                On-Hold
-              </span>
-              <Switch
-                checked={false}
-                onChange={handleSwitch}
-                className={`${swichOn ? 'bg-primary' : 'bg-gray-200'
-                  } relative inline-flex h-6 w-11 items-center rounded-full`}
-              >
-                <span
-                  className={`${swichOn ? 'translate-x-6' : 'translate-x-1'
-                    } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-                />
-              </Switch>
-            </div>
-            {/* Switch */}
-
           </div>
+          {/* Switch */}
+          <div className="flex">
+            <span className="text-[12px] font-bold text-primary bg-[#D4F1F3] h-max px-4 py-1 rounded-full ml-4">
+              {service?.status}
+            </span>
+            <span className="text-[16px] font-bold text-black px-4">
+              On-Hold
+            </span>
+            <Switch
+              checked={false}
+              onChange={handleSwitch}
+              className={`${
+                swichOn ? 'bg-primary' : 'bg-gray-200'
+              } relative inline-flex h-6 w-11 items-center rounded-full`}
+            >
+              <span
+                className={`${
+                  swichOn ? 'translate-x-6' : 'translate-x-1'
+                } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+              />
+            </Switch>
+          </div>
+          {/* Switch */}
           <div className="flex">
             <span className="text-[12px] text-border-gray">
               Contract ID: <b>{service?.contract_id}</b>
@@ -93,7 +90,12 @@ const JobDetailsModal = ({ service, openModal, setOpenModal, handleEdit }) => {
           <div className="flex justify-between items-center text-[17px] font-bold text-black mt-4">
             <span className="">{service?.name}</span>
             <span className="text-[13px] text-border-gray">
-              Service Time <span>{moment(new Date(service?.service_at)).format('DD MMMM YYYY, HH:MM A')}</span>
+              Service Time{' '}
+              <span>
+                {moment(new Date(service?.service_at)).format(
+                  'DD MMMM YYYY, HH:MM A'
+                )}
+              </span>
             </span>
           </div>
 
@@ -123,29 +125,29 @@ const JobDetailsModal = ({ service, openModal, setOpenModal, handleEdit }) => {
 
           <div className="flex flex-row w-full overflow-x-scroll py-4">
             <div className="flex flex-row gap-4">
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]"></div>
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
             </div>
           </div>
 
-          {/* <div className='flex justify-between items-center text-[17px] font-bold text-black mt-4'>
-                        Technician Service Report
-                    </div>
-                    <div className='flex justify-between items-center text-[17px] font-bold text-black mt-2'>
-                        Client Signature
-                    </div>
-                    <div className='flex justify-between items-center text-[17px] font-bold text-black mt-2'>
-                        Service Completed
-                    </div> */}
+          <div className="flex justify-between items-center text-[17px] font-bold text-black mt-4">
+            Technician Service Report
+          </div>
+          <div className="flex justify-between items-center text-[17px] font-bold text-black mt-2">
+            Client Signature
+          </div>
+          <div className="flex justify-between items-center text-[17px] font-bold text-black mt-2">
+            Service Completed
+          </div>
 
           <div className="flex flex-col justify-center items-center mt-6 gap-4">
             <button
@@ -166,6 +168,6 @@ const JobDetailsModal = ({ service, openModal, setOpenModal, handleEdit }) => {
       </div>
     </Modal>
   );
-};
+}
 
 export default JobDetailsModal;

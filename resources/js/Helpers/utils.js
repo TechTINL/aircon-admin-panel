@@ -1,16 +1,25 @@
-export const formatTime = date => {
-  // eslint-disable-next-line no-param-reassign
-  if (typeof date === 'string') {
-    date = new Date(date);
+export const formatTime = timeString => {
+  if (typeof timeString === 'string') {
+    // Ensure the time string is in the format "HH:MM"
+    let [hour, min] = timeString.split(':');
+    hour = parseInt(hour, 10);
+
+    // Check if minutes are provided, if not, default to '00'
+    min = min ? parseInt(min, 10) : 0;
+
+    // Convert 24-hour time to 12-hour format
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour %= 12;
+    hour = hour || 12; // Convert '0' hour to '12'
+
+    // Format minutes to always be two digits
+    const minutes = min < 10 ? `0${min}` : min;
+
+    return `${hour}:${minutes} ${ampm}`;
   }
 
-  let hour = date.getHours();
-  const min = date.getMinutes();
-  const ampm = hour >= 12 ? 'PM' : 'AM';
-  hour %= 12;
-  hour = hour || 12; // the hour '0' should be "12"
-  const minutes = min < 10 ? `0${min}` : min;
-  return `${hour}:${minutes} ${ampm}`;
+  // If input is not a string, return an empty string or a default value
+  return '';
 };
 
 export const formatDateTime = datetimeStr => {

@@ -246,7 +246,7 @@ function useServiceFormModel({
             value: service?.service_time,
           }
         : '',
-      tasks: service?.tasks.map(task => ({
+      tasks: service?.tasks?.map(task => ({
         ...task,
         name: task.name,
         hours: task.duration_hours,
