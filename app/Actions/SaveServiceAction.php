@@ -36,6 +36,7 @@ class SaveServiceAction
 
     public function update($service, $data, $teamLeaderIds, $technicianIds, $tasks): void
     {
+        $data['service_date'] = Carbon::createFromFormat('m/d/Y', $data['service_date'])->format('Y-m-d');
         $service->update($data);
 
         $this->assignLeaders($service, $teamLeaderIds);
