@@ -6,6 +6,9 @@ import { FaEdit } from 'react-icons/fa';
 import { Switch } from '@headlessui/react';
 import moment from 'moment';
 import { router } from '@inertiajs/react';
+import { app_url } from '@/Helpers/utils.js';
+import Lightbox from 'yet-another-react-lightbox';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 
 function JobDetailsModal({ service, openModal, setOpenModal, handleEdit }) {
   const [swichOn, setSwichOn] = useState(false);
@@ -32,8 +35,7 @@ function JobDetailsModal({ service, openModal, setOpenModal, handleEdit }) {
               </span>
             </div>
           </div>
-          {/* Switch */}
-          <div className="flex">
+          <div className="flex justify-end my-4">
             <span className="text-[12px] font-bold text-primary bg-[#D4F1F3] h-max px-4 py-1 rounded-full ml-4">
               {service?.status}
             </span>
@@ -55,16 +57,16 @@ function JobDetailsModal({ service, openModal, setOpenModal, handleEdit }) {
             </Switch>
           </div>
           {/* Switch */}
-          <div className="flex">
+          <div className="flex my-2">
             <span className="text-[12px] text-border-gray">
               Contract ID: <b>{service?.contract_id}</b>
             </span>
-            <span className="text-[12px] text-border-gray pl-4">
+            <span className="text-[12px] text-border-gray">
               Service Report ID: <b>{service?.service_number}</b>
             </span>
           </div>
           <div className="flex text-primary font-bold text-[16px]">
-            <span>Contract Name Here</span>
+            <span>{service?.contract?.title}</span>
             <PiClipboardTextLight className="self-center ml-4 mr-1" />
             <span>{service?.service_no_of_time}</span>
           </div>
@@ -76,39 +78,51 @@ function JobDetailsModal({ service, openModal, setOpenModal, handleEdit }) {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 w-max text-[14px]">
-            <span className="text-black font-bold">Team Leader</span>
-            <span className="text-border-gray pl-2">Team Leader</span>
+          <div className="text-[14px] my-4">
+            <div className="text-black font-bold">Team Leaders</div>
+            <div>
+              {service?.leaders?.map((leader, index) => (
+                <span key={index} className="text-border-gray pl-2">
+                  {leader?.name}
+                  {', '}
+                </span>
+              ))}
+            </div>
 
-            <span className="text-black font-bold">Technician 1</span>
-            <span className="text-border-gray pl-2">Name 1</span>
-
-            <span className="text-black font-bold">Technician 2</span>
-            <span className="text-border-gray pl-2">Name 2</span>
+            <div className="text-black font-bold">Technicians</div>
+            <div>
+              {service?.technicians?.map((technician, index) => (
+                <span key={index} className="text-border-gray pl-2">
+                  {technician?.name}
+                  {', '}
+                </span>
+              ))}
+            </div>
           </div>
 
           <div className="flex justify-between items-center text-[17px] font-bold text-black mt-4">
             <span className="">{service?.name}</span>
-            <span className="text-[13px] text-border-gray">
-              Service Time{' '}
-              <span>
+            <div>
+              <div className="text-[13px] text-border-gray">Service Time </div>
+              <div>
                 {moment(new Date(service?.service_at)).format(
                   'DD MMMM YYYY, HH:MM A'
                 )}
-              </span>
-            </span>
+              </div>
+            </div>
           </div>
 
-          <div className="text-border-gray flex flex-col text-[14px]">
+          <div className="text-border-gray text-[14px]">
             <span className="font-bold">Tasks</span>
-            <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at
-              gravida neque. Fusce ac nunc justo. In hac habitasse platea
-              dictumst. Nam dapibus facilisis leo ac cursus.. Lorem ipsum dolor
-              sit amet, consectetur adipiscing elit. Cras at gravida neque.
-              Fusce ac nunc justo. In hac habitasse platea dictumst. Nam dapibus
-              facilisis leo ac cursus.
-            </span>
+            {service?.tasks?.map((task, index) => (
+              <div key={index} className="w-full flex flex-rows my-2">
+                <div className="w-5/6 px-2">{task?.name}</div>
+                <div className="w-1/6">
+                  {task?.duration_hours} Hr, {task?.duration_minutes} Min
+                  <br />({task?.cost} - SGD)
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="flex justify-between items-center text-[17px] font-bold text-black mt-4">
@@ -125,28 +139,34 @@ function JobDetailsModal({ service, openModal, setOpenModal, handleEdit }) {
 
           <div className="flex flex-row w-full overflow-x-scroll py-4">
             <div className="flex flex-row gap-4">
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
-              <div className="h-[140px] rounded-xl bg-gray-300 w-[140px]" />
+              {service?.photos.map((photo, index) => (
+                <div
+                  className="h-[140px] rounded-xl bg-gray-300 w-[140px]"
+                  key={index}
+                >
+                  <img
+                    src={app_url(photo.url)}
+                    className="w-full h-full object-cover rounded-xl"
+                    alt="service-photo"
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="flex justify-between items-center text-[17px] font-bold text-black mt-4">
             Technician Service Report
           </div>
+          <div className="pr-6">{service?.technician_report}</div>
+
           <div className="flex justify-between items-center text-[17px] font-bold text-black mt-2">
             Client Signature
           </div>
-          <div className="flex justify-between items-center text-[17px] font-bold text-black mt-2">
-            Service Completed
+          <div className="bg-bg-light-gray w-full min-h-[250px] rounded-xl flex justify-center items-center my-4">
+            <img
+              src={app_url(service?.client_signature)}
+              className="max-w-[80%] max-h-[80%] object-contain"
+            />
           </div>
 
           <div className="flex flex-col justify-center items-center mt-6 gap-4">

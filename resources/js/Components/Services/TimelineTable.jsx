@@ -7,7 +7,6 @@ import { usePage } from '@inertiajs/react';
 import useUpdateService from '@/Hooks/Service/useUpdateService.js';
 
 export const TimelineTable = ({ data, setIsShowLoading }) => {
-  console.log('data', data);
   const { updateService } = useUpdateService();
 
   const [openModal, setOpenModal] = useState(false);
@@ -140,7 +139,6 @@ export const TimelineTable = ({ data, setIsShowLoading }) => {
   };
 
   useEffect(() => {
-    console.log('data task', data);
     if (data?.length > 0) {
       setTasks(data);
     }
