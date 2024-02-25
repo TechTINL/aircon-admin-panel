@@ -103,12 +103,11 @@ export const TimelineTable = ({ data, setIsShowLoading }) => {
           setSelectedService(task);
           setOpenModal(true);
         }}
-        className={`absolute top-[4%] h-[90%] w-[95%] flex rounded-r-2xl cursor-pointer overflow-ellipsis hover: z-[1000]`}
+        className={`absolute top-[4%] h-[90%] w-[95%] flex rounded-r-2xl cursor-pointer overflow-ellipsis hover:z-[1000]`}
         style={{
           backgroundColor: styles.backgroundColor,
           left: styles.left,
           width: styles.width,
-          zIndex: styles.zIndex,
         }}
       >
         <div

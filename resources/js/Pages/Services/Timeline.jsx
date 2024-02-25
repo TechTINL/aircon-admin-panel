@@ -1,4 +1,5 @@
 import { Head } from '@inertiajs/react';
+import DatePicker from 'react-date-picker';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {
   AiOutlineDoubleLeft,
@@ -11,6 +12,8 @@ import TimelineTable from '@/Components/Services/TimelineTable';
 import useDateNavigator from '@/Hooks/useDateNavigator';
 import { IconButton } from '@material-tailwind/react';
 import JobFilters from '../../Components/Services/JobFilters';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
 function Timeline({ auth, users }) {
   const {
@@ -19,6 +22,7 @@ function Timeline({ auth, users }) {
     goToPrevDay,
     goToNextMonth,
     goToPrevMonth,
+    goToSelectedDate,
   } = useDateNavigator();
 
   return (
@@ -50,9 +54,13 @@ function Timeline({ auth, users }) {
             <IconButton variant="text" onClick={goToPrevDay}>
               <AiOutlineLeft fontWeight={900} />
             </IconButton>
-            <span className="text-black font-bold px-4">
-              {currentDate.format('DD MMM YYYY')}
-            </span>
+            <DatePicker
+              value={currentDate}
+              onChange={goToSelectedDate}
+              format="dd-MM-y"
+              clearIcon={null}
+              calendarClassName="z-50"
+            />
             <IconButton variant="text" onClick={goToNextDay}>
               <AiOutlineRight fontWeight={900} />
             </IconButton>

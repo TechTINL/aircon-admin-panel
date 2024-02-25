@@ -5,9 +5,18 @@ import { router } from '@inertiajs/react';
 const useDateNavigator = (initialDate = dayjs()) => {
   const [currentDate, setCurrentDate] = useState(initialDate);
 
-  const updateRouter = useCallback(newDate => {
+  const updateRouter = newDate => {
     router.replace(`/services-time-line?date=${newDate.format('YYYY-MM-DD')}`);
-  }, []);
+  };
+
+  const goToSelectedDate = useCallback(
+    selectedDate => {
+      const dateValue = dayjs(selectedDate);
+      setCurrentDate(dateValue);
+      updateRouter(dateValue);
+    },
+    [updateRouter]
+  );
 
   const goToNextDay = useCallback(() => {
     const nextDay = currentDate.add(1, 'day');
@@ -39,6 +48,7 @@ const useDateNavigator = (initialDate = dayjs()) => {
     goToPrevDay,
     goToNextMonth,
     goToPrevMonth,
+    goToSelectedDate,
   };
 };
 

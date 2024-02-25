@@ -76,8 +76,6 @@ class ServiceController extends Controller
             'service_address' => $request->service_address,
             'billing_address' => $request->billing_address,
             'status' => $request->status ?? 'scheduled',
-            'client_id' => $request->client_id,
-            'subClient_id' => $request->sub_client_id,
         ]);
 
         $service->leaders()->sync($request->leaders_id);

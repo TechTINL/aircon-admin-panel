@@ -6,3 +6,7 @@
     grid-area: unset !important;
     min-width: 0px !important;
 }
+
+.react-date-picker__wrapper {
+    border: none !important;
+}
