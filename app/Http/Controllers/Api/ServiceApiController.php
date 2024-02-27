@@ -89,4 +89,13 @@ class ServiceApiController extends Controller
             'data' => new ServiceApiResource($service),
         ]);
     }
+
+    public function show(Service $service): JsonResponse
+    {
+        return response()->json([
+            'status' => true,
+            'message' => 'Service fetched successfully',
+            'data' => new ServiceApiResource($service),
+        ]);
+    }
 }
