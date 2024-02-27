@@ -26,11 +26,11 @@ class GetServicesAction
             $query->whereDate('service_date', $date);
         }
 
+        $data = $query->whereHas('users', function ($query) {
+                    $query->where('id', auth()->user()->id);
+                })->get();
 
-            $query->whereHas('users', function ($query) {
-                $query->where('id', auth()->user()->id);
-            })
-            ->get();
+        return $data;
     }
 
     // Get All services of counts by status for a given date
