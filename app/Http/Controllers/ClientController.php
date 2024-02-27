@@ -77,6 +77,7 @@ class ClientController extends Controller
                 'name' => $client->name,
                 'type' => $client->type,
                 'parent_id' => $client->parent_id,
+                'address_id' => $client->addresses->where('is_primary', true)->first()->id ?? '',
                 'address' => $client->addresses->where('is_primary', true)->first()->address ?? '',
             ],
 			'subClients' => ClientResource::collection($getSubClientAction->execute($client->id)),
@@ -155,7 +156,4 @@ class ClientController extends Controller
             'subClients' => ClientResource::collection($client->subClients()->get()),
         ]);
     }
-
-
-
 }

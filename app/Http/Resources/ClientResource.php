@@ -25,6 +25,7 @@ class ClientResource extends JsonResource
                 'type' => $this->type,
             ],
             'contact' => $this->firstContact->phone ?? '',
+            'address_id' => $this->addresses->where('is_primary', true)->first()->id ?? '',
             'address' => $this->addresses->where('is_primary', true)->first()->address ?? '',
             'subClients' => $this->subClients,
         ];

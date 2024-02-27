@@ -11,6 +11,7 @@ function useEditClient() {
     postal_code: client.postal_code,
     address: client.address,
     billing_address: client.billing_address,
+    address_id: client?.address_id || null,
   });
 
   const handleSubmit = e => {

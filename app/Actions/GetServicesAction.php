@@ -20,10 +20,14 @@ class GetServicesAction
     // GET /api/services
     public function get($date = null)
     {
-        $date = $date ?? now()->toDateString();
+        $query = Service::query();
 
-        return Service::whereDate('service_date', $date)
-            ->whereHas('users', function ($query) {
+        if ($date) {
+            $query->whereDate('service_date', $date);
+        }
+
+
+            $query->whereHas('users', function ($query) {
                 $query->where('id', auth()->user()->id);
             })
             ->get();

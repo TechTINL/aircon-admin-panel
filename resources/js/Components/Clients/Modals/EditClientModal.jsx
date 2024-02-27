@@ -79,6 +79,10 @@ function EditClientModal() {
                     id="type"
                     name="type"
                     data={CLIENT_TYPES}
+                    selected={{
+                      label: data.type,
+                      value: data.type,
+                    }}
                     onChange={item => setData('type', item)}
                     placeholder="Property Type"
                   />
