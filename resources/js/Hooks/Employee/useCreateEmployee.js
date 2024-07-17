@@ -1,5 +1,5 @@
 import { router, useForm, usePage } from '@inertiajs/react';
-
+import { toast } from 'react-toastify';
 function useCreateEmployee() {
   const { teams, roles, errors } = usePage().props;
 
@@ -11,25 +11,35 @@ function useCreateEmployee() {
     organization: '',
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = e =>  {
     e.preventDefault();
-    router.post(
-      route('employee.store'),
-      {
-        name: data.name,
-        phone: data.phone,
-        role: data.role.value,
-        team_id: data.team_id.value,
-        organization: data.organization,
-        vehicle: data.vehicle,
-      },
-      {
-        onSuccess: () => reset(),
-        onError: err => {
-          console.log(err);
-        },
+      try{
+           router.post(
+              route('employee.store'),
+              {
+                  name: data.name,
+                  phone: data.phone,
+                  role: data.role.value,
+                  team_id: data.team_id.value,
+                  organization: data.organization,
+                  vehicle: data.vehicle,
+              },
+              {
+                  onSuccess: () => {
+                      console.log('1');
+                      toast.success('Employee successfully created!');
+                      reset();
+                  },
+                  onError: (err) => {
+                      console.log('11');
+                      toast.error(err.message || 'Something went wrong. Please try again!');
+                  },
+           });
+
+      }catch(e){
+          console.log('111');
+          toast.error(e.message());
       }
-    );
   };
 
   return {
