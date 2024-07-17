@@ -32,7 +32,10 @@ function DropdownInput({
             {items.map((item, i) => (
               <button
                 key={i}
-                onClick={() => onItemSelect(item)}
+                onClick={(e) => {
+                    e.preventDefault();
+                    onItemSelect(item);
+                }}
                 className={`flex text-black items-start p-2 ${
                   selectedItem?.value === item.value && 'text-secondary'
                 }`}
