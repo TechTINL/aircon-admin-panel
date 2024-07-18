@@ -179,6 +179,8 @@ export const TimelineTable = ({ data, setIsShowLoading }) => {
                         >
                             Time
                         </th>
+                      
+                        
                         <tr>
                             <th
                                 className="px-4 py-2 sticky top-0 h-10 overflow-hidden border border-[#BCBDC0] border-t-0"
@@ -190,6 +192,75 @@ export const TimelineTable = ({ data, setIsShowLoading }) => {
                     </tr>
                 </thead>
                 <tbody className="relative bg-white">
+                <tr>
+                            <td className="px-4 py-2 sticky left-0 bg-[#F8F8F8] border border-[#F2F2F2] z-40">
+                                UnAssigned
+                            </td>
+                            <tr className="h-[120px] relative">
+                            <div className='absolute bg-[#F8F8F8] py-3 rounded mx-12 mt-4 border-l-8 border-custom-border'>
+                                    <div className='flex justify-between'>
+                                        <p className='mx-2 text-sm font-bold'>Unassigned</p>
+                                        <p className='mx-2 text-sm text-yellow'>Assign Now</p>
+                                    </div>
+                                    <p className='max-w-full px-2 text-sm overflow-hidden text-ellipsis whitespace-nowrap'>Blk 129 Bt Batok, #12-60, Singapore 3...</p>
+                                    <div className='flex justify-between mt-3'>
+                                        <p className='mx-2 text-sm font-bold'>Contract Name</p>
+
+                                        <p className="mx-2 text-sm flex items-center">
+                                            <span className="mx-0">
+                                                <svg
+                                                stroke="currentColor"
+                                                fill="currentColor"
+                                                stroke-width="0"
+                                                viewBox="0 0 256 256"
+                                                className="lg:mx-1"
+                                                height="22"
+                                                width="22"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                <path d="M106,112a6,6,0,0,1,6-6h32a6,6,0,0,1,0,12H112A6,6,0,0,1,106,112ZM230,72V200a14,14,0,0,1-14,14H40a14,14,0,0,1-14-14V72A14,14,0,0,1,40,58H82V48a22,22,0,0,1,22-22h48a22,22,0,0,1,22,22V58h42A14,14,0,0,1,230,72ZM94,58h68V48a10,10,0,0,0-10-10H104A10,10,0,0,0,94,48ZM38,72v42.79A186,186,0,0,0,128,138a185.91,185.91,0,0,0,90-23.22V72a2,2,0,0,0-2-2H40A2,2,0,0,0,38,72ZM218,200V128.37A198.12,198.12,0,0,1,128,150a198.05,198.05,0,0,1-90-21.62V200a2,2,0,0,0,2,2H216A2,2,0,0,0,218,200Z"></path>
+                                                </svg>
+                                            </span>
+                                            <span className='mx-0'>3 of 4</span>
+                                        </p>
+
+                                    </div>
+                                </div>
+                                <div className='absolute left-80 bg-[#F8F8F8] py-3 rounded mx-12 mt-4 border-l-8 border-custom-border'>
+                                    <div className='flex justify-between'>
+                                        <p className='mx-2 text-sm font-bold'>Unassigned</p>
+                                        <p className='mx-2 text-sm text-yellow'>Assign Now</p>
+                                    </div>
+                                    <p className='max-w-full px-2 text-sm overflow-hidden text-ellipsis whitespace-nowrap'>Blk 129 Bt Batok, #12-60, Singapore 3...</p>
+                                    <div className='flex justify-between mt-3'>
+                                        <p className='mx-2 text-sm font-bold'>Contract Name</p>
+
+                                        <p className="mx-2 text-sm flex items-center">
+                                            <span className="mx-0">
+                                                <svg
+                                                stroke="currentColor"
+                                                fill="currentColor"
+                                                stroke-width="0"
+                                                viewBox="0 0 256 256"
+                                                className="lg:mx-1"
+                                                height="22"
+                                                width="22"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                <path d="M106,112a6,6,0,0,1,6-6h32a6,6,0,0,1,0,12H112A6,6,0,0,1,106,112ZM230,72V200a14,14,0,0,1-14,14H40a14,14,0,0,1-14-14V72A14,14,0,0,1,40,58H82V48a22,22,0,0,1,22-22h48a22,22,0,0,1,22,22V58h42A14,14,0,0,1,230,72ZM94,58h68V48a10,10,0,0,0-10-10H104A10,10,0,0,0,94,48ZM38,72v42.79A186,186,0,0,0,128,138a185.91,185.91,0,0,0,90-23.22V72a2,2,0,0,0-2-2H40A2,2,0,0,0,38,72ZM218,200V128.37A198.12,198.12,0,0,1,128,150a198.05,198.05,0,0,1-90-21.62V200a2,2,0,0,0,2,2H216A2,2,0,0,0,218,200Z"></path>
+                                                </svg>
+                                            </span>
+                                            <span className='mx-0'>3 of 4</span>
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                            {...renderColumns()}
+                            
+                            </tr>
+                            {/* Add table data for other time slots and days */}
+                        </tr>
                     {tasks?.map((task, i) => (
                         <tr>
                             <td className="px-4 py-2 sticky left-0 bg-[#F8F8F8] border border-[#F2F2F2] z-40">

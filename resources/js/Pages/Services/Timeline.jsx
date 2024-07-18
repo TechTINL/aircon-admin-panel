@@ -1,10 +1,7 @@
+import React from 'react';
 import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {
-  AiOutlineInfoCircle,
-  AiOutlineLeft,
-  AiOutlineRight,
-} from 'react-icons/ai';
+import { AiOutlineInfoCircle, AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import TimelineTable from '../../Components/Services/TimelineTable';
 import JobFilters from '../../Components/Services/JobFilters';
 
@@ -18,20 +15,51 @@ function Timeline({ auth, users }) {
             <div className="text-zinc-800 text-3xl font-bold leading-10">
               Job Table
             </div>
-            <button>
-              <AiOutlineInfoCircle
-                className="text-primary ml-2"
-                size={26}
-                fontWeight={'bold'}
-              />
-            </button>
+            <div className="relative flex items-center group">
+              <button>
+                <AiOutlineInfoCircle
+                  className="text-primary ml-2"
+                  size={26}
+                  fontWeight={'bold'}
+                />
+              </button>
+              <div className="absolute top-14 left-10 mb-2 w-max opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-black text-xs rounded py-2 px-4 z-50">
+  <div className="mb-2 font-bold">
+    Job Status
+  </div>
+  <div className="flex flex-wrap">
+  <button className="bg-gray-400 hover:bg-gray-600 text-gray-900 font-bold py-2 px-4 rounded-full mb-2 mr-2">
+  Unassigned
+</button>
+
+<button className="bg-hold hover:bg-blue-500 text-texthold font-bold py-2 px-4 rounded-full mb-2 mr-2">
+  On-Hold
+</button>
+
+    <button className="bg-textschedule hover:bg-green-700 text-schedule font-bold py-2 px-4 rounded-full mb-2 mr-2">
+      Scheduled
+    </button>
+    <button className="bg-primary hover:bg-yellow-700 text-textschedule font-bold py-2 px-4 rounded-full mb-2 mr-2">
+      Completed
+    </button>
+    <button className="bg-red-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full mb-2 mr-2">
+      Require Follow-up
+    </button>
+    <button className="bg-followup hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full mb-2">
+      Follow-up Completed
+    </button>
+  </div>
+</div>
+
+
+            </div>
           </div>
           <div className="flex items-center pr-4">
             <JobFilters />
           </div>
         </div>
         <div className="flex flex-1 mt-6 max-w-[80vw] relative">
-          <div className="absolute flex items-center top-2 right-[35vw] z-50">
+          <div className="absolute flex items-center top-2 right-[35vw] z-30">
             <AiOutlineLeft fontWeight={900} />
             <span className="text-black font-bold px-4">10 Dec 2023</span>
             <AiOutlineRight />
