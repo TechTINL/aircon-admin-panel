@@ -6,3 +6,13 @@
     grid-area: unset !important;
     min-width: 0px !important;
 }
+/* Add this CSS to your global styles or within a <style> block */
+.relative:hover .absolute {
+    opacity: 1;
+    visibility: visible;
+  }
+  .tooltip{
+    left: 1100% !important;
+    z-index: 9999;
+  }
+  
