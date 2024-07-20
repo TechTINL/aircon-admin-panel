@@ -20,24 +20,29 @@ function useCreateEmployee() {
                   name: data.name,
                   phone: data.phone,
                   role: data.role.value,
-                  team_id: data.team_id.value,
+                  team: data.team_id.value,
                   organization: data.organization,
                   vehicle: data.vehicle,
               },
               {
                   onSuccess: () => {
-                      console.log('1');
                       toast.success('Employee successfully created!');
                       reset();
                   },
                   onError: (err) => {
-                      console.log('11');
-                      toast.error(err.message || 'Something went wrong. Please try again!');
+                      if (err) {
+                          Object.keys(err).forEach((key, index) => {
+                              setTimeout(() => {
+                                  toast.error(err[key]);
+                              }, index * 250); // Display each message 1 second apart
+                          });
+                      } else {
+                          toast.error(err.message || 'Something went wrong. Please try again!');
+                      }
                   },
            });
 
       }catch(e){
-          console.log('111');
           toast.error(e.message());
       }
   };

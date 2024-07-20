@@ -43,4 +43,17 @@ class EmployeeController extends Controller
 		$action->execute($request->validated());
 		return redirect()->route('employee.index')->with('success', 'Employee has been created');
 	}
+
+    public function storeEmployee(Request $request, CreateEmployeeAction $action){
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required|unique:users',
+            'organization' => 'required',
+            'role' => 'required',
+            'team' => 'required',
+            'vehicle' => 'required'
+        ]);
+        $action->execute($request);
+        return response()->json(['success' => true, 'message' => 'Employee has been created']);
+    }
 }

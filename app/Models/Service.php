@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,7 +33,10 @@ class Service extends Model
         'task_visitation_note',
         'client_signature',
     ];
-
+    public function setServiceDateAttribute($value)
+    {
+        $this->attributes['service_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+    }
     public function contract(): BelongsTo
     {
         return $this->belongsTo(Contract::class);
