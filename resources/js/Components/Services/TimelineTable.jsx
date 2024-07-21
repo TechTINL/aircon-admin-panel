@@ -104,6 +104,7 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
         setOpenEditModal(true);
     };
 
+ 
     useEffect(() => {
         if (data?.length > 0) {
             setTasks(data);
