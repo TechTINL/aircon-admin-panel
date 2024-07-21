@@ -13,202 +13,95 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
     const [tasks, setTasks] = useState([]);
     const [selectedService, setSelectedService] = useState(null);
 
-    
-
     // Sample data for tasks and employees
     const initialData = [
         {
-            id: 1,
-            name: "Unassigned",
-            assignStatus: "Assign Now",
-            address: "Blk 129 Bt Batok, #12-60, Singapore 3...",
-            contractName: "Contract Name",
-            progress: "3 of 4"
+            "id": 1,
+            "name": "Task 1",
+            "assignStatus": "Assign Now",
+            "address": "Blk 129 Bt Batok, #12-60, Singapore 3...",
+            "contractName": "Contract A",
+            "progress": "1 of 3"
         },
         {
-            id: 2,
-            name: "Unassigned",
-            assignStatus: "Assign Now",
-            address: "Blk test 129 Bt Batok, #12-60, Singapore 3...",
-            contractName: "Contract Name",
-            progress: "3 of 4"
+            "id": 2,
+            "name": "Task 2",
+            "assignStatus": "Assign Now",
+            "address": "Blk 231 Orchard Road, #05-01, Singapore 2...",
+            "contractName": "Contract B",
+            "progress": "2 of 3"
         },
         {
-            id: 4,
-            name: "Unassigned",
-            assignStatus: "Assign Now",
-            address: "Blk test 129 Bt Batok, #12-60, Singapore 3...",
-            contractName: "Contract Name",
-            progress: "3 of 4"
+            "id": 3,
+            "name": "Task 3",
+            "assignStatus": "Assign Now",
+            "address": "Blk 512 Woodlands Ave 3, #08-30, Singapore 7...",
+            "contractName": "Contract C",
+            "progress": "3 of 3"
         },
         {
-            id: 5,
-            name: "Unassigned",
-            assignStatus: "Assign Now",
-            address: "Blk test 129 Bt Batok, #12-60, Singapore 3...",
-            contractName: "Contract Name",
-            progress: "3 of 4"
+            "id": 4,
+            "name": "Task 4",
+            "assignStatus": "Assign Now",
+            "address": "Blk 76 Pasir Ris Central, #15-22, Singapore 5...",
+            "contractName": "Contract D",
+            "progress": "1 of 2"
         },
         {
-            id: 8,
-            name: "Unassigned",
-            assignStatus: "Assign Now",
-            address: "Blk test 129 Bt Batok, #12-60, Singapore 3...",
-            contractName: "Contract Name",
-            progress: "3 of 4"
-        },
-        {
-            id: 9,
-            name: "Unassigned",
-            assignStatus: "Assign Now",
-            address: "Blk test 129 Bt Batok, #12-60, Singapore 3...",
-            contractName: "Contract Name",
-            progress: "3 of 4"
-        },
-        {
-            id: 10,
-            name: "Unassigned",
-            assignStatus: "Assign Now",
-            address: "Blk test 129 Bt Batok, #12-60, Singapore 3...",
-            contractName: "Contract Name",
-            progress: "3 of 4"
-        },
-        {
-            id: 11,
-            name: "Unassigned",
-            assignStatus: "Assign Now",
-            address: "Blk test 129 Bt Batok, #12-60, Singapore 3...",
-            contractName: "Contract Name",
-            progress: "3 of 4"
-        },
-    ];
+            "id": 5,
+            "name": "Task 5",
+            "assignStatus": "Assign Now",
+            "address": "Blk 419 Jurong West St 52, #03-11, Singapore 6...",
+            "contractName": "Contract E",
+            "progress": "2 of 2"
+        }
+    ]
+    
 
     const employeesData = [
         { id: 1, name: "John Doe" },
         { id: 2, name: "Jane Smith" },
         { id: 3, name: "Alice Johnson" },
-        { id: 4, name: "Michael Brown" },
-        { id: 5, name: "Emily Davis" },
-        { id: 6, name: "Christopher Wilson" },
-        { id: 7, name: "Jessica Taylor" },
-        { id: 8, name: "David Anderson" },
-        { id: 9, name: "Sarah Martinez" },
-        { id: 10, name: "James White" }
+        { id: 4, name: "Johnson" },
+        { id: 5, name: "test" },
+        { id: 6, name: "hamza" },
+        // Add more employees as needed
     ];
+
     const onDragEnd = (result) => {
         const { source, destination } = result;
 
-    // If there's no destination, exit
-    if (!destination) return;
+        // If there's no destination, exit
+        if (!destination) return;
 
-    const { droppableId: sourceDroppableId, index: sourceIndex } = source;
-    const { droppableId: destinationDroppableId, index: destinationIndex } = destination;
+        const { droppableId: sourceDroppableId, index: sourceIndex } = source;
+        const { droppableId: destinationDroppableId, index: destinationIndex } = destination;
 
-    const updatedTasks = Array.from(initialData);
-    const [movedTask] = updatedTasks.splice(sourceIndex, 1);
+        const updatedTasks = Array.from(tasks);
+        const [movedTask] = updatedTasks.splice(sourceIndex, 1);
 
-    // Parse source and destination droppable IDs to extract employee and time
-    const [sourceEmployeeId, sourceTimeId] = sourceDroppableId.split('-');
-    const [destinationEmployeeId, destinationTimeId] = destinationDroppableId.split('-');
+        // Parse source and destination droppable IDs to extract employee and time
+        const [sourceType, sourceEmployeeId, sourceHour] = sourceDroppableId.split('-');
+        const [destinationType, destinationEmployeeId, destinationHour] = destinationDroppableId.split('-');
 
-    if (sourceDroppableId === destinationDroppableId) {
-        // Reorder within the same list
-        updatedTasks.splice(destinationIndex, 0, movedTask);
-    } else {
-        // Move between different lists (e.g., different employees)
-        updatedTasks.splice(destinationIndex, 0, {
-            ...movedTask,
-            assignedTo: destinationEmployeeId,
-            timeId: destinationTimeId
-        });
-    }
+        if (sourceDroppableId === destinationDroppableId) {
+            // Reorder within the same list
+            updatedTasks.splice(destinationIndex, 0, movedTask);
+        } else {
+            // Move between different lists (e.g., different employees or times)
+            updatedTasks.splice(destinationIndex, 0, {
+                ...movedTask,
+                assignedTo: parseInt(destinationEmployeeId),
+                time: parseInt(destinationHour)
+            });
+        }
 
-    setTasks(updatedTasks);
-};
+        setTasks(updatedTasks);
+    };
 
     const handleEdit = () => {
         setOpenModal(false);
         setOpenEditModal(true);
-    };
-
-    const renderColumns = (isHeader = false) => {
-        const columns = [];
-        for (let i = 8; i <= 20; i++) {
-            columns.push(
-                <th className="py-2 min-w-[100px] border border-[#BCBDC0]" key={`hour-${i}`}>
-                    {isHeader && (
-                        <span className="text-[12px] text-black">
-                            {formatTime(`${i}:00`)}
-                        </span>
-                    )}
-                </th>
-            );
-            if (i < 20) {
-                columns.push(
-                    <th className="py-2 min-w-[100px] max-w-[100px] border border-[#BCBDC0]" key={`half-hour-${i}`}>
-                        {isHeader && (
-                            <span className="text-[12px] text-black">
-                                {formatTime(`${i}:30`)}
-                            </span>
-                        )}
-                    </th>
-                );
-            }
-        }
-        return columns;
-    };
-
-    const getTaskClassNames = (task, index) => {
-        const [time, indicator] = task?.service_time?.split(' ');
-        let [startHour, startMin] = time?.split(':');
-        startHour = Number(startHour) + (indicator?.toUpperCase() === 'PM' ? 12 : 0);
-        const startTime = (Number(startHour) - 8) * 60 + Number(startMin);
-        const endTime = startTime + 60;
-        const left = 0 + 100 * (startTime / 30);
-        const width = 100 + 100 * ((endTime - startTime) / 30);
-
-        let backgroundColor = '#EFEFEF',
-            tileBgColor = '#455361',
-            titleTextColor = '#000000',
-            textColor = '#000000',
-            statusTextColor = '#000000';
-
-        switch (task.status) {
-            case 'completed': {
-                backgroundColor = '#00B4AD';
-                tileBgColor = '#128A86';
-                textColor = '#FFFFFF';
-                titleTextColor = '#FFFFFF';
-                statusTextColor = '#FFFFFF';
-                break;
-            }
-            case 'follow-up-completed': {
-                backgroundColor = '#55C395';
-                tileBgColor = '#24895F';
-                textColor = '#FFFFFF';
-                titleTextColor = '#FFFFFF';
-                statusTextColor = '#FFFFFF';
-                break;
-            }
-            case 'to-notify': {
-                backgroundColor = '#EAEBF8';
-                tileBgColor = '#454FA2';
-                textColor = '#53616C';
-                titleTextColor = '#454FA2';
-                statusTextColor = '#F97B30';
-                break;
-            }
-        }
-        return {
-            backgroundColor,
-            tileBgColor,
-            titleTextColor,
-            statusTextColor,
-            textColor,
-            left,
-            width,
-            zIndex: startTime,
-        };
     };
 
     useEffect(() => {
@@ -270,7 +163,7 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
                     </thead>
                     <tbody className="relative bg-white">
                         {/* Unassigned Tasks Row */}
-                        <Droppable droppableId="unassigned" type="TASK">
+                        <Droppable droppableId="unassigned-0" type="TASK">
                             {(provided) => (
                                 <tr
                                     ref={provided.innerRef}
@@ -279,16 +172,16 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
                                     <td className="px-4 py-2 sticky left-0 bg-[#F8F8F8] border border-[#F2F2F2] z-40 w-48">
                                         Unassigned
                                     </td>
-                                    {initialData.map((data, index) => (
-                                        <Draggable key={data.id} draggableId={data.id.toString()} index={index}>
-                                            {(provided) => (
-                                                <td
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    className="border border-[#BCBDC0] w-48"
-                                                >
-                                                    <div className='bg-[#F8F8F8] py-3 rounded tasks mx-2 border-l-8 w-48 border-custom-border'>
+                                    <td className="flex border border-[#BCBDC0] w-48 relative cells" colSpan={24}>
+                                        {initialData.map((data, index) => (
+                                            <Draggable key={data.id} draggableId={`task-${data.id}`} index={index}>
+                                                {(provided) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        className="bg-[#F8F8F8] py-3 rounded tasks mx-2 border-l-8 w-48 border-custom-border"
+                                                    >
                                                         <div className='flex justify-between'>
                                                             <p className='mx-2 text-sm font-bold'>{data.name}</p>
                                                             <p className='mx-2 text-sm text-yellow'>{data.assignStatus}</p>
@@ -311,38 +204,43 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
                                                                         <path d="M106,112a6,6,0,0,1,6-6h32a6,6,0,0,1,0,12H112A6,6,0,0,1,106,112ZM230,72V200a14,14,0,0,1-14,14H40a14,14,0,0,1-14-14V72A14,14,0,0,1,40,58H82V48a22,22,0,0,1,22-22h48a22,22,0,0,1,22,22V58h42A14,14,0,0,1,230,72ZM94,58h68V48a10,10,0,0,0-10-10H104A10,10,0,0,0,94,48ZM38,72v42.79A186,186,0,0,0,128,138a185.91,185.91,0,0,0,90-23.22V72a2,2,0,0,0-2-2H40A2,2,0,0,0,38,72ZM218,200V128.37A198.12,198.12,0,0,1,128,150a198.05,198.05,0,0,1-90-21.62V200a2,2,0,0,0,2,2H216A2,2,0,0,0,218,200Z"></path>
                                                                     </svg>
                                                                 </span>
-                                                                <span className='mx-0'>3 of 4</span>
+                                                                <span className='mx-0'>{data.progress}</span>
                                                             </p>
                                                         </div>
                                                     </div>
-                                                </td>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {provided.placeholder}
+                                    </td>
                                 </tr>
                             )}
                         </Droppable>
 
                         {/* Employee Rows */}
-                        {employeesData.map((employee, empIndex) => (
-                            <Droppable key={employee.id} droppableId={`employee-${employee.id}`} type="TASK">
-                                {(provided, snapshot) => (
-                                    <tr
-                                        ref={provided.innerRef}
-                                        {...provided.droppableProps}
+                        {employeesData.map((employee) => (
+                            <tr key={employee.id}>
+                                <td className="px-4 py-2 sticky left-0 bg-[#F8F8F8] border border-[#F2F2F2] z-40">
+                                    {employee.name}
+                                </td>
+                                {hours.map((hour) => (
+                                    <Droppable
+                                        key={`${employee.id}-${hour}`}
+                                        droppableId={`employee-${employee.id}-${hour}`}
+                                        type="TASK"
                                     >
-                                        <td className="px-4 py-2 sticky left-0 bg-[#F8F8F8] border border-[#F2F2F2] z-40">
-                                            {employee.name}
-                                        </td>
-                                        {hours.map((hour, hourIndex) => (
-                                            <td key={hourIndex} className="border border-[#BCBDC0] w-48 relative cells">
+                                        {(provided) => (
+                                            <td
+                                                ref={provided.innerRef}
+                                                {...provided.droppableProps}
+                                                className="border border-[#BCBDC0] w-48 relative cells"
+                                            >
                                                 {tasks
-                                                    .filter(task => task.assignedTo === employee.id)
+                                                    .filter(task => task.assignedTo === employee.id && task.time === hour)
                                                     .map((task, taskIndex) => (
                                                         <Draggable
                                                             key={task.id}
-                                                            draggableId={task.id.toString()}
+                                                            draggableId={`task-${task.id}`}
                                                             index={taskIndex}
                                                         >
                                                             {(provided) => (
@@ -352,8 +250,7 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
                                                                     {...provided.dragHandleProps}
                                                                     className="absolute"
                                                                     style={{
-                                                                        ...getTaskClassNames(task, taskIndex),
-                                                                        top: `${hourIndex * 60}px`, // Adjust positioning logic as needed
+                                                                        top: `${taskIndex * 60}px`, // Adjust positioning logic as needed
                                                                     }}
                                                                 >
                                                                     <div className='flex justify-between'>
@@ -378,7 +275,7 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
                                                                                     <path d="M106,112a6,6,0,0,1,6-6h32a6,6,0,0,1,0,12H112A6,6,0,0,1,106,112ZM230,72V200a14,14,0,0,1-14,14H40a14,14,0,0,1-14-14V72A14,14,0,0,1,40,58H82V48a22,22,0,0,1,22-22h48a22,22,0,0,1,22,22V58h42A14,14,0,0,1,230,72ZM94,58h68V48a10,10,0,0,0-10-10H104A10,10,0,0,0,94,48ZM38,72v42.79A186,186,0,0,0,128,138a185.91,185.91,0,0,0,90-23.22V72a2,2,0,0,0-2-2H40A2,2,0,0,0,38,72ZM218,200V128.37A198.12,198.12,0,0,1,128,150a198.05,198.05,0,0,1-90-21.62V200a2,2,0,0,0,2,2H216A2,2,0,0,0,218,200Z"></path>
                                                                                 </svg>
                                                                             </span>
-                                                                            <span className='mx-0'>3 of 4</span>
+                                                                            <span className='mx-0'>{task.progress}</span>
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -387,10 +284,10 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
                                                     ))}
                                                 {provided.placeholder}
                                             </td>
-                                        ))}
-                                    </tr>
-                                )}
-                            </Droppable>
+                                        )}
+                                    </Droppable>
+                                ))}
+                            </tr>
                         ))}
                     </tbody>
                 </table>
