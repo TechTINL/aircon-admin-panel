@@ -11,7 +11,6 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
     const [openModal, setOpenModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [tasks, setTasks] = useState([]);
-    const [updateTasks, setUpdateTask] = useState([]);
     // const [tasks1, ]
     const [selectedService, setSelectedService] = useState(null);
 ``
@@ -24,7 +23,7 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
             "address": "Blk 129 Bt Batok, #12-60, Singapore 3...",
             "contractName": "Contract A",
             "progress": "1 of 3",
-            "assign":"null"
+            "assign": null
         },
         {
             "id": 2,
@@ -33,7 +32,7 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
             "address": "Blk 231 Orchard Road, #05-01, Singapore 2...",
             "contractName": "Contract B",
             "progress": "2 of 3",
-            "assign":"null"
+            "assign": null
         },
         {
             "id": 3,
@@ -42,7 +41,7 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
             "address": "Blk 512 Woodlands Ave 3, #08-30, Singapore 7...",
             "contractName": "Contract C",
             "progress": "3 of 3",
-            "assign":"null",
+            "assign": null,
         },
         {
             "id": 4,
@@ -51,7 +50,7 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
             "address": "Blk 76 Pasir Ris Central, #15-22, Singapore 5...",
             "contractName": "Contract D",
             "progress": "1 of 2",
-            "assign":"null"
+            "assign": null
         },
         {
             "id": 5,
@@ -60,10 +59,11 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
             "address": "Blk 419 Jurong West St 52, #03-11, Singapore 6...",
             "contractName": "Contract E",
             "progress": "2 of 2",
-            "assign":"null"
+            "assign": null
         }
     ]
-    
+    const [updateTasks, setUpdateTask] = useState(initialData);
+
 
     const employeesData = [
         { id: 1, name: "John Doe" },
@@ -78,44 +78,55 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
 
     const onDragEnd = (result) => {
         const { source, destination } = result;
-    
+
         // If there's no destination, exit
         if (!destination) return;
         const updatedTasks = Array.from(tasks); // Change initialData to tasks
-         console.log("updatedTask:",updatedTasks)
+         // console.log("updatedTask:",updatedTasks)
         const [movedTask] = updatedTasks.splice(source.index, 1); // Remove the task from its source position
-        console.log("source:",source)
-        console.log("task:", updateTasks)
-        setUpdateTask(initialData)
-        updateTasks[source.index].assign = destination.droppableId;
-        console.log("task2:", updateTasks)
+        // console.log("source:",source)
+        // console.log("task:", updateTasks)
+        // Make a copy of the tasks array
+
+        const updatedTaskss = [...updateTasks];
+        console.log("before:", updatedTaskss);
+
+        // Ensure the source index exists within the bounds of the array
+        if (source.index < updatedTaskss.length) {
+            updatedTaskss[source.index].assign = destination.droppableId;
+        }
+
+        // Update the state with the new array
+        setUpdateTask(updatedTaskss);
+
+        console.log("after:", updatedTaskss);
 
         // If moving within the same list, reorder
-        console.log("destination:",destination.droppableId)
+        // console.log("destination:",destination.droppableId)
         if (source.droppableId === destination.droppableId) {
             updatedTasks.splice(destination.index, 0, movedTask);
         } else {
             // Parse source and destination droppable IDs to extract employee and time
             const [destinationType, destinationEmployeeId, destinationHour] = destination.droppableId.split('-');
-    
+
             // Move between different lists (e.g., different employees or times)
             movedTask.assignedTo = parseInt(destinationEmployeeId);
             movedTask.time = parseInt(destinationHour);
-    
+
             updatedTasks.splice(destination.index, 0, movedTask); // Add the task to its new position
         }
-    
+
         // setTasks(updatedTasks); // Update the state with the new task positions
     };
-    
-    
+
+
 
     const handleEdit = () => {
         setOpenModal(false);
         setOpenEditModal(true);
     };
 
- 
+
     useEffect(() => {
         if (data?.length > 0) {
             setTasks(data);
@@ -185,8 +196,8 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
                                         Unassigned
                                     </td>
                                     <td className="flex border border-[#BCBDC0] w-48 relative cells" colSpan={24}>
-                                        {initialData.map((data, index) => (
-                                            data.assign === "null" ? (
+                                        {updateTasks.map((data, index) => (
+                                            data.assign === null ? (
                                                 <Draggable key={data.id} draggableId={`task-${data.id}`} index={index}>
                                                     {(provided) => (
                                                         <div
@@ -249,8 +260,8 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
                                                 {...provided.droppableProps}
                                                 className="border border-[#BCBDC0] w-48 relative cells"
                                             >
-                                                {tasks
-                                                    .filter(task => task.assignedTo === employee.id && task.time === hour)
+                                                {updateTasks
+                                                    .filter(task => task.assign !== null && task.assign === `employee-${employee.id}-${hour}`)
                                                     .map((task, taskIndex) => (
                                                         <Draggable
                                                             key={task.id}
