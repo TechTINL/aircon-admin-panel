@@ -273,7 +273,7 @@ const TimelineTable = ({ data, setIsShowLoading }) => {
                                                                     ref={provided.innerRef}
                                                                     {...provided.draggableProps}
                                                                     {...provided.dragHandleProps}
-                                                                    className="absolute"
+                                                                    className="absolute bg-[#F8F8F8] py-3 rounded tasks mx-2 border-l-8 w-48 border-custom-border"
                                                                     style={{
                                                                         top: `${taskIndex * 60}px`, // Adjust positioning logic as needed
                                                                     }}
