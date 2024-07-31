@@ -12,12 +12,12 @@ function Timeline({ auth, users }) {
       <div className="flex flex-auto flex-col m-6 max-w-full">
         <div className="flex-row flex items-center justify-between">
           <div className="flex items-center">
-            <div className="text-zinc-800 text-3xl font-bold leading-10">
+            {/* <div className="text-zinc-800 text-3xl font-bold leading-10">
               Job Table
-            </div>
+            </div> */}
             <div className="relative">
             {/* Button */}
-            <button className="relative z-10 flex items-center">
+            <button className="relative z-10 top-14 left-36 flex items-center">
               <AiOutlineInfoCircle
                 className="text-primary ml-2"
                 size={26}
@@ -52,9 +52,9 @@ function Timeline({ auth, users }) {
             </button>
           </div>
           </div>
-          <div className="flex items-center pr-4">
+          {/* <div className="flex items-center pr-4">
             <JobFilters />
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-1 mt-6 max-w-[80vw] relative">
           <div className="absolute flex items-center top-0 right-[35vw] z-10">
