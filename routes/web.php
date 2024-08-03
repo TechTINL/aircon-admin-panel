@@ -18,6 +18,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceTemplateController;
 use App\Http\Controllers\TaskTemplateController;
+use App\Http\Resources\EmployeeResource;
 use App\Models\Service;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
@@ -53,7 +54,36 @@ Route::get('/confirm-password', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/get-data', function(App\Actions\GetEmployeesAction $action){
+    $tasks = App\Models\Task::select('id','name','assign', 'employee_id', 'hour', 'service_id')->with(['service' => function($query){
+        $query->select('id', 'name', 'status', 'service_address');
+    }])->get();
+    $employees = App\Http\Resources\EmployeeResource::collection($action->execute());
+    return response()->json([
+        'tasks' => $tasks,
+        'employees' => $employees
+    ]);
+});
+Route::post('set-tasks', function(\Illuminate\Http\Request $request){
+//    dd($request->all());
+    $task = \App\Models\Task::find($request['taskId']);
+    if($request['employeeId'] !== 0){
+        if($task){
+            $task['assign'] = 1;
+            $task['employee_id'] = $request['employeeId'];
+            $task['hour'] = $request['hour'];
+            $task->save();
+        }else{
+            return response()->json(['Errors' => ['Error' => 'Task Not Found']], 402);
+        }
+    }else{
+        $task['assign'] = null;
+        $task['employee_id'] = null;
+        $task['hour'] = null;
+        $task->save();
+    }
+    return response()->json(['message' => 'Task Assigned']);
+});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
