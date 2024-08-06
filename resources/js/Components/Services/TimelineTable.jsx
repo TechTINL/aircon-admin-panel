@@ -459,7 +459,7 @@ function TimelineTable() {
                                         if (employee.id === 0 && !task) {
                                             const unassignedIndex = hours.indexOf(hour);
                                             task = filteredTasks.find(
-                                                (t) => !t.assign && tasks.indexOf(t) === unassignedIndex
+                                                (t) => t.service.employee_ids.length <= 0 && tasks.indexOf(t) === unassignedIndex
                                             );
                                         }
                                         return (
