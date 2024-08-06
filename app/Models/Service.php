@@ -34,10 +34,7 @@ class Service extends Model
         'task_visitation_note',
         'client_signature',
     ];
-    public function setServiceDateAttribute($value)
-    {
-        $this->attributes['service_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
-    }
+
     public function contract(): BelongsTo
     {
         return $this->belongsTo(Contract::class);

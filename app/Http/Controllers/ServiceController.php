@@ -70,7 +70,7 @@ class ServiceController extends Controller
             'type' => 'adhoc',
             'technician_count' => $request->technician_count,
             'service_no_of_time' => '1 of 1',
-            'service_date' => Carbon::parse($request->service_date)->format('Y-m-d'),
+            'service_date' => Carbon::createFromFormat('Y-m-d', $request->service_date)->format('Y-m-d'),
             'service_time' => $request->service_time,
             'service_at' => $service_at,
             'service_address' => $request->service_address,
