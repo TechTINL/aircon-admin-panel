@@ -177,15 +177,23 @@ function TimelineTable() {
     };
 
     const handleStatusChange = (status) => {
-      setLoading(true);
-        setSelectedStatus(status);
-        setIsStatusOpen(false); // Close the dropdown
-        
-    };
-    const handleStaffChange = (status) => {
-        setSelectedStaff(status);
-        setIsStaffOpen(false); // Close the dropdown
-    };
+      setLoading(true); 
+      setSelectedStatus(status);
+      setIsStatusOpen(false); // Close the dropdown
+      setTimeout(() => {
+          setLoading(false); 
+      }, 1000);
+  };
+  
+  const handleStaffChange = (staff) => {
+    setLoading(true); 
+    setSelectedStaff(staff);
+    setIsStaffOpen(false); 
+    setTimeout(() => {
+        setLoading(false); 
+    }, 1000); 
+};
+
 
     const filteredTasks = tasks.filter((task) => {
         if (selectedStatus === 'ShowAll') return true;
