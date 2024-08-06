@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Contract\GetContractAction;
 use App\Actions\CreateClientAction;
 use App\Actions\GetClientsAction;
+use App\Actions\GetEmployeesAction;
 use App\Actions\GetServicesAction;
 use App\Actions\GetSubClientAction;
 use App\Helpers\BreadcrumbHelper;
@@ -14,6 +15,7 @@ use App\Http\Resources\ClientResource;
 use App\Http\Resources\ContractResource;
 use App\Http\Resources\ServiceResource;
 use App\Models\Client;
+use App\Models\Service;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -68,8 +70,11 @@ class ClientController extends Controller
     /**
      * Display Client Profile
      */
-    public function profile(Client $client, GetSubClientAction $getSubClientAction): Response
+    public function profile(Client $client, GetSubClientAction $getSubClientAction,  GetEmployeesAction $employeesAction): Response
     {
+        $contract = $client->contracts()->with('services.tasks')->with('services.technicians')->orderBy('created_at', 'desc')->first();
+        $services = $contract['services'];
+        $recentServices = Service::where('client_id', $client['id'])->take(3)->get();
         return Inertia::render('Clients/Detail/Profile', [
 			'breadcrumb' => BreadcrumbHelper::clientProfile($client->id),
             'client' => [
@@ -83,6 +88,10 @@ class ClientController extends Controller
             'addresses' => $client->addresses()->orderBy('created_at', 'desc')->get(),
             'contacts' => $client->contacts()->orderBy('created_at', 'desc')->get(),
 	        'generalNotes' => $client->generalNotes()->orderBy('created_at', 'desc')->get(),
+            'contract' => $contract,
+            'leader' => $employeesAction->leader()->first(),
+            'totalServices' => $services->count(),
+            'recentServices' => $recentServices
         ]);
     }
 

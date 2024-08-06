@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('leaves', function (Blueprint $table) {
             $table->id();
-			$table->timestamp('start_date');
-			$table->timestamp('end_date');
+			$table->timestamp('start_date')->nullable();
+			$table->timestamp('end_date')->nullable();
 			$table->string('reason');
 	        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

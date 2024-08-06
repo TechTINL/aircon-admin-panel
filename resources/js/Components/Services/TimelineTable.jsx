@@ -26,7 +26,7 @@ function Task({ task }) {
                 return '#dcdcdc ';
             case 'On-Hold':
                 return '#dcdcdc';
-            case 'Scheduled':
+            case 'scheduled':
                 return '#dcdcdc ';
             case 'Completed':
                 return '#00B4AD';
@@ -44,7 +44,7 @@ function Task({ task }) {
                 return '#808080';
             case 'On-Hold':
                 return '#808080';
-            case 'Scheduled':
+            case 'scheduled':
                 return '#808080';
             case 'Completed':
                 return '#4caf50';
@@ -56,6 +56,12 @@ function Task({ task }) {
                 return '#e0e0e0';
         }
     };
+    const truncateText = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
+    };
 
     return (
         <div
@@ -65,15 +71,16 @@ function Task({ task }) {
                 backgroundColor: getStatusColor(task.service.status),
                 borderLeft: `8px solid ${getBorderColor(task.service.status)}`,
             }}
-            className="cells bg-[#F8F8F8] py-3 rounded tasks mx-2 w-48"
+            className="cells bg-[#F8F8F8] py-3 rounded tasks mx-2 w-[14rem]"
         >
             <div className="flex justify-between">
                 <p className="mx-2 text-sm font-bold">{task.service.name}</p>
                 <p className="mx-2 text-sm text-yellow">{task.service.status}</p>
             </div>
-            <p className="max-w-full px-2 text-sm overflow-hidden whitespace-nowrap">{task.service.service_address}</p>
-            <div className="flex justify-between mt-3">
-                <p className="mx-2 text-sm font-bold">{task.name}</p>
+            <p className="max-w-full px-2 text-sm overflow-hidden whitespace-nowrap float-left">{truncateText(task.service.service_address, 25)}</p>
+            <br/>
+            <div className="flex justify-between mt-2">
+                <p className="mx-2 text-sm font-bold float-left">{truncateText(task.name, 15)}</p>
                 <p className="mx-2 text-sm flex items-center">
           <span className="mx-0">
             <svg
@@ -114,7 +121,7 @@ function TimelineTable() {
     const [selectedStatus, setSelectedStatus] = useState('ShowAll');
     const [employees, setEmployees] = useState([]);
 
-    const hours = ['8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 pm', '1:00 pm', '2:00 am', '3:00 am'];
+    const hours = ['8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 pm', '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm', '8:00 pm'];
 
     useEffect(() => {
         // Function to fetch tasks data from API
@@ -156,7 +163,7 @@ function TimelineTable() {
     const moveTask = async (task, employee, hour) => {
         setTasks((prevTasks) =>
             prevTasks.map((t) =>
-                t.id === task.id ? { ...t, assign: 1, employee_id: employee.id, hour: hour } : t
+                t.id === task.id ? { ...t, assign: 1, employee_id: employee.id, hour: hour, service: { ...t.service, service_time: hour } } : t
             )
         );
         try{
@@ -185,6 +192,34 @@ function TimelineTable() {
             console.error('Error updating task:', error);
             // Handle the error appropriately, e.g., by showing a message to the user
         }
+    };
+
+    const extractHour = (timeString) => {
+        // Match the time and AM/PM parts
+        const timePattern = /^(\d{1,2}):(\d{2})\s?(AM|PM)$/i;
+        const match = timeString.match(timePattern);
+
+        if (!match) {
+            throw new Error("Invalid time format");
+        }
+
+        let [_, hours, minutes, period] = match;
+        hours = parseInt(hours, 10);
+
+        // Convert to 24-hour format
+        if (period.toUpperCase() === 'PM' && hours < 12) {
+            hours += 12;
+        }
+        if (period.toUpperCase() === 'AM' && hours === 12) {
+            hours = 0;
+        }
+
+        return hours;
+    };
+    const checkHour = (service, box) => {
+        const serviceHour = extractHour(service)
+        const boxHour = extractHour(box)
+        return serviceHour === boxHour;
     };
 
     return (
@@ -371,9 +406,8 @@ function TimelineTable() {
                                     {hours.map((hour) => {
                                         let task = filteredTasks.find(
                                             (t) =>
-                                                t.assign &&
-                                                t.employee_id === employee.id &&
-                                                t.hour === hour
+                                                t.service.employee_ids.includes(employee.id)
+                                            && checkHour(t.service.service_time, hour)
                                         );
 
                                         if (employee.id === 0 && !task) {

@@ -13,6 +13,7 @@ class Service extends Model
 {
     use HasFactory;
 
+    protected $appends = ['employee_ids'];
     protected $fillable = [
         'name',
         'type',
@@ -52,6 +53,10 @@ class Service extends Model
         return $this->belongsToMany(User::class, 'service_user')
             ->withPivot('assigned_as')
             ->withTimestamps();
+    }
+    public function getEmployeeIdsAttribute()
+    {
+        return $this->users()->pluck('id')->toArray();
     }
 
     public function leaders(): BelongsToMany
