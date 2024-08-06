@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Oval } from 'react-loader-spinner';
+
 import '../../../css/app.css';
 import {
     AiOutlineInfoCircle,
@@ -133,6 +135,7 @@ function TimelineTable() {
     const [selectedStaff, setSelectedStaff] = useState('ShowAll');
     const [employees, setEmployees] = useState([]);
     const [roles, setRoles] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [date, setDate] = useState(() => {
         const today = new Date();
         return formatDate(today);
@@ -141,25 +144,27 @@ function TimelineTable() {
 
     // Function to fetch tasks, Employees, Status data from API
     const getData = async () => {
-        try {
-                const response = await fetch('/get-data/'+date); // Replace with your API endpoint
-                const data = await response.json(); // Get the complete response
-
-                // Log the entire response to see its structure
-
-                // Destructure tasks and employees from the response, ensuring they exist and are arrays
-                const tasksJson = Array.isArray(data.tasks) ? data.tasks : [];
-                const employeesJson = Array.isArray(data.employees) ? data.employees : [];
-                const rolesJson = Array.isArray(data.roles) ? data.roles : [];
-                const unAssigned = {id: 0, name: 'UnAssigned'};
-                const showAll = {label: 'ShowAll', value: 'show-all'}
-                setTasks(tasksJson);
-                setEmployees([unAssigned, ...employeesJson]);
-                setRoles([showAll, ...rolesJson]);
-            } catch (error) {
-                console.error('Error fetching tasks:', error);
-            }
-    }
+      setLoading(true); // Set loading to true before API call
+      try {
+          const response = await fetch('/get-data/' + date); // Replace with your API endpoint
+          const data = await response.json(); // Get the complete response
+  
+          // Destructure tasks and employees from the response, ensuring they exist and are arrays
+          const tasksJson = Array.isArray(data.tasks) ? data.tasks : [];
+          const employeesJson = Array.isArray(data.employees) ? data.employees : [];
+          const rolesJson = Array.isArray(data.roles) ? data.roles : [];
+          const unAssigned = { id: 0, name: 'UnAssigned' };
+          const showAll = { label: 'ShowAll', value: 'show-all' };
+          setTasks(tasksJson);
+          setEmployees([unAssigned, ...employeesJson]);
+          setRoles([showAll, ...rolesJson]);
+      } catch (error) {
+          console.error('Error fetching tasks:', error);
+      } finally {
+          setLoading(false); 
+      }
+  };
+  
     useEffect(() => {
         getData();
     }, [date]);
@@ -172,8 +177,10 @@ function TimelineTable() {
     };
 
     const handleStatusChange = (status) => {
+      setLoading(true);
         setSelectedStatus(status);
         setIsStatusOpen(false); // Close the dropdown
+        
     };
     const handleStaffChange = (status) => {
         setSelectedStaff(status);
@@ -254,18 +261,25 @@ function TimelineTable() {
     };
 
     const dateChange = (action) => {
-        const currentDate = new Date(date);
-        if (action === 'pre') {
-            currentDate.setDate(currentDate.getDate() - 1);
-        } else {
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-        setDate(formatDate(currentDate));
-        getData()
-    }
+      const currentDate = new Date(date);
+      if (action === 'pre') {
+          currentDate.setDate(currentDate.getDate() - 1);
+      } else {
+          currentDate.setDate(currentDate.getDate() + 1);
+      }
+      setDate(formatDate(currentDate));
+      setLoading(true); // Set loading to true before calling getData
+      getData();
+  };
+  
 
     return (
         <>
+         {loading ? (
+                    <div className="flex justify-center items-center w-full h-screen">
+                        <Oval color="#00BFFF" height={80} width={80} />
+                    </div>
+                ) : (
             <div>
                 <div className='flex px-4'>
                     <div className="flex items-center">
@@ -389,7 +403,7 @@ function TimelineTable() {
                                 <div>
                                     <button type="button"
                                         className="inline-flex items-center px-3 py-2 border border-border-gray text-sm leading-4 font-medium rounded-full text-border-gray bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                        id="menu-button" aria-expanded={isStaffOpen} aria-haspopup="true" onClick={toggleStaffDropdown}>Status
+                                        id="menu-button" aria-expanded={isStaffOpen} aria-haspopup="true" onClick={toggleStaffDropdown}>Staff
                                         <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                             <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                                         </svg>
@@ -460,52 +474,55 @@ function TimelineTable() {
                     <AiOutlineRight className="cursor-pointer"  onClick={() => dateChange('nxt')}/>
                 </div>
                 <DndProvider backend={HTML5Backend}>
+               
                     <div className="table-container mt-10">
                         <table>
                             <thead>
-                            <tr>
-                            <th className="t-heading">Time</th>
-                                {hours.map((hour) => (
-                                    <th key={hour} className="t-heading">
-                                        {hour}
-                                    </th>
-                                ))}
-                            </tr>
+                                <tr>
+                                    <th className="t-heading">Time</th>
+                                    {hours.map((hour) => (
+                                        <th key={hour} className="t-heading">
+                                            {hour}
+                                        </th>
+                                    ))}
+                                </tr>
                             </thead>
                             <tbody>
-                            {filteredEmployees.map((employee) => (
-                                <tr key={employee.id}>
-                                    <td className="t-data text-center">{employee.name}</td>
-                                    {hours.map((hour) => {
-                                        let task = filteredTasks.find(
-                                            (t) =>
-                                                t.service.employee_ids.includes(employee.id)
-                                                && checkHour(t.service.service_time, hour)
-                                        );
-
-                                        if (employee.id === 0 && !task) {
-                                            const unassignedIndex = hours.indexOf(hour);
-                                            task = filteredTasks.find(
-                                                (t) => t.service.employee_ids.length <= 0 && tasks.indexOf(t) === unassignedIndex
+                                {filteredEmployees.map((employee) => (
+                                    <tr key={employee.id}>
+                                        <td className="t-data text-center">{employee.name}</td>
+                                        {hours.map((hour) => {
+                                            let task = filteredTasks.find(
+                                                (t) =>
+                                                    t.service.employee_ids.includes(employee.id) &&
+                                                    checkHour(t.service.service_time, hour)
                                             );
-                                        }
-                                        return (
-                                            <ScheduleSlot
-                                                key={hour}
-                                                hour={hour}
-                                                employee={employee}
-                                                task={task}
-                                                moveTask={moveTask}
-                                            />
-                                        );
-                                    })}
-                                </tr>
-                            ))}
+
+                                            if (employee.id === 0 && !task) {
+                                                const unassignedIndex = hours.indexOf(hour);
+                                                task = filteredTasks.find(
+                                                    (t) => t.service.employee_ids.length <= 0 && tasks.indexOf(t) === unassignedIndex
+                                                );
+                                            }
+                                            return (
+                                                <ScheduleSlot
+                                                    key={hour}
+                                                    hour={hour}
+                                                    employee={employee}
+                                                    task={task}
+                                                    moveTask={moveTask}
+                                                />
+                                            );
+                                        })}
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
-                </DndProvider>
+                )}
+            </DndProvider>
             </div>
+    )}
         </>
     );
 }
