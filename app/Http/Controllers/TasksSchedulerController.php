@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Admin\GetEmployeeRolesAction;
 use App\Actions\GetEmployeesAction;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Task;
@@ -10,14 +11,16 @@ use Illuminate\Http\Request;
 
 class TasksSchedulerController extends Controller
 {
-    public function getData(GetEmployeesAction $action){
+    public function getData(GetEmployeesAction $action, GetEmployeeRolesAction $getEmployeeRolesAction){
         $tasks = Task::select('id','name','assign', 'employee_id', 'hour', 'service_id')->with(['service' => function($query){
             $query->select('id', 'name', 'status', 'service_address', 'service_time');
         }])->get();
         $employees = EmployeeResource::collection($action->execute());
+        $roles = $getEmployeeRolesAction->execute();
         return response()->json([
             'tasks' => $tasks,
-            'employees' => $employees
+            'employees' => $employees,
+            'roles' => $roles
         ]);
     }
 

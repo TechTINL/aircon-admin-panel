@@ -63,6 +63,7 @@ function Task({ task }) {
         return text;
     };
 
+    // Task Component
     return (
         <div
             ref={drag}
@@ -117,14 +118,17 @@ function ScheduleSlot({ hour, employee, task, moveTask }) {
 
 function TimelineTable() {
     const [tasks, setTasks] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isStatusOpen, setIsStatusOpen] = useState(false);
+    const [isStaffOpen, setIsStaffOpen] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState('ShowAll');
+    const [selectedStaff, setSelectedStaff] = useState('ShowAll');
     const [employees, setEmployees] = useState([]);
+    const [roles, setRoles] = useState([]);
 
     const hours = ['8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 pm', '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm', '8:00 pm'];
 
     useEffect(() => {
-        // Function to fetch tasks data from API
+        // Function to fetch tasks, Employees, Status data from API
         const fetchTasks = async () => {
             try {
                 const response = await fetch('/get-data'); // Replace with your API endpoint
@@ -135,9 +139,12 @@ function TimelineTable() {
                 // Destructure tasks and employees from the response, ensuring they exist and are arrays
                 const tasksJson = Array.isArray(data.tasks) ? data.tasks : [];
                 const employeesJson = Array.isArray(data.employees) ? data.employees : [];
+                const rolesJson = Array.isArray(data.roles) ? data.roles : [];
                 const unAssigned = {id: 0, name: 'UnAssigned'};
+                const showAll = {label: 'ShowAll', value: 'show-all'}
                 setTasks(tasksJson);
                 setEmployees([unAssigned, ...employeesJson]);
+                setRoles([showAll, ...rolesJson]);
             } catch (error) {
                 console.error('Error fetching tasks:', error);
             }
@@ -146,18 +153,31 @@ function TimelineTable() {
         fetchTasks();
     }, []);
 
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
+    const toggleStatusDropdown = () => {
+        setIsStatusOpen(!isStatusOpen);
+    };
+    const toggleStaffDropdown = () => {
+        setIsStaffOpen(!isStaffOpen);
     };
 
     const handleStatusChange = (status) => {
         setSelectedStatus(status);
-        setIsOpen(false); // Close the dropdown
+        setIsStatusOpen(false); // Close the dropdown
+    };
+    const handleStaffChange = (status) => {
+        setSelectedStaff(status);
+        setIsStaffOpen(false); // Close the dropdown
     };
 
     const filteredTasks = tasks.filter((task) => {
         if (selectedStatus === 'ShowAll') return true;
         return task.service.status.toLowerCase() === selectedStatus.toLowerCase();
+    });
+
+    const filteredEmployees = employees.filter((employee) => {
+        if (employee.id === 0 ||selectedStaff === 'ShowAll') return true;
+        // console.log(selectedStaff)
+        return employee.role.toLowerCase() === selectedStaff.toLowerCase();
     });
 
     const moveTask = async (task, employee, hour) => {
@@ -237,9 +257,9 @@ function TimelineTable() {
                                         type="button"
                                         className="inline-flex items-center px-3 py-2 border border-border-gray text-sm leading-4 font-medium rounded-full text-border-gray bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                         id="menu-button"
-                                        aria-expanded={isOpen}
+                                        aria-expanded={isStatusOpen}
                                         aria-haspopup="true"
-                                        onClick={toggleDropdown}
+                                        onClick={toggleStatusDropdown}
                                     >
                                         Status
                                         <svg
@@ -257,7 +277,7 @@ function TimelineTable() {
                                     </button>
                                 </div>
 
-                                {isOpen && (
+                                {isStatusOpen && (
                                     <div
                                         className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                         role="menu"
@@ -343,33 +363,59 @@ function TimelineTable() {
                                     </div>
                                 )}
                             </div>
-
-                            <div className="relative">
+                            <div className="relative inline-block text-left">
                                 <div>
-                  <span className="inline-flex rounded-md">
-                    <button
-                        type="button"
-                        className="inline-flex items-center px-3 py-2 border border-border-gray text-sm leading-4 font-medium rounded-full text-border-gray bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                        id="menu-button"
-                        aria-haspopup="true"
-                    >
-                      Staff
-                      <svg
-                          className="-mr-1 h-5 w-5 text-gray-400"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                      >
-                        <path
-                            fillRule="evenodd"
-                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                            clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
-                  </span>
+                                    <button type="button"
+                                        className="inline-flex items-center px-3 py-2 border border-border-gray text-sm leading-4 font-medium rounded-full text-border-gray bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                        id="menu-button" aria-expanded={isStaffOpen} aria-haspopup="true" onClick={toggleStaffDropdown}>Status
+                                        <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                        </svg>
+                                    </button>
                                 </div>
+
+                                {isStaffOpen && (
+                                    <div
+                                        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                        role="menu"
+                                        aria-orientation="vertical"
+                                        aria-labelledby="menu-button"
+                                        tabIndex={-1}
+                                    >
+                                        <div className="py-1" role="none">
+                                            {
+                                                roles.map((role)=> (
+                                                    <a
+                                                        key={role.label}
+                                                        href="#"
+                                                        className="block px-4 py-2 text-sm text-gray-700"
+                                                        role="menuitem"
+                                                        tabIndex={-1}
+                                                        id="menu-item-0"
+                                                        onClick={() => handleStaffChange(role.label)}
+                                                    >
+                                                        {role.label}
+                                                    </a>
+                                                ))
+                                            }
+
+                                            <form method="POST" action="#" role="none">
+                                                <button
+                                                    type="submit"
+                                                    className="block w-full px-4 py-2 text-left text-sm text-gray-700"
+                                                    role="menuitem"
+                                                    tabIndex={-1}
+                                                    id="menu-item-3"
+                                                    onClick={() => handleStaffChange('Follow-up Completed')}
+                                                >
+                                                    Follow-up Completed
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
+
                             <div className="relative">
                                 <div>
                   <span className="inline-flex">
@@ -400,14 +446,14 @@ function TimelineTable() {
                             </tr>
                             </thead>
                             <tbody>
-                            {employees.map((employee) => (
+                            {filteredEmployees.map((employee) => (
                                 <tr key={employee.id}>
                                     <td className="t-data text-center">{employee.name}</td>
                                     {hours.map((hour) => {
                                         let task = filteredTasks.find(
                                             (t) =>
                                                 t.service.employee_ids.includes(employee.id)
-                                            && checkHour(t.service.service_time, hour)
+                                                && checkHour(t.service.service_time, hour)
                                         );
 
                                         if (employee.id === 0 && !task) {
