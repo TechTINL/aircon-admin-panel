@@ -6,13 +6,17 @@ use App\Actions\Admin\GetEmployeeRolesAction;
 use App\Actions\GetEmployeesAction;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Task;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 
 class TasksSchedulerController extends Controller
 {
-    public function getData(GetEmployeesAction $action, GetEmployeeRolesAction $getEmployeeRolesAction){
-        $tasks = Task::select('id','name','assign', 'employee_id', 'hour', 'service_id')->with(['service' => function($query){
+    public function getData($date,GetEmployeesAction $action, GetEmployeeRolesAction $getEmployeeRolesAction){
+        $formattedDate = Carbon::createFromFormat('d M Y', $date)->format('Y-m-d');
+        $tasks = Task::whereHas('service', function($query) use ($formattedDate) {
+            $query->where('service_date', $formattedDate);
+        })->select('id','name','assign', 'employee_id', 'hour', 'service_id')->with(['service' => function($query){
             $query->select('id', 'name', 'status', 'service_address', 'service_time');
         }])->get();
         $employees = EmployeeResource::collection($action->execute());

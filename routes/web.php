@@ -55,7 +55,7 @@ Route::get('/confirm-password', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/get-data', [TasksSchedulerController::class, 'getData']);
+Route::get('/get-data/{date}', [TasksSchedulerController::class, 'getData']);
 Route::post('set-tasks', [TasksSchedulerController::class, 'setData']);
 
 Route::middleware('auth')->group(function () {

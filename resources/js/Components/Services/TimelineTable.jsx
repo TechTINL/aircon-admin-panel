@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import '../../../css/app.css';
+import {
+    AiOutlineInfoCircle,
+    AiOutlineLeft,
+    AiOutlineRight,
+} from 'react-icons/ai';
 const ItemTypes = {
     TASK: 'task',
 };
@@ -115,6 +120,10 @@ function ScheduleSlot({ hour, employee, task, moveTask }) {
         </td>
     );
 }
+const formatDate = (date) => {
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('en-GB', options).replace(/ /g, ' ');
+};
 
 function TimelineTable() {
     const [tasks, setTasks] = useState([]);
@@ -124,14 +133,16 @@ function TimelineTable() {
     const [selectedStaff, setSelectedStaff] = useState('ShowAll');
     const [employees, setEmployees] = useState([]);
     const [roles, setRoles] = useState([]);
-
+    const [date, setDate] = useState(() => {
+        const today = new Date();
+        return formatDate(today);
+    });
     const hours = ['8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 pm', '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm', '8:00 pm'];
 
-    useEffect(() => {
-        // Function to fetch tasks, Employees, Status data from API
-        const fetchTasks = async () => {
-            try {
-                const response = await fetch('/get-data'); // Replace with your API endpoint
+    // Function to fetch tasks, Employees, Status data from API
+    const getData = async () => {
+        try {
+                const response = await fetch('/get-data/'+date); // Replace with your API endpoint
                 const data = await response.json(); // Get the complete response
 
                 // Log the entire response to see its structure
@@ -148,10 +159,10 @@ function TimelineTable() {
             } catch (error) {
                 console.error('Error fetching tasks:', error);
             }
-        };
-
-        fetchTasks();
-    }, []);
+    }
+    useEffect(() => {
+        getData();
+    }, [date]);
 
     const toggleStatusDropdown = () => {
         setIsStatusOpen(!isStatusOpen);
@@ -241,6 +252,17 @@ function TimelineTable() {
         const boxHour = extractHour(box)
         return serviceHour === boxHour;
     };
+
+    const dateChange = (action) => {
+        const currentDate = new Date(date);
+        if (action === 'pre') {
+            currentDate.setDate(currentDate.getDate() - 1);
+        } else {
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        setDate(formatDate(currentDate));
+        getData()
+    }
 
     return (
         <>
@@ -432,12 +454,17 @@ function TimelineTable() {
                         </div>
                     </div>
                 </div>
+                <div className="absolute flex items-center top-2 right-[35vw] z-50">
+                    <AiOutlineLeft className="cursor-pointer" fontWeight={900} onClick={() => dateChange('pre')}/>
+                    <span className="text-black font-bold px-4">{date}</span>
+                    <AiOutlineRight className="cursor-pointer"  onClick={() => dateChange('nxt')}/>
+                </div>
                 <DndProvider backend={HTML5Backend}>
                     <div className="table-container mt-10">
                         <table>
                             <thead>
                             <tr>
-                                <th className="t-heading">Time</th>
+                            <th className="t-heading">Time</th>
                                 {hours.map((hour) => (
                                     <th key={hour} className="t-heading">
                                         {hour}
