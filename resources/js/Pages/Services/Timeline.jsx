@@ -5,7 +5,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import TimelineTable from '../../Components/Services/TimelineTable';
 
 function Timeline({ auth, users }) {
-    const [loading, setLoading] = useState(false); // State to manage loading
+    const [loading, setLoading] = useState(false); 
 
     return (
         <AuthenticatedLayout user={auth.user}>
