@@ -18,7 +18,6 @@ function EditServiceReportModal({ openModal, setOpenModal }) {
       value: time,
     };
   });
-  console.log('Times:', times);
   const [selectedSubClient, setSelectedSubClient] = useState('Optional');
   const [selectedServiceName, setSelectedServiceName] = useState('Service-1');
   const [selectedTime, setSelectedTime] = useState(null);

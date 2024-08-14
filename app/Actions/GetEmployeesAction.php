@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Http\Resources\ServiceResource;
 use App\Models\User;
 
 class GetEmployeesAction
@@ -27,17 +28,22 @@ class GetEmployeesAction
             return [];
         }
 
-        return User::role([
+        $users = User::role([
             'leader',
             'sub-contractor',
             'full-time-technician',
             'part-time-technician'
         ], 'api')
             ->with(['services' => function ($query) use ($date) {
-                $query->whereDate('service_at', $date);
+                $query->whereDate('service_date', $date);
             }])
             ->latest()
-            ->get();
+            ->get()->map(function ($user) {
+                $user->services = ServiceResource::collection($user->services)->resolve();
+                return $user;
+            });
+
+        return $users;
     }
 
 	public function execute()
