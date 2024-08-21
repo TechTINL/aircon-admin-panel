@@ -40,6 +40,11 @@ class Service extends Model
         return $this->belongsTo(Contract::class);
     }
 
+    public function setServiceDateAttribute($value)
+    {
+        $this->attributes['service_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+    }
+
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
