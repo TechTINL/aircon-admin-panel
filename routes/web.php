@@ -95,6 +95,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('services', ServiceController::class)->only(['index', 'show', 'store', 'update']);
     Route::get('services/export', [ServiceController::class, 'export'])->name('services.export');
+    Route::get('/adhoc-service', [ServiceController::class, 'adhocIndex'])->name('services.adhoc.index');
+
 
     Route::get('employee', [EmployeeController::class, 'index'])->name('employee.index');
 	Route::get('employee/create', [EmployeeController::class, 'create'])->name('employee.create');

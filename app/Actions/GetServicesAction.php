@@ -10,11 +10,22 @@ class GetServicesAction
     {
         if ($client) {
             if ($client->isSubClient()) {
-                return Service::where('subClient_id', $client->id)->latest()->paginate(10);
+                return Service::whereNotNull('contract_id')->where('subClient_id', $client->id)->latest()->paginate(10);
             }
-            return Service::where('client_id', $client->id)->latest()->paginate(10);
+            return Service::whereNotNull('contract_id')->where('client_id', $client->id)->latest()->paginate(10);
         }
-        return Service::latest()->paginate(10);
+        return Service::whereNotNull('contract_id')->latest()->paginate(10);
+    }
+
+    public function adhocExecute($client = null)
+    {
+        if ($client) {
+            if ($client->isSubClient()) {
+                return Service::whereNull('contract_id')->where('subClient_id', $client->id)->latest()->paginate(10);
+            }
+            return Service::whereNull('contract_id')->where('client_id', $client->id)->latest()->paginate(10);
+        }
+        return Service::whereNull('contract_id')->latest()->paginate(10);
     }
 
     // GET /api/services

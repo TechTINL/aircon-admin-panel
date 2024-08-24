@@ -30,6 +30,17 @@ class ServiceController extends Controller
         ]);
     }
 
+    public function adhocIndex(GetServicesAction $action, GetClientsAction $getClientsAction, GetEmployeesAction $employeesAction): Response
+    {
+        return Inertia::render('Services/AdhocList', [
+            'breadcrumb' => BreadcrumbHelper::services(),
+            'services' => ServiceResource::collection($action->adhocExecute()),
+            'clients' => $getClientsAction->getClientsWithSubClients(),
+            'leaders' => $employeesAction->leader(),
+            'employees' => $employeesAction->get(),
+        ]);
+    }
+
     public function store(StoreServiceRequest $request, SaveServiceAction $action): RedirectResponse
     {
         $date = Carbon::parse($request->service_date)->format('Y-m-d');
