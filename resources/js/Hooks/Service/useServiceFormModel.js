@@ -44,6 +44,14 @@ function useServiceFormModel({
               value: sub_client.id,
             })
           );
+            draft.service_addresses = getAddresses(
+                clients,
+                draft.selected_client?.id
+            );
+            draft.billing_addresses = getAddresses(
+                clients,
+                draft.selected_client?.id
+            );
           break;
         case 'SET_SUB_CLIENT_OPTIONS':
           draft.sub_client_options = action.payload;

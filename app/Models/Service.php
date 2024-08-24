@@ -42,7 +42,17 @@ class Service extends Model
 
     public function setServiceDateAttribute($value)
     {
-        $this->attributes['service_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+        try {
+            $this->attributes['service_date'] = Carbon::createFromFormat('Y-m-d', $value)->format('Y-m-d');
+        } catch (\Exception $e) {
+            try {
+                $this->attributes['service_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+            } catch (\Exception $e) {
+                 dd('Handle the error, e.g., log it or throw an exception');
+            }
+        }
+
+
     }
 
     public function tasks(): HasMany

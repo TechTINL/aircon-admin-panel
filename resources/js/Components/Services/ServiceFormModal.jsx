@@ -134,16 +134,18 @@ function ServiceFormModal({
             <span className="text-black font-bold text-base">
               Service Address
             </span>
-            <Select
-              options={form?.service_addresses}
-              onChange={selectedOption => {
-                dispatch({
-                  type: 'SET_SELECTED_SERVICE_ADDRESS',
-                  payload: selectedOption,
-                });
-              }}
-              value={form?.selected_service_address}
-            />
+              <Select
+                  isClearable
+                  isSearchable
+                  options={form?.service_addresses}
+                  onChange={option => {
+                      dispatch({
+                          type: 'SET_SELECTED_SERVICE_ADDRESS',
+                          payload: option,
+                      });
+                  }}
+                  value={form?.selected_service_address}
+              />
           </div>
           <div className="flex flex-col gap-2">
             <span className="text-black font-bold text-base">

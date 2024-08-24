@@ -67,7 +67,7 @@ class ServiceController extends Controller
 
         $service->update([
             'name' => $request->name,
-            'type' => 'adhoc',
+            'type' => 'contract',
             'technician_count' => $request->technician_count,
             'service_no_of_time' => '1 of 1',
             'service_date' => Carbon::createFromFormat('Y-m-d', $request->service_date)->format('Y-m-d'),

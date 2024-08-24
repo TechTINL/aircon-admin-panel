@@ -112,14 +112,22 @@ function Sidebar({ children }) {
                     Client
                   </ListItem>
                 </Link>
-                <Link href="/contracts">
+                  <Link href="/contracts">
+                      <ListItem>
+                          <ListItemPrefix>
+                              <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                          </ListItemPrefix>
+                          Contract
+                      </ListItem>
+              </Link>
+                 <Link href="/adhoc-service">
                   <ListItem>
-                    <ListItemPrefix>
-                      <FaChevronRight strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    Contract
+                      <ListItemPrefix>
+                          <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+                      Ad-Hoc
                   </ListItem>
-                </Link>
+              </Link>
                 <Link href="/employee">
                   <ListItem>
                     <ListItemPrefix>
