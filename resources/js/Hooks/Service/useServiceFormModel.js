@@ -254,20 +254,22 @@ function useServiceFormModel({
             value: service?.service_time,
           }
         : '',
-      tasks: service?.tasks.map(task => ({
-        ...task,
-        name: task.name,
-        hours: task.duration_hours,
-        minutes: task.duration_minutes,
-        cost: task.cost,
-      })) || [
-        {
-          name: '',
-          hours: '',
-          minutes: '',
-          cost: '',
-        },
-      ],
+        tasks: service?.tasks && service.tasks.length > 0
+            ? service.tasks.map(task => ({
+                ...task,
+                name: task.name,
+                hours: task.duration_hours,
+                minutes: task.duration_minutes,
+                cost: task.cost,
+            }))
+            : [
+                {
+                    name: '',
+                    hours: '',
+                    minutes: '',
+                    cost: '',
+                },
+            ],
       technician_report: service?.technician_report || '',
       task_visitation_notes: service?.task_visitation_notes || '',
       client_signature: service?.client_signature || '',

@@ -40,7 +40,7 @@ function ServiceFormModal({
     service,
     leaders,
     employees,
-    gstValue,
+    gstValue : 0.08,
   });
 
   const handleSaveServiceReport = () => {
@@ -263,7 +263,7 @@ function ServiceFormModal({
               </div>
               <hr />
               <div className="flex flex-col gap-4">
-                {form?.tasks.map((task, index) => (
+                {form?.tasks?.length > 0 && form?.tasks.map((task, index) => (
                   <>
                     <div className="flex flex-col" key={index}>
                       <div className="flex justify-between items-center">

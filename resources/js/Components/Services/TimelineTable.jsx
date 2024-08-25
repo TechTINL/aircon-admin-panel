@@ -10,7 +10,7 @@ const ItemTypes = {
     TASK: 'task',
 };
 
-function Task({ task }) {
+function Task({ task, handleChangeServiceStatess }) {
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.TASK,
         item: { task },
@@ -66,6 +66,10 @@ function Task({ task }) {
         }
         return text;
     };
+    const setParentServiceState = (service) => {
+        // Call the function passed from the parent to update its state
+        handleChangeServiceStatess(service);
+    };
 
     return (
         <div
@@ -76,6 +80,7 @@ function Task({ task }) {
                 borderLeft: `8px solid ${getBorderColor(task.service.status)}`,
             }}
             className="cells bg-[#F8F8F8] py-3 rounded tasks mx-2 w-[14rem]"
+            onClick={()=> setParentServiceState(task.service)}
         >
             <div className="flex justify-between">
                 <p className="mx-2 text-sm font-bold">{task.service.name}</p>
@@ -107,14 +112,14 @@ function Task({ task }) {
     );
 }
 
-function ScheduleSlot({ hour, employee, task, moveTask }) {
+function ScheduleSlot({ hour, employee, task, moveTask, handleChangeServiceStates }) {
     const [, drop] = useDrop({
         accept: ItemTypes.TASK,
         drop: (item) => moveTask(item.task, employee, hour),
     });
     return (
         <td ref={drop} className="t-data">
-            {task && <Task task={task} />}
+            {task && <Task task={task} handleChangeServiceStatess = { handleChangeServiceStates } />}
         </td>
     );
 }
@@ -124,7 +129,7 @@ const formatDate = (date) => {
     return date.toLocaleDateString('en-GB', options).replace(/ /g, ' ');
 };
 
-function TimelineTable({ loading, setLoading }) {
+function TimelineTable({ loading, setLoading, updateServiceState }) {
     const [tasks, setTasks] = useState([]);
     const [isStatusOpen, setIsStatusOpen] = useState(false);
     const [isStaffOpen, setIsStaffOpen] = useState(false);
@@ -136,6 +141,10 @@ function TimelineTable({ loading, setLoading }) {
         const today = new Date();
         return formatDate(today);
     });
+    const handleChangeServiceState = (service) => {
+        // Call the function passed from the parent to update its state
+        updateServiceState(service);
+    };
     const hours = ['8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 pm', '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm', '8:00 pm'];
 
     const getData = async () => {
@@ -507,6 +516,7 @@ function TimelineTable({ loading, setLoading }) {
                                                         employee={employee}
                                                         task={task}
                                                         moveTask={moveTask}
+                                                        handleChangeServiceStates = { handleChangeServiceState }
                                                     />
                                                 );
                                             })}

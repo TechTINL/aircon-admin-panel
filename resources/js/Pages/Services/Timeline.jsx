@@ -3,10 +3,18 @@ import { Head } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import TimelineTable from '../../Components/Services/TimelineTable';
+import ServiceFormModal from '@/Components/Services/ServiceFormModal.jsx';
+import useUpdateService from '@/Hooks/Service/useUpdateService.js';
 
-function Timeline({ auth, users }) {
-    const [loading, setLoading] = useState(false); 
-
+function Timeline({ auth, users, clients, employees, leaders }) {
+    const [loading, setLoading] = useState(false);
+    const [service, setService] = useState({});
+    const [openModel, setOpenModel] = useState(false);
+    const { updateService } = useUpdateService();
+    const updateServiceState = (newState) => {
+        setService(newState);
+        setOpenModel(true);
+    };
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Job Table" />
@@ -14,6 +22,18 @@ function Timeline({ auth, users }) {
                 <div className="flex-row flex items-center justify-between">
                     <div className="flex items-center">
                         <div className="relative">
+                            {(clients && employees && leaders && service !== {} && openModel) && (
+                                <ServiceFormModal
+                                    openModal={openModel}
+                                    setOpenModal={setOpenModel}
+                                    clients={clients}
+                                    service={service}
+                                    leaders={leaders}
+                                    employees={employees}
+                                    onSubmit={updateService}
+                                />
+                            )}
+
                             {!loading && ( // Conditionally render button based on loading state
                                 <button className="relative z-10 top-14 left-36 flex items-center">
                                     <AiOutlineInfoCircle
@@ -57,7 +77,7 @@ function Timeline({ auth, users }) {
                         <span className="text-black font-bold px-4 date-month">10 Dec 2023</span>
                         <AiOutlineRight /> */}
                     </div>
-                    <TimelineTable loading={loading} setLoading={setLoading} data={users} />
+                    <TimelineTable loading={loading} setLoading={setLoading} data={users} updateServiceState={updateServiceState}/>
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -16,9 +16,12 @@ class TasksSchedulerController extends Controller
         $formattedDate = Carbon::createFromFormat('d M Y', $date)->format('Y-m-d');
         $tasks = Task::whereHas('service', function($query) use ($formattedDate) {
             $query->where('service_date', $formattedDate);
-        })->select('id','name','assign', 'employee_id', 'hour', 'service_id')->with(['service' => function($query){
-            $query->select('id', 'name', 'status', 'service_address', 'service_time');
-        }])->get();
+        })
+            ->select('id', 'name', 'assign', 'employee_id', 'hour', 'service_id')
+            ->with(['service' => function($query) {
+                $query->with('tasks')->with('client', 'contract', 'leaders', 'technicians'); // Eagerly load related tasks without specifying columns
+            }])
+            ->get();
         $employees = EmployeeResource::collection($action->execute());
         $roles = $getEmployeeRolesAction->execute();
         return response()->json([
