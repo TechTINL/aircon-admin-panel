@@ -23,7 +23,7 @@ function List({ auth, services, breadcrumb, clients, leaders, employees }) {
             <Breadcrumb breadcrumbs={breadcrumb} />
             <div className="flex justify-between">
                 <div className="text-zinc-800 text-3xl font-bold leading-10">
-                    Service Report
+                    AD-HOC Service Report
                 </div>
                 <CreateServiceButton
                     clients={clients}
@@ -98,10 +98,12 @@ function List({ auth, services, breadcrumb, clients, leaders, employees }) {
 
                                     <td className="px-4 py-2">
                                         <div className="flex flex-col">
-                          <span className="text-secondary font-extrabold text-[14px]">
-                            {service?.client?.name}
-                          </span>
-                                            <span>{service?.sub_client?.name}</span>
+                                            <a href={`clients/${service?.client?.id}/profile`}>
+                                              <span className="text-secondary font-extrabold text-[14px]">
+                                                {service?.client?.name}
+                                              </span>
+                                                <span>{service?.sub_client?.name}</span>
+                                            </a>
                                         </div>
                                     </td>
 
