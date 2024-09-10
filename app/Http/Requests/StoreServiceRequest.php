@@ -47,6 +47,7 @@ class StoreServiceRequest extends FormRequest
                 'follow-up-completed',
                 'scheduled']
             )],
+            'task_visitation_note' => 'nullable|string',
         ];
     }
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Head } from '@inertiajs/react';
+import DatePicker from 'react-date-picker';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import TimelineTable from '../../Components/Services/TimelineTable';

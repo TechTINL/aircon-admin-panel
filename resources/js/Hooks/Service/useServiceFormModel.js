@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
 import { produce } from 'immer';
+import Decimal from 'decimal.js';
 
 const getAddresses = (clients, client_id, sub_client_id) => {
   if (sub_client_id) {
@@ -126,7 +127,7 @@ function useServiceFormModel({
           draft.technician_report = action.payload;
           break;
         case 'SET_TASK_VISITATION_NOTES':
-          draft.task_visitation_notes = action.payload;
+          draft.task_visitation_note = action.payload;
           break;
         case 'SET_REPORT_STATUS':
           draft.report_status = action.payload;
@@ -271,7 +272,7 @@ function useServiceFormModel({
                 },
             ],
       technician_report: service?.technician_report || '',
-      task_visitation_notes: service?.task_visitation_notes || '',
+      task_visitation_note: service?.task_visitation_note || '',
       client_signature: service?.client_signature || '',
       report_status: service?.report_status || '',
       required_follow_up: service?.status === 'Requires Follow Up' || false,
@@ -281,11 +282,13 @@ function useServiceFormModel({
   );
 
   const totalTasksCost = () => {
-    let total = 0;
+    let total = new Decimal(0); // Use Decimal for total
     form?.tasks.forEach(task => {
-      total += parseInt(task?.cost, 10) || 0;
+      // Use Decimal for task cost, ensuring any parsing errors default to 0
+      const taskCost = new Decimal(task?.cost || 0);
+      total = total.plus(taskCost); // Use Decimal's plus function for addition
     });
-    return total;
+    return total.toNumber(); // Convert back to JavaScript number if needed
   };
 
   const [tasksCost, setTasksCost] = useState(0);
@@ -293,15 +296,15 @@ function useServiceFormModel({
   const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
-    const result = totalTasksCost();
-    const calculatedGst = result * gstValue;
+    const result = new Decimal(totalTasksCost()); // Use Decimal for result
+    const calculatedGst = result.times(gstValue); // Use Decimal's times function for multiplication
 
-    setTasksCost(result);
-    setGst(calculatedGst);
+    setTasksCost(result.toNumber());
+    setGst(calculatedGst.toNumber());
 
-    // Calculate totalAmount using the latest values of result and calculatedGst
-    const newTotalAmount = result + calculatedGst;
-    setTotalAmount(newTotalAmount);
+    // Calculate totalAmount using Decimal, ensuring accurate summation
+    const newTotalAmount = result.plus(calculatedGst);
+    setTotalAmount(newTotalAmount.toNumber());
   }, [form]); // Dependency on form.tasks
 
   return { form, dispatch, tasksCost, gst, totalAmount };

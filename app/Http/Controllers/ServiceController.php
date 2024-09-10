@@ -87,8 +87,7 @@ class ServiceController extends Controller
             'service_address' => $request->service_address,
             'billing_address' => $request->billing_address,
             'status' => $request->status ?? 'scheduled',
-            'client_id' => $request->client_id,
-            'subClient_id' => $request->sub_client_id,
+            'task_visitation_note' => $request->task_visitation_note,
         ]);
 
         $service->leaders()->sync($request->leaders_id);
@@ -118,6 +117,8 @@ class ServiceController extends Controller
 
     public function timeline(Request $request, GetEmployeesAction $employeesAction, GetClientsAction $getClientsAction): Response
     {
+        $date = $request->input('date', today()->format('Y-m-d'));
+
         return Inertia::render('Services/Timeline', [
             'breadcrumb' => [
                 [
@@ -132,7 +133,7 @@ class ServiceController extends Controller
                     'text' => 'Timeline',
                 ],
             ],
-            'users' => $employeesAction->getWithServices($request->input('date', today()->format('Y-m-d'))),
+            'users' => $employeesAction->getWithServices($request->input('date', $date)),
             'clients' => $getClientsAction->getClientsWithSubClients(),
             'leaders' => $employeesAction->leader(),
             'employees' => $employeesAction->get(),

@@ -134,6 +134,12 @@ class AuthenticatedApiController extends Controller
     {
         $users = User::where('id', '!=', auth()->id())->get();
 
+        // Map users to include their roles
+        $users = $users->map(function ($user) {
+            $user->role = $user->getRoleNames()->first();
+            return $user;
+        });
+
         return response()->json([
             'success' => true,
             'message' => 'Users fetched successfully',

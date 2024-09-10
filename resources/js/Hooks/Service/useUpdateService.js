@@ -1,4 +1,5 @@
 import { router } from '@inertiajs/react';
+import dayjs from 'dayjs';
 
 function useUpdateService() {
   const updateService = form => {
@@ -11,7 +12,7 @@ function useUpdateService() {
       leaders_id: form?.selected_leaders?.map(leader => leader.id),
       technician_count: form?.technician_count,
       employees_id: form?.selected_employees?.map(employee => employee.id),
-      service_date: form?.service_date,
+      service_date: dayjs(form?.service_date).format('YYYY-MM-DD'),
       service_time: form?.service_time.value,
       tasks: form?.tasks.map(task => ({
         name: task?.name,
@@ -24,6 +25,7 @@ function useUpdateService() {
         : form?.on_hold
         ? 'on-hold'
         : 'completed',
+      task_visitation_note: form?.task_visitation_note,
     };
 
     router.put(route('services.update', form.id), data, {

@@ -387,7 +387,7 @@ function ServiceFormModal({
                 <TextArea
                   id="task-visitation-notes"
                   placeholder="Task Visitation Note"
-                  value={form?.task_visitation_notes}
+                  value={form?.task_visitation_note}
                   onChange={value => {
                     dispatch({
                       type: 'SET_TASK_VISITATION_NOTES',

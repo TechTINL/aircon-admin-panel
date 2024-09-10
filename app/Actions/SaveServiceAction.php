@@ -6,12 +6,14 @@ use App\Models\Service;
 use App\Models\Task;
 use App\Models\User;
 use App\Notifications\ServiceAssignedNotification;
-use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class SaveServiceAction
 {
     public function execute($data, $teamLeaderIds, $technicianIds, $tasks): Service
     {
+        $data['service_date'] = Carbon::createFromFormat('m/d/Y', $data['service_date'])->format('Y-m-d');
+
         $service = Service::create($data);
 
         $this->assignLeaders($service, $teamLeaderIds);
@@ -37,6 +39,7 @@ class SaveServiceAction
 
     public function update($service, $data, $teamLeaderIds, $technicianIds, $tasks): void
     {
+        $data['service_date'] = Carbon::createFromFormat('m/d/Y', $data['service_date'])->format('Y-m-d');
         $service->update($data);
 
         $this->assignLeaders($service, $teamLeaderIds);

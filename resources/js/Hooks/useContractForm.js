@@ -9,6 +9,7 @@ import {
   getTotalContractAmount,
 } from '@/Utils/utils';
 import dayjs from 'dayjs';
+import Decimal from 'decimal.js';
 
 function generateServiceDate(date, months, serviceIndex) {
   if (!date) {
@@ -135,7 +136,6 @@ function useContractForm({
         case 'SET_START_DATE':
           draft.start_date = action.payload;
           if (!draft.isEdit) {
-            console.log('isEdit', draft.isEdit);
             draft.services = draft.services.map((service, index) => {
               return {
                 ...service,
@@ -155,12 +155,18 @@ function useContractForm({
           draft.selected_repeat = action.payload;
           draft.months = action.payload?.months;
           break;
-        case 'SET_AMOUNT':
+        case 'SET_AMOUNT': {
+          const amountDecimal = new Decimal(action.payload || 0);
+          const gstDecimal = new Decimal(gstValue);
           draft.amount = action.payload;
-          draft.contract_gst_amount = action.payload * gstValue;
-          draft.total_contract_amount =
-            Number(action.payload) + Number(action.payload) * gstValue;
+          draft.contract_gst_amount = amountDecimal
+            .times(gstDecimal)
+            .toFixed(2);
+          draft.total_contract_amount = amountDecimal
+            .plus(amountDecimal.times(gstDecimal))
+            .toFixed(2);
           break;
+        }
         case 'SET_MONTHS':
           draft.months = action.payload;
           break;
@@ -326,7 +332,8 @@ function useContractForm({
         : null,
       start_date: contract?.start_date || null,
       end_date: contract?.end_date || null,
-      amount: contract?.amount || '',
+      amount:
+        new Decimal(Number(contract?.amount).toFixed(2)).toFixed(2) || '0.00',
       repeat_options: [
         {
           label: 'Monthly',
@@ -377,9 +384,16 @@ function useContractForm({
           value: technician.id,
         })) || [],
       contract_gst_amount:
-        Number(contract?.amount).toFixed(2) * Number(gstValue).toFixed(2) || 0,
+        new Decimal(Number(contract?.amount).toFixed(2))
+          .times(new Decimal(Number(gstValue).toFixed(2)))
+          .toFixed(2) || '0.00',
       total_contract_amount:
-        getTotalContractAmount(contract?.amount, gstValue) || 0,
+        getTotalContractAmount(
+          contract?.amount,
+          new Decimal(Number(contract?.amount).toFixed(2))
+            .times(new Decimal(Number(gstValue).toFixed(2)))
+            .toFixed(2) || '0.00'
+        ) || 0,
       tasks_cost: 0,
       tasks_gst: 0,
       total_tasks_amount: 0,
@@ -388,37 +402,30 @@ function useContractForm({
   );
 
   useEffect(() => {
-    let _tasksCost = 0;
+    let _tasksCost = new Decimal(0);
     const sumTaskCosts = tasks =>
-      tasks.reduce((total, task) => total + (Number(task.cost) || 0), 0);
+      tasks.reduce(
+        (total, task) => total.plus(new Decimal(task.cost || 0)),
+        new Decimal(0)
+      );
 
-    form?.services?.forEach(service => {
-      _tasksCost += sumTaskCosts(service.tasks);
+    form.services.forEach(service => {
+      _tasksCost = _tasksCost.plus(sumTaskCosts(service.tasks));
     });
 
-    dispatch({
-      type: 'SET_TASKS_COST',
-      payload: _tasksCost,
-    });
+    const tasksGst = _tasksCost.times(new Decimal(gstValue));
+    const totalTasksAmount = _tasksCost.plus(tasksGst);
+    const totalContractAmount = new Decimal(form.total_contract_amount);
+    const totalAmount = totalContractAmount.plus(totalTasksAmount);
 
-    dispatch({
-      type: 'SET_TASKS_GST',
-      payload: calculateTasksGst(_tasksCost, gstValue) || 0,
-    });
-
+    dispatch({ type: 'SET_TASKS_COST', payload: _tasksCost.toFixed(2) });
+    dispatch({ type: 'SET_TASKS_GST', payload: tasksGst.toFixed(2) });
     dispatch({
       type: 'SET_TOTAL_TASKS_AMOUNT',
-      payload: calculateTotalTasksAmount(_tasksCost, gstValue) || 0,
+      payload: totalTasksAmount.toFixed(2),
     });
-
-    dispatch({
-      type: 'SET_TOTAL_AMOUNT',
-      payload: calculateTotalContractAmount(
-        form.total_contract_amount,
-        form.total_tasks_amount
-      ),
-    });
-  }, [form.services, form.amount]);
+    dispatch({ type: 'SET_TOTAL_AMOUNT', payload: totalAmount.toFixed(2) });
+  }, [form.services, form.amount, gstValue]);
 
   return {
     form,

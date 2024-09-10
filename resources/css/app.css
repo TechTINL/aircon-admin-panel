@@ -55,27 +55,27 @@ body{
       width: 1300px !important;
     }
   }
-  
+
   table {
     width: 100%;
     border-collapse: collapse;
-    
+
   }
-  
+
   th, td {
     padding: 10px;
     border: 1px solid #ddd;
   }
-  
+
   .t-heading {
     background-color: #f4f4f4;
     text-align: center;
   }
-  
+
   .t-data {
     text-align: center;
   }
-  
+
 .status-check{
   margin-left: 57% !important;
 }

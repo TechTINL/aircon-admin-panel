@@ -31,13 +31,17 @@ class GetServicesAction
     // GET /api/services
     public function get($date = null)
     {
-        $date = $date ?? now()->toDateString();
+        $query = Service::query();
 
-        return Service::whereDate('service_date', $date)
-            ->whereHas('users', function ($query) {
-                $query->where('id', auth()->user()->id);
-            })
-            ->get();
+        if ($date) {
+            $query->whereDate('service_date', $date);
+        }
+
+        $data = $query->whereHas('users', function ($query) {
+                    $query->where('id', auth()->user()->id);
+                })->get();
+
+        return $data;
     }
 
     // Get All services of counts by status for a given date

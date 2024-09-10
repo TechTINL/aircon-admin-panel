@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import Decimal from 'decimal.js';
 
 export const getTimes = () => {
   const times = [];
@@ -89,9 +90,20 @@ export const prepareContractData = form => {
 };
 
 export const getTotalContractAmount = (amount, gst) => {
-  amount = Number(amount).toFixed(2);
-  gst = Number(gst).toFixed(2);
-  return Number(amount) + Number(gst);
+  console.log('amount', amount);
+  console.log('gst', gst);
+
+  // Convert input to Decimal for precise calculations
+  const amountDecimal = new Decimal(amount);
+  const gstDecimal = new Decimal(gst);
+
+  // Sum the amount and the GST
+  const total = amountDecimal.plus(gstDecimal);
+
+  console.log('total', total.toFixed(2));
+
+  // Return the total as a string with two decimal places
+  return total.toFixed(2);
 };
 
 export const calculateTasksGst = (tasksCost, gst) => {
