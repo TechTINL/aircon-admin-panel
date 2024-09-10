@@ -40,7 +40,7 @@ function ServiceFormModal({
     service,
     leaders,
     employees,
-    gstValue,
+    gstValue : 0.08,
   });
 
   const handleSaveServiceReport = () => {
@@ -134,16 +134,18 @@ function ServiceFormModal({
             <span className="text-black font-bold text-base">
               Service Address
             </span>
-            <Select
-              options={form?.service_addresses}
-              onChange={selectedOption => {
-                dispatch({
-                  type: 'SET_SELECTED_SERVICE_ADDRESS',
-                  payload: selectedOption,
-                });
-              }}
-              value={form?.selected_service_address}
-            />
+              <Select
+                  isClearable
+                  isSearchable
+                  options={form?.service_addresses}
+                  onChange={option => {
+                      dispatch({
+                          type: 'SET_SELECTED_SERVICE_ADDRESS',
+                          payload: option,
+                      });
+                  }}
+                  value={form?.selected_service_address}
+              />
           </div>
           <div className="flex flex-col gap-2">
             <span className="text-black font-bold text-base">
@@ -261,7 +263,7 @@ function ServiceFormModal({
               </div>
               <hr />
               <div className="flex flex-col gap-4">
-                {form?.tasks.map((task, index) => (
+                {form?.tasks?.length > 0 && form?.tasks.map((task, index) => (
                   <>
                     <div className="flex flex-col" key={index}>
                       <div className="flex justify-between items-center">

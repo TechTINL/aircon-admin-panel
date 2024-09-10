@@ -25,7 +25,10 @@ class SaveServiceAction
                 'duration_hours' => $task['hours'],
                 'duration_minutes' => $task['minutes'],
                 'cost' => $task['cost'],
-                'service_id' => $service->id
+                'service_id' => $service->id,
+                'assign' => empty($technicianIds) ? null : '1',
+                'employee_id' => empty($technicianIds) ? null : '1',
+                'hour' => empty($technicianIds) ? null : '1'
             ];
 
             $service->tasks()->create($data);

@@ -65,6 +65,12 @@ function Sidebar({ children }) {
           url="/services-time-line"
           icon={<PiBriefcaseLight size={22} className="lg:mx-4 md:mx-1" />}
         />
+         {/* <NavItem
+          text="Task Table2"
+          isActive={isServiceTimelineActive}
+          url="/services-time-line"
+          icon={<PiBriefcaseLight size={22} className="lg:mx-4 md:mx-1" />}
+        /> */}
         <NavItem
           text="Service Report"
           isActive={isServiceReportActive}
@@ -106,14 +112,22 @@ function Sidebar({ children }) {
                     Client
                   </ListItem>
                 </Link>
-                <Link href="/contracts">
+                  <Link href="/contracts">
+                      <ListItem>
+                          <ListItemPrefix>
+                              <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                          </ListItemPrefix>
+                          Contract
+                      </ListItem>
+              </Link>
+                 <Link href="/adhoc-service">
                   <ListItem>
-                    <ListItemPrefix>
-                      <FaChevronRight strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    Contract
+                      <ListItemPrefix>
+                          <FaChevronRight strokeWidth={3} className="h-3 w-5" />
+                      </ListItemPrefix>
+                      Ad-Hoc
                   </ListItem>
-                </Link>
+              </Link>
                 <Link href="/employee">
                   <ListItem>
                     <ListItemPrefix>

@@ -45,6 +45,14 @@ function useServiceFormModel({
               value: sub_client.id,
             })
           );
+            draft.service_addresses = getAddresses(
+                clients,
+                draft.selected_client?.id
+            );
+            draft.billing_addresses = getAddresses(
+                clients,
+                draft.selected_client?.id
+            );
           break;
         case 'SET_SUB_CLIENT_OPTIONS':
           draft.sub_client_options = action.payload;
@@ -247,20 +255,22 @@ function useServiceFormModel({
             value: service?.service_time,
           }
         : '',
-      tasks: service?.tasks?.map(task => ({
-        ...task,
-        name: task.name,
-        hours: task.duration_hours,
-        minutes: task.duration_minutes,
-        cost: task.cost,
-      })) || [
-        {
-          name: '',
-          hours: '',
-          minutes: '',
-          cost: '',
-        },
-      ],
+        tasks: service?.tasks && service.tasks.length > 0
+            ? service.tasks.map(task => ({
+                ...task,
+                name: task.name,
+                hours: task.duration_hours,
+                minutes: task.duration_minutes,
+                cost: task.cost,
+            }))
+            : [
+                {
+                    name: '',
+                    hours: '',
+                    minutes: '',
+                    cost: '',
+                },
+            ],
       technician_report: service?.technician_report || '',
       task_visitation_note: service?.task_visitation_note || '',
       client_signature: service?.client_signature || '',

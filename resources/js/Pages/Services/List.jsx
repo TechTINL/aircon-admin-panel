@@ -187,10 +187,12 @@ function List({ auth, services, breadcrumb }) {
 
                       <td className="px-4 py-2">
                         <div className="flex flex-col">
-                          <span className="text-secondary font-extrabold text-[14px]">
-                            {service?.client?.name}
-                          </span>
-                          <span>{service?.sub_client?.name}</span>
+                            <a href={`clients/${service?.client?.id}/profile`}>
+                              <span className="text-secondary font-extrabold text-[14px]">
+                                {service?.client?.name}
+                              </span>
+                              <span>{service?.sub_client?.name}</span>
+                            </a>
                         </div>
                       </td>
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,6 +13,7 @@ class Service extends Model
 {
     use HasFactory;
 
+    protected $appends = ['employee_ids'];
     protected $fillable = [
         'name',
         'type',
@@ -38,6 +40,21 @@ class Service extends Model
         return $this->belongsTo(Contract::class);
     }
 
+    public function setServiceDateAttribute($value)
+    {
+        try {
+            $this->attributes['service_date'] = Carbon::createFromFormat('Y-m-d', $value)->format('Y-m-d');
+        } catch (\Exception $e) {
+            try {
+                $this->attributes['service_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+            } catch (\Exception $e) {
+                 dd('Handle the error, e.g., log it or throw an exception');
+            }
+        }
+
+
+    }
+
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
@@ -48,6 +65,10 @@ class Service extends Model
         return $this->belongsToMany(User::class, 'service_user')
             ->withPivot('assigned_as')
             ->withTimestamps();
+    }
+    public function getEmployeeIdsAttribute()
+    {
+        return $this->users()->pluck('id')->toArray();
     }
 
     public function leaders(): BelongsToMany

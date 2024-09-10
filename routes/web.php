@@ -17,7 +17,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceTemplateController;
+use App\Http\Controllers\TasksSchedulerController;
 use App\Http\Controllers\TaskTemplateController;
+use App\Http\Resources\EmployeeResource;
 use App\Models\Service;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +55,8 @@ Route::get('/confirm-password', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/get-data/{date}', [TasksSchedulerController::class, 'getData']);
+Route::post('set-tasks', [TasksSchedulerController::class, 'setData']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -91,10 +95,13 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('services', ServiceController::class)->only(['index', 'show', 'store', 'update']);
     Route::get('services/export', [ServiceController::class, 'export'])->name('services.export');
+    Route::get('/adhoc-service', [ServiceController::class, 'adhocIndex'])->name('services.adhoc.index');
+
 
     Route::get('employee', [EmployeeController::class, 'index'])->name('employee.index');
 	Route::get('employee/create', [EmployeeController::class, 'create'])->name('employee.create');
-	Route::post('employee', [EmployeeController::class, 'store'])->name('employee.store');
+//    Route::post('employee', [EmployeeController::class, 'store'])->name('employee.store');
+    Route::post('employee/store', [EmployeeController::class, 'storeEmployee'])->name('employee.store');
 
     Route::get('admin', [AdminController::class, 'index'])->name('admin.index');
     Route::get('admin/create', [AdminController::class, 'create'])->name('admin.create');

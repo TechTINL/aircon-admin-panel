@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,14 @@ class Contract extends Model
 		'client_id',
 		'subClient_id',
 	];
-
+    public function setStartDateAttribute($value)
+    {
+        $this->attributes['start_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+    }
+    public function setEndDateAttribute($value)
+    {
+        $this->attributes['end_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+    }
 	public function client(): BelongsTo
 	{
 		return $this->belongsTo(Client::class);

@@ -7,6 +7,8 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import * as Sentry from '@sentry/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 Sentry.init({
   dsn: 'https://80b1b3c1fb8370cde0522c1d7b257a72@o4506454552281088.ingest.sentry.io/4506454555361280',
@@ -34,7 +36,12 @@ createInertiaApp({
   setup({ el, App, props }) {
     const root = createRoot(el);
 
-    root.render(<App {...props} />);
+      root.render(
+          <>
+              <App {...props} />
+              <ToastContainer />
+          </>
+      );
   },
   progress: {
     color: '#4B5563',

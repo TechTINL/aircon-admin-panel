@@ -30,6 +30,17 @@ class ServiceController extends Controller
         ]);
     }
 
+    public function adhocIndex(GetServicesAction $action, GetClientsAction $getClientsAction, GetEmployeesAction $employeesAction): Response
+    {
+        return Inertia::render('Services/AdhocList', [
+            'breadcrumb' => BreadcrumbHelper::services(),
+            'services' => ServiceResource::collection($action->adhocExecute()),
+            'clients' => $getClientsAction->getClientsWithSubClients(),
+            'leaders' => $employeesAction->leader(),
+            'employees' => $employeesAction->get(),
+        ]);
+    }
+
     public function store(StoreServiceRequest $request, SaveServiceAction $action): RedirectResponse
     {
         $date = Carbon::parse($request->service_date)->format('Y-m-d');
@@ -67,10 +78,10 @@ class ServiceController extends Controller
 
         $service->update([
             'name' => $request->name,
-            'type' => 'adhoc',
+            'type' => 'contract',
             'technician_count' => $request->technician_count,
             'service_no_of_time' => '1 of 1',
-            'service_date' => Carbon::parse($request->service_date)->format('Y-m-d'),
+            'service_date' => Carbon::createFromFormat('Y-m-d', $request->service_date)->format('Y-m-d'),
             'service_time' => $request->service_time,
             'service_at' => $service_at,
             'service_address' => $request->service_address,
@@ -104,7 +115,7 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function timeline(Request $request, GetClientsAction $getClientsAction, GetEmployeesAction $employeesAction): Response
+    public function timeline(Request $request, GetEmployeesAction $employeesAction, GetClientsAction $getClientsAction): Response
     {
         $date = $request->input('date', today()->format('Y-m-d'));
 

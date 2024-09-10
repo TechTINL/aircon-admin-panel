@@ -16,4 +16,8 @@ class Task extends Model
         'cost',
         'service_id',
     ];
+
+    public function service(){
+        return $this->belongsTo(Service::class);
+    }
 }
